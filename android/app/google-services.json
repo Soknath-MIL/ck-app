@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "751983970188",
+    "project_id": "valid-pagoda-390011",
+    "storage_bucket": "valid-pagoda-390011.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:751983970188:android:e0ea248b91957f4088b8a9",
+        "android_client_info": {
+          "package_name": "com.example.lottery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "751983970188-c3q6uepdfd4ji5m12v90ak8lrot30ukt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiY4fTk8tjEmtdfRbKpjimp2jgZ9UEDOQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "751983970188-c3q6uepdfd4ji5m12v90ak8lrot30ukt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

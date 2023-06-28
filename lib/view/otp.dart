@@ -11,6 +11,7 @@ class OTP extends StatefulWidget {
   // String phoneNumber = Get.arguments[0];
   String verificationId = Get.arguments[0];
   String phoneNumber = Get.arguments[1];
+  Function customCallback = Get.arguments[2];
   OTP({super.key});
 
   @override
@@ -137,7 +138,8 @@ class _OTPState extends State<OTP> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      _otpViewModel.verificationOTP(widget.verificationId);
+                      _otpViewModel.verificationOTP(
+                          widget.verificationId, widget.customCallback);
                     },
                     child: Text(
                       'ສົ່ງ OTP ອີກຄັ້ງ',

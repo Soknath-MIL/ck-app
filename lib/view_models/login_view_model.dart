@@ -1,6 +1,27 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
+import 'package:lottery/data/services/appwrite_service.dart';
+import 'package:lottery/res/routes/routes_name.dart';
 
-class LoginServices {
+class LoginViewModel extends GetxController {
+  final phoneNumber = ''.obs;
+  final password = ''.obs;
+
+  void onChangePhoneNumber(String value) {
+    phoneNumber.value = value;
+  }
+
+  void onChangePassword(String value) {
+    password.value = value;
+  }
+
+  Future<void> loginWithPhoneAndPassword() async {
+    final email = '${phoneNumber.value}@ckmail.com';
+    final response = await AppwriteService().loginUser(email, password.value);
+    print('LoginViewModel loginWithPhoneAndPassword: 12 $response');
+    Get.toNamed(RouteName.main_view);
+  }
+
   Future<UserCredential?> loginWithPhoneNumber(String phoneNumber) async {
     print('login function');
     FirebaseAuth _auth = FirebaseAuth.instance;

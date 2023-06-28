@@ -4,10 +4,11 @@ import 'package:flutter/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:lottery/res/color.dart';
 import 'package:lottery/res/images/logo.dart';
+import 'package:lottery/view/history.dart';
 
 class HomeView extends StatefulWidget {
-  final int? activeTab;
-  const HomeView({super.key, required this.activeTab});
+  // final int? activeTab;
+  const HomeView({super.key});
   @override
   State<HomeView> createState() => _HomeViewState();
 }
@@ -200,27 +201,40 @@ class _HomeViewState extends State<HomeView>
                           ],
                         ),
                       ),
-                      TabBar(tabs: _tabs)
+                      // TabBar(tabs: _tabs)
                     ],
                   ),
                 ),
-              )
+              ),
+              SizedBox(
+                height: 12,
+              ),
+              Row(
+                children: [
+                  Image(
+                    image: AssetImage(
+                      'images/news1.png',
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      Image(
+                        image: AssetImage('images/news2.png'),
+                      ),
+                      Image(
+                        image: AssetImage('images/news3.png'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ],
           ),
         ),
       ),
     );
   }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    _tabController = TabController(
-        length: _tabs.length, vsync: this, initialIndex: widget.activeTab!);
-    super.initState();
-  }
 }
-
 
 // CarouselSlider(
 //   options: CarouselOptions(height: 400.0),

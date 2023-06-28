@@ -3,6 +3,7 @@ import 'package:lottery/res/routes/routes_name.dart';
 import 'package:lottery/view/TC.dart';
 import 'package:lottery/view/home.dart';
 import 'package:lottery/view/login.dart';
+import 'package:lottery/view/main.dart';
 import 'package:lottery/view/otp.dart';
 import 'package:lottery/view/signup.dart';
 import 'package:lottery/view/splash_screen.dart';
@@ -23,7 +24,7 @@ class AppRoutes {
         ),
         GetPage(
           name: RouteName.home_view,
-          page: () => const HomeView(activeTab: 1),
+          page: () => const HomeView(),
           transition: Transition.rightToLeft,
           transitionDuration: const Duration(milliseconds: 250),
         ),
@@ -42,6 +43,12 @@ class AppRoutes {
         GetPage(
           name: RouteName.otp_view,
           page: () => OTP(),
+          transition: Transition.rightToLeft,
+          transitionDuration: const Duration(milliseconds: 250),
+        ),
+        GetPage(
+          name: RouteName.main_view,
+          page: () => MainPage(),
           transition: Transition.rightToLeft,
           transitionDuration: const Duration(milliseconds: 250),
         ),

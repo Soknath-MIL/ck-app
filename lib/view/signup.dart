@@ -16,7 +16,7 @@ class SignupView extends StatefulWidget {
 
 class _SignupViewState extends State<SignupView> {
   final SignupViewModel _signupViewModel = Get.put(SignupViewModel());
-  // final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +107,7 @@ class _SignupViewState extends State<SignupView> {
                         horizontal: 24,
                       ),
                       child: Form(
-                        key: _signupViewModel.formKey,
+                        key: _formKey,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -189,7 +189,7 @@ class _SignupViewState extends State<SignupView> {
                                 inputFormatters: [
                                   FilteringTextInputFormatter.digitsOnly,
                                 ],
-                                keyboardType: TextInputType.number,
+                                keyboardType: TextInputType.phone,
                                 decoration: InputDecoration(
                                   errorStyle: TextStyle(
                                     fontSize: 14,
@@ -302,7 +302,7 @@ class _SignupViewState extends State<SignupView> {
                       // Get.toNamed(RouteName.home_view);
                       // AppwriteService().createUser();
                       print('nameError ${_signupViewModel.nameError.value}');
-                      if (_signupViewModel.validFormSignup()) {
+                      if (_formKey.currentState!.validate()) {
                         _signupViewModel.submitSignup();
                       }
                     },

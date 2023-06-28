@@ -45,11 +45,20 @@ PODS:
   - GoogleUtilities/Reachability (7.11.1):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (3.1.1)
+  - libphonenumber_plugin (0.0.1):
+    - Flutter
+    - PhoneNumberKit
   - package_info_plus (0.4.5):
     - Flutter
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
+  - PhoneNumberKit (3.6.3):
+    - PhoneNumberKit/PhoneNumberKitCore (= 3.6.3)
+    - PhoneNumberKit/UIKit (= 3.6.3)
+  - PhoneNumberKit/PhoneNumberKitCore (3.6.3)
+  - PhoneNumberKit/UIKit (3.6.3):
+    - PhoneNumberKit/PhoneNumberKitCore
   - PromisesObjC (2.2.0)
   - smart_auth (0.0.1):
     - Flutter
@@ -62,6 +71,7 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
   - flutter_web_auth_2 (from `.symlinks/plugins/flutter_web_auth_2/ios`)
+  - libphonenumber_plugin (from `.symlinks/plugins/libphonenumber_plugin/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - smart_auth (from `.symlinks/plugins/smart_auth/ios`)
@@ -76,6 +86,7 @@ SPEC REPOS:
     - FirebaseCoreInternal
     - GoogleUtilities
     - GTMSessionFetcher
+    - PhoneNumberKit
     - PromisesObjC
 
 EXTERNAL SOURCES:
@@ -89,6 +100,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_web_auth_2:
     :path: ".symlinks/plugins/flutter_web_auth_2/ios"
+  libphonenumber_plugin:
+    :path: ".symlinks/plugins/libphonenumber_plugin/ios"
   package_info_plus:
     :path: ".symlinks/plugins/package_info_plus/ios"
   path_provider_foundation:
@@ -111,8 +124,10 @@ SPEC CHECKSUMS:
   flutter_web_auth_2: a1bc00762c408a8f80b72a538cd7ff5b601c3e71
   GoogleUtilities: 9aa0ad5a7bc171f8bae016300bfcfa3fb8425749
   GTMSessionFetcher: e8647203b65cee28c5f73d0f473d096653945e72
+  libphonenumber_plugin: e8a7d64a6624a7c25f2c4ab0b7ead2a8e341e35e
   package_info_plus: fd030dabf36271f146f1f3beacd48f564b0f17f7
   path_provider_foundation: eaf5b3e458fc0e5fbb9940fb09980e853fe058b8
+  PhoneNumberKit: bdfa83dbfbd0d537eb56605133a8310b256b126e
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
   smart_auth: 4bedbc118723912d0e45a07e8ab34039c19e04f2
   url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4

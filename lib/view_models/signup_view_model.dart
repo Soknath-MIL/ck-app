@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottery/data/services/appwrite_service.dart';
 import 'package:lottery/data/services/firebase_service.dart';
+import 'package:lottery/res/routes/routes_name.dart';
 
 class SignupViewModel extends GetxController {
   final name = ''.obs;
@@ -47,9 +48,21 @@ class SignupViewModel extends GetxController {
     print('password: ${password.value}');
     print('confirmPassword: ${confirmPassword.value}');
     print('pass !');
-    FirebaseServices().loginWithPhoneNumber('+66968908467');
+    FirebaseServices().loginWithPhoneNumber('+66968908467', createUser);
     // AppwriteService().createUser(
     //     '${phoneNumber.value}@test.com', password.value, name.value);
+  }
+
+  void createUser() async {
+    print('createUser run !');
+    final email = '${phoneNumber.value}@ckmail.com';
+    final isSuccess =
+        await AppwriteService().createUser(email, password.value, name.value);
+
+    if (isSuccess) {
+      Get.snackbar('Success', 'signUp successfully');
+      Get.toNamed(RouteName.login_view);
+    }
   }
 
   bool validFormSignup() {

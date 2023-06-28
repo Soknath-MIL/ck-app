@@ -41,6 +41,7 @@ dependencies:
   carousel_slider: ^4.2.1
   appwrite: ^9.0.0
   pinput: ^2.2.31
+  intl_phone_number_input: ^0.7.3+1
 
 dev_dependencies:
   flutter_test:

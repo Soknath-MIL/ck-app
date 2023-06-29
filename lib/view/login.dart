@@ -232,10 +232,11 @@ class _LoginViewState extends State<LoginView> {
                       onPressed: () {
                         // Get.toNamed(RouteName.home_view);
                         // AppwriteService().createUser();
-                        if (_formKey.currentState!.validate()) {
-                          print('click: login 167');
-                          _loginViewModel.loginWithPhoneAndPassword();
-                        }
+                        // TODO: uncomment on production
+                        // if (_formKey.currentState!.validate()) {
+                        print('click: login 167');
+                        _loginViewModel.loginWithPhoneAndPassword();
+                        // }
                       },
                       child: Text(
                         'ເຂົ້າສູ່ລະບົບ',

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:lottery/res/color.dart';
 import 'package:lottery/view/history.dart';
 import 'package:lottery/view/home.dart';
+import 'package:lottery/view/testSticky.dart';
+import 'package:lottery/view/testdialog.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -16,6 +18,8 @@ class _MainPageState extends State<MainPage> {
   List<Widget> pages = [
     HomeView(),
     HistoryPage(),
+    TestDialog(),
+    TestSticky(),
   ];
 
   @override
@@ -26,7 +30,7 @@ class _MainPageState extends State<MainPage> {
         child: ClipRect(
           child: Container(
             padding: EdgeInsets.all(0),
-            height: 78,
+            height: 80,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(
                 Radius.circular(50),
@@ -46,8 +50,10 @@ class _MainPageState extends State<MainPage> {
               //   color: Colors.amber,
               //   grade: 10,
               // ),
+              useLegacyColorScheme: false,
               items: [
                 BottomNavigationBarItem(
+                  backgroundColor: AppColors.primary,
                   icon: Container(
                     decoration: BoxDecoration(
                       // color: Colors.white,
@@ -85,9 +91,10 @@ class _MainPageState extends State<MainPage> {
                     ),
                   ),
                   label: '',
-                  backgroundColor: Colors.amber,
+                  // backgroundColor: Colors.amber,
                 ),
                 BottomNavigationBarItem(
+                  backgroundColor: AppColors.primary,
                   icon: Container(
                     decoration: BoxDecoration(
                       // color: Colors.white,
@@ -122,6 +129,88 @@ class _MainPageState extends State<MainPage> {
                         ),
                         Text(
                           'history',
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                BottomNavigationBarItem(
+                  backgroundColor: AppColors.primary,
+                  icon: Container(
+                    decoration: BoxDecoration(
+                      // color: Colors.white,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(100),
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.history,
+                        ),
+                        Text(
+                          'history3',
+                        ),
+                      ],
+                    ),
+                  ),
+                  label: '',
+                  activeIcon: Container(
+                    decoration: BoxDecoration(
+                      // color: Colors.white,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(100),
+                      ),
+                      color: Colors.white,
+                    ),
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.history,
+                        ),
+                        Text(
+                          'history3',
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                BottomNavigationBarItem(
+                  backgroundColor: AppColors.primary,
+                  icon: Container(
+                    decoration: BoxDecoration(
+                      // color: Colors.white,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(100),
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.history,
+                        ),
+                        Text(
+                          'history4',
+                        ),
+                      ],
+                    ),
+                  ),
+                  label: '',
+                  activeIcon: Container(
+                    decoration: BoxDecoration(
+                      // color: Colors.white,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(100),
+                      ),
+                      color: Colors.white,
+                    ),
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.history,
+                        ),
+                        Text(
+                          'history4',
                         ),
                       ],
                     ),

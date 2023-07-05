@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromRGBO(0, 209, 255, 1)),
         useMaterial3: true,
-        // fontFamily: 'BoonBaan',
+        fontFamily: 'BoonBaan',
       ),
       home: const SplashScreen(),
       getPages: AppRoutes.appRoutes(),

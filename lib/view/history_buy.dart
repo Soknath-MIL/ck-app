@@ -17,11 +17,61 @@ class _HistoryBuyState extends State<HistoryBuy> {
       height: MediaQuery.of(context).size.height,
       child: Column(
         children: [
+          SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                margin: EdgeInsets.only(right: 8),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    border: Border.all(
+                      color: AppColors.greye0e0e0,
+                      width: 2,
+                    )),
+                width: 135,
+                child: DropdownButton<String>(
+                  padding: EdgeInsets.all(0),
+                  isExpanded: true,
+                  underline: Container(),
+                  value: '05-2023',
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                  isDense: true,
+                  items:
+                      ['05-2023', '06-2023'].map<DropdownMenuItem<String>>((e) {
+                    return DropdownMenuItem(
+                      child: Container(
+                        width: 135,
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        margin: EdgeInsets.only(left: 10),
+                        decoration: BoxDecoration(
+                            // color: Colors.lime,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                        child: Text(
+                          e,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.grey7a7a7a),
+                        ),
+                      ),
+                      value: e,
+                    );
+                  }).toList(),
+                  onChanged: (e) {},
+                ),
+              )
+            ],
+          ),
+          SizedBox(height: 8),
           Expanded(
             child: ListView.separated(
               itemBuilder: (context, index) {
                 return Container(
-                  margin: EdgeInsets.symmetric(horizontal: 8),
+                  margin: EdgeInsets.only(left: 8, right: 8, top: 8),
                   padding: EdgeInsets.all(16),
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
@@ -101,9 +151,7 @@ class _HistoryBuyState extends State<HistoryBuy> {
                   ),
                 );
               },
-              separatorBuilder: (context, index) => SizedBox(
-                height: 8,
-              ),
+              separatorBuilder: (context, index) => SizedBox(),
               itemCount: list.length,
             ),
           )

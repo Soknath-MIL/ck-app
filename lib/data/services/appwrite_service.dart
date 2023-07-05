@@ -36,10 +36,33 @@ class AppwriteService {
     try {
       final response =
           await account.createEmailSession(email: email, password: password);
-      print('AppService loginUser: 38 $response');
+      print('AppService loginUser: 38 ${response.userId}');
       return true;
     } catch (e) {
       print('loginUser error: $e');
+      return false;
+    }
+  }
+
+  Future<bool> createTransaction(String lottery, int amount) async {
+    try {
+      print('lottery: $lottery, amount: $amount');
+      await databases.createDocument(
+          databaseId: 'lotto',
+          collectionId: '20230629',
+          documentId: ID.unique(),
+          data: {
+            "userId": "123",
+            "lottery": lottery,
+            "lotteryType": 2,
+            "amount": amount,
+            "paymentMethod": "bank",
+            "bankName": "bk",
+            "createdAt": DateTime.now().toUtc().toString(),
+          });
+      return true;
+    } catch (e) {
+      print('error $e');
       return false;
     }
   }

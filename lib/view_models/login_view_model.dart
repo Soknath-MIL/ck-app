@@ -16,7 +16,9 @@ class LoginViewModel extends GetxController {
   }
 
   Future<void> loginWithPhoneAndPassword() async {
+    // TODO: uncomment on production
     final email = '${phoneNumber.value}@ckmail.com';
+    print('email: $email, password: ${password.value}');
     final response = await AppwriteService().loginUser(email, password.value);
     print('LoginViewModel loginWithPhoneAndPassword: 12 $response');
     Get.toNamed(RouteName.main_view);

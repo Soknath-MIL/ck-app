@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lottery/res/color.dart';
 import 'package:lottery/view/history_buy.dart';
+import 'package:lottery/view/history_win.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});
@@ -47,13 +48,7 @@ class _HistoryPageState extends State<HistoryPage> {
           ),
         ),
         body: TabBarView(
-          children: [
-            HistoryBuy(),
-            Container(
-              height: MediaQuery.of(context).size.height,
-              child: Text('2'),
-            ),
-          ],
+          children: [HistoryBuy(), HistoryWin()],
         ),
       ),
     );

@@ -1,5 +1,8 @@
 import 'package:appwrite/appwrite.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:appwrite/models.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase;
+import 'package:get/get.dart';
+import 'package:lottery/res/routes/routes_name.dart';
 
 class Appwrite {
   static final Appwrite instance = Appwrite._internal();
@@ -24,11 +27,14 @@ class AppwriteService {
   final Account account = Account(Appwrite.instance.client);
   final Databases databases = Databases(Appwrite.instance.client);
 
-  Future<void> checkUser(String phone) async {
+  Future<bool> checkUser() async {
     try {
-      // const response = await account.
+      final response = await account.get();
+      print('checkUser: ${response.email}');
+      return true;
     } catch (e) {
       print('error checkUser AppwriteService: $e');
+      return false;
     }
   }
 
@@ -44,23 +50,186 @@ class AppwriteService {
     }
   }
 
-  Future<bool> createTransaction(String lottery, int amount) async {
+  Future<bool> logoutUser() async {
     try {
-      print('lottery: $lottery, amount: $amount');
-      await databases.createDocument(
+      final response = await account.deleteSessions();
+      print('response logoutUser: $response');
+      Get.toNamed(RouteName.login_view);
+      return true;
+    } catch (e) {
+      print('error logoutUser: $e');
+      return false;
+    }
+  }
+
+  Future<bool> updatePassword(String phoneNumber) async {
+    try {
+      final email = '$phoneNumber@ckmail.com';
+      final response = await account.createRecovery(
+          email: email, url: 'https://ck.moevedigital.com');
+      print('updatePassword 68 $response');
+      return true;
+    } catch (e) {
+      print('error updatePassword: $e');
+      return false;
+    }
+  }
+
+  Future<dynamic> findAccumulate(String lottery) async {
+    try {
+      // print('findAccumulate run');
+      final response = await databases.listDocuments(
+        databaseId: 'lotto',
+        collectionId: '20230830_accumulate',
+        queries: [
+          Query.equal('lottery', lottery),
+        ],
+      );
+      // print('response ${response.documents}');
+      // response.documents.forEach((element) {
+      //   print('response per loop: ${element.data}');
+      // });
+      return response;
+    } catch (e) {
+      print('error: findAccumulate: $e');
+      return false;
+    }
+  }
+
+  Future<dynamic> createAccumulate(
+    String lottery,
+    int amount,
+    String transactionsData,
+  ) async {
+    try {
+      final user = await account.get();
+      print('createAccumulate $transactionsData');
+      DocumentList response = await findAccumulate(lottery);
+      print('response ${response.total}');
+      if (response.total == 0) {
+        // create
+        await databases.createDocument(
           databaseId: 'lotto',
-          collectionId: '20230629',
+          collectionId: '20230830_accumulate',
           documentId: ID.unique(),
           data: {
-            "userId": "123",
+            'lottery': lottery,
+            'amount': amount,
+            'updateAt': [DateTime.now().toUtc().toString()],
+            'updateBy': [user.email],
+            'lastFiveTransactions': [transactionsData],
+          },
+        );
+      } else {
+        print('data: ${response.documents[0].data['lottery']}');
+        final responseFromUpdate = await updateAccumulate(
+          lottery,
+          amount,
+          transactionsData,
+          response.documents[0],
+          user,
+        );
+        print('responseFromUpdate $responseFromUpdate');
+      }
+    } catch (e) {
+      print('error createAccumulate: $e');
+    }
+  }
+
+  Future<dynamic> updateAccumulate(
+    String lottery,
+    int amount,
+    String transactionsData,
+    Document document,
+    User user,
+  ) async {
+    try {
+      print(
+          'updateAccumulate run lottery: $lottery, amount: $amount, $transactionsData');
+      print('updateAccumulate 119: ${[
+        ...document.data['lastFiveTransactions']
+      ]}');
+      final response = await databases.updateDocument(
+          databaseId: 'lotto',
+          collectionId: '20230830_accumulate',
+          documentId: document.$id,
+          data: {
+            'amount': document.data['amount'] + amount,
+            'updateAt': [
+              ...document.data['updateAt'],
+              DateTime.now().toUtc().toString()
+            ],
+            'updateBy': [...document.data['updateBy'], user.email],
+            'lastFiveTransactions': [
+              ...document.data['lastFiveTransactions'],
+              transactionsData,
+            ],
+          });
+      print('response updateAccumulate ${response.data}');
+      return true;
+    } catch (e) {
+      print('error updateAccumulate: $e');
+      return false;
+    }
+  }
+
+  Future<dynamic> createInvoice(
+    List arrLotterise,
+    List arrAmount,
+    List arrLotteryType,
+    int totalAmount,
+  ) async {
+    try {
+      print('createInvoice');
+      final user = await account.get();
+      final response = await databases.createDocument(
+        databaseId: 'lotto',
+        collectionId: '20230830_invoice',
+        documentId: ID.unique(),
+        data: {
+          "lotteryArray": arrLotterise,
+          "amountArray": arrAmount,
+          "lotteryTypeArray": arrLotteryType,
+          "users": user.$id,
+          "lotteryDate": "20230830",
+          "phoneNumber": "123",
+          "paymentMethod": "bank",
+          "bankName": "bk",
+          "totalAmount": totalAmount,
+        },
+      );
+      return response;
+    } catch (e) {
+      print('error createInvoice: $e');
+      return false;
+    }
+  }
+
+  Future<dynamic> createTransaction(
+    String lottery,
+    int amount,
+    String invoiceId,
+  ) async {
+    try {
+      final user = await account.get();
+      print(
+          'createTransaction: 183 lottery: $lottery, amount: $amount, invoiceId: ${invoiceId.toString()}');
+      final response = await databases.createDocument(
+          databaseId: 'lotto',
+          collectionId: '20230830',
+          documentId: ID.unique(),
+          data: {
+            // "userId": user.$id,
+            "users": user.$id,
             "lottery": lottery,
-            "lotteryType": 2,
+            "lotteryType": lottery.length,
             "amount": amount,
             "paymentMethod": "bank",
             "bankName": "bk",
-            "createdAt": DateTime.now().toUtc().toString(),
+            // "createdAt": DateTime.now().toUtc().toString(),
+            "20230830_invoice": invoiceId,
           });
-      return true;
+      return response;
     } catch (e) {
       print('error $e');
       return false;
@@ -72,13 +241,13 @@ class AppwriteService {
     String password,
     String name,
   ) async {
-    final userFirebase = FirebaseAuth.instance.currentUser;
+    final userFirebase = firebase.FirebaseAuth.instance.currentUser;
     if (userFirebase?.phoneNumber != null) {
       try {
         try {
           final user = await account.create(
             userId: ID.unique(),
-            email: '+$email',
+            email: email,
             password: password,
             name: name,
           );
@@ -88,7 +257,7 @@ class AppwriteService {
 
         // login with appwrite
         final resultLoginWithAppwrite = await account.createEmailSession(
-          email: '+$email',
+          email: email,
           password: password,
         );
 

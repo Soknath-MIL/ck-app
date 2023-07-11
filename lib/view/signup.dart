@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:lottery/data/services/appwrite_service.dart';
 import 'package:lottery/res/color.dart';
 import 'package:lottery/res/components/passwordInput.dart';
@@ -17,6 +18,7 @@ class SignupView extends StatefulWidget {
 class _SignupViewState extends State<SignupView> {
   final SignupViewModel _signupViewModel = Get.put(SignupViewModel());
   final _formKey = GlobalKey<FormState>();
+  bool _telErrorInput = false;
 
   @override
   Widget build(BuildContext context) {
@@ -176,49 +178,93 @@ class _SignupViewState extends State<SignupView> {
                               height: 8,
                             ),
                             // TODO: tel
-                            Obx(() {
-                              return TextFormField(
-                                validator: (value) {
-                                  if (value == "") {
-                                    _signupViewModel.setErrorForm("tel", true);
-                                    return 'Plaese fill your tel';
-                                  }
-                                  _signupViewModel.setErrorForm("tel", false);
-                                  return null;
-                                },
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly,
-                                ],
-                                keyboardType: TextInputType.phone,
-                                decoration: InputDecoration(
-                                  errorStyle: TextStyle(
-                                    fontSize: 14,
+                            InternationalPhoneNumberInput(
+                              countries: ['LA', 'TH'],
+                              inputDecoration: InputDecoration(
+                                fillColor: Colors.white,
+                                filled: true,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10),
                                   ),
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  hintText: "888-888-8888",
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10),
-                                    ),
-                                    borderSide: BorderSide(
-                                      style: BorderStyle.none,
-                                      width: _signupViewModel.errorForm["tel"]!
-                                          ? 1
-                                          : 0,
-                                    ),
+                                  borderSide: BorderSide(
+                                    style: BorderStyle.none,
+                                    width: _telErrorInput ? 1 : 0,
                                   ),
                                 ),
-                                onChanged: (value) {
-                                  if (_signupViewModel.validNumber(value)) {
-                                    _signupViewModel.onChagePhoneNumber(value);
-                                    print('true');
-                                  } else {
-                                    print('else');
-                                  }
-                                },
-                              );
-                            }),
+                                errorStyle: TextStyle(fontSize: 14),
+                              ),
+                              selectorConfig: SelectorConfig(
+                                selectorType: PhoneInputSelectorType.DIALOG,
+                              ),
+                              onInputChanged: (value) {
+                                print('value 107 $value');
+                                _signupViewModel
+                                    .onChagePhoneNumber(value.phoneNumber!);
+                              },
+                              formatInput: false,
+                              validator: (value) {
+                                if (value!.length < 7) {
+                                  setState(() {
+                                    _telErrorInput = true;
+                                  });
+                                  return "minimum length is 7 digits";
+                                }
+                                if (value == "") {
+                                  setState(() {
+                                    _telErrorInput = true;
+                                  });
+                                  return "Plaese fill phone number";
+                                }
+                                setState(() {
+                                  _telErrorInput = false;
+                                });
+                                return null;
+                              },
+                            ),
+                            // Obx(() {
+                            //   return TextFormField(
+                            //     validator: (value) {
+                            //       if (value == "") {
+                            //         _signupViewModel.setErrorForm("tel", true);
+                            //         return 'Plaese fill your tel';
+                            //       }
+                            //       _signupViewModel.setErrorForm("tel", false);
+                            //       return null;
+                            //     },
+                            //     inputFormatters: [
+                            //       FilteringTextInputFormatter.digitsOnly,
+                            //     ],
+                            //     keyboardType: TextInputType.phone,
+                            //     decoration: InputDecoration(
+                            //       errorStyle: TextStyle(
+                            //         fontSize: 14,
+                            //       ),
+                            //       filled: true,
+                            //       fillColor: Colors.white,
+                            //       hintText: "888-888-8888",
+                            //       border: OutlineInputBorder(
+                            //         borderRadius: BorderRadius.all(
+                            //           Radius.circular(10),
+                            //         ),
+                            //         borderSide: BorderSide(
+                            //           style: BorderStyle.none,
+                            //           width: _signupViewModel.errorForm["tel"]!
+                            //               ? 1
+                            //               : 0,
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     onChanged: (value) {
+                            //       if (_signupViewModel.validNumber(value)) {
+                            //         _signupViewModel.onChagePhoneNumber(value);
+                            //         print('true');
+                            //       } else {
+                            //         print('else');
+                            //       }
+                            //     },
+                            //   );
+                            // }),
                             SizedBox(
                               height: 16,
                             ),

@@ -174,6 +174,7 @@ class _BuyBoxState extends State<BuyBox> {
                       Expanded(
                         child: Material(
                           child: Container(
+                            // color: Colors.amber,
                             margin: EdgeInsets.symmetric(horizontal: 6),
                             child: TextFormField(
                               keyboardType: TextInputType.number,
@@ -213,10 +214,12 @@ class _BuyBoxState extends State<BuyBox> {
                       Expanded(
                         child: Material(
                           child: Container(
+                            // color: Colors.amber,
                             // decoration:
                             //     BoxDecoration(color: Colors.blue),
                             margin: EdgeInsets.symmetric(horizontal: 10),
                             child: TextFormField(
+                              textAlign: TextAlign.end,
                               focusNode: widget.lotteryInputNodePrice,
                               controller: widget.priceInputController,
                               keyboardType: TextInputType.number,

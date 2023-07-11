@@ -6,4 +6,7 @@ class RouteName {
   static const String signup_view = '/signup_view';
   static const String otp_view = '/otp_view';
   static const String main_view = '/main';
+  static const String lottery_history_view = '/lottery_history_view';
+  static const String forget_password = '/forget_password';
+  static const String reset_password = '/reset_password';
 }

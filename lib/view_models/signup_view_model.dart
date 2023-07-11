@@ -48,7 +48,8 @@ class SignupViewModel extends GetxController {
     print('password: ${password.value}');
     print('confirmPassword: ${confirmPassword.value}');
     print('pass !');
-    FirebaseServices().loginWithPhoneNumber('+66968908467', createUser);
+    // return;
+    FirebaseServices().loginWithPhoneNumber(phoneNumber.value, createUser);
     // AppwriteService().createUser(
     //     '${phoneNumber.value}@test.com', password.value, name.value);
   }

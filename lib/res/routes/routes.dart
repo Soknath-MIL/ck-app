@@ -1,10 +1,13 @@
 import 'package:get/get.dart';
 import 'package:lottery/res/routes/routes_name.dart';
 import 'package:lottery/view/TC.dart';
+import 'package:lottery/view/forget_password.dart';
 import 'package:lottery/view/home.dart';
 import 'package:lottery/view/login.dart';
+import 'package:lottery/view/lottery_history.dart';
 import 'package:lottery/view/main.dart';
 import 'package:lottery/view/otp.dart';
+import 'package:lottery/view/reset_password.dart';
 import 'package:lottery/view/signup.dart';
 import 'package:lottery/view/splash_screen.dart';
 
@@ -49,6 +52,24 @@ class AppRoutes {
         GetPage(
           name: RouteName.main_view,
           page: () => MainPage(),
+          transition: Transition.rightToLeft,
+          transitionDuration: const Duration(milliseconds: 250),
+        ),
+        GetPage(
+          name: RouteName.lottery_history_view,
+          page: () => LotteryHistoryPage(),
+          transition: Transition.rightToLeft,
+          transitionDuration: const Duration(milliseconds: 250),
+        ),
+        GetPage(
+          name: RouteName.forget_password,
+          page: () => ForgetPasswordPage(),
+          transition: Transition.rightToLeft,
+          transitionDuration: const Duration(milliseconds: 250),
+        ),
+        GetPage(
+          name: RouteName.reset_password,
+          page: () => ResetPasswordPage(),
           transition: Transition.rightToLeft,
           transitionDuration: const Duration(milliseconds: 250),
         ),

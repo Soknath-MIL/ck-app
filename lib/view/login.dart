@@ -106,19 +106,21 @@ class _LoginViewState extends State<LoginView> {
                                 // initialValue: PhoneNumber(
                                 //   isoCode: 'LA',
                                 // ),
+                                countries: ['LA', 'TH'],
                                 inputDecoration: InputDecoration(
-                                    fillColor: Colors.white,
-                                    filled: true,
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(10),
-                                      ),
-                                      borderSide: BorderSide(
-                                        style: BorderStyle.none,
-                                        width: _telErrorInput ? 1 : 0,
-                                      ),
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10),
                                     ),
-                                    errorStyle: TextStyle(fontSize: 14)),
+                                    borderSide: BorderSide(
+                                      style: BorderStyle.none,
+                                      width: _telErrorInput ? 1 : 0,
+                                    ),
+                                  ),
+                                  errorStyle: TextStyle(fontSize: 14),
+                                ),
                                 selectorConfig: SelectorConfig(
                                   selectorType: PhoneInputSelectorType.DIALOG,
                                 ),
@@ -212,17 +214,20 @@ class _LoginViewState extends State<LoginView> {
                           message: 'ບັນທຶກລະຫັດຜ່ານ',
                           fontSize: 20,
                         ),
-                        TextButton(
-                          child: Text(
-                            'ລືມລະຫັດຜ່ານ',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                          onPressed: () {},
-                        )
+                        // TODO: fix forgetpassword
+                        // TextButton(
+                        //   child: Text(
+                        //     'ລືມລະຫັດຜ່ານ',
+                        //     style: TextStyle(
+                        //       color: Colors.black,
+                        //       fontWeight: FontWeight.bold,
+                        //       fontSize: 20,
+                        //     ),
+                        //   ),
+                        //   onPressed: () {
+                        //     Get.toNamed(RouteName.forget_password);
+                        //   },
+                        // )
                       ],
                     ),
                     SizedBox(
@@ -233,10 +238,10 @@ class _LoginViewState extends State<LoginView> {
                         // Get.toNamed(RouteName.home_view);
                         // AppwriteService().createUser();
                         // TODO: uncomment on production
-                        // if (_formKey.currentState!.validate()) {
-                        print('click: login 167');
-                        _loginViewModel.loginWithPhoneAndPassword();
-                        // }
+                        if (_formKey.currentState!.validate()) {
+                          print('click: login 167');
+                          _loginViewModel.loginWithPhoneAndPassword();
+                        }
                       },
                       child: Text(
                         'ເຂົ້າສູ່ລະບົບ',

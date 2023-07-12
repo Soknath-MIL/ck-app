@@ -245,6 +245,7 @@ class AppwriteService {
     if (userFirebase?.phoneNumber != null) {
       try {
         try {
+          print('email: $email, password: $password, name: $name');
           final user = await account.create(
             userId: ID.unique(),
             email: email,

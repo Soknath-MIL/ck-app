@@ -41,261 +41,255 @@ class _HomeViewState extends State<HomeView>
           SafeArea(
             child: Padding(
               padding: EdgeInsets.all(16.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height -
-                          AppDimension.buyboxHeigh -
-                          AppDimension.bottomNavigationBar -
-                          126,
-                      child: ListView(
-                        children: [
-                          CarouselSlider(
-                            items: [
-                              AssetImage('images/banner1.png'),
-                              AssetImage('images/banner2.png'),
-                              AssetImage('images/banner3.png')
-                            ].map((e) {
-                              return Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    // height: MediaQuery.of(context).size.height -
+                    //     AppDimension.buyboxHeigh -
+                    //     AppDimension.bottomNavigationBar -
+                    //     126,
+                    child: ListView(
+                      children: [
+                        CarouselSlider(
+                          items: [
+                            AssetImage('images/banner1.png'),
+                            AssetImage('images/banner2.png'),
+                            AssetImage('images/banner3.png')
+                          ].map((e) {
+                            return Container(
+                              width: MediaQuery.of(context).size.width,
+                              // margin: EdgeInsets.symmetric(horizontal: 5.0),
+                              // decoration: BoxDecoration(
+                              //   color: Colors.amber,
+                              // ),
+                              child: Image(
+                                image: e,
                                 width: MediaQuery.of(context).size.width,
-                                // margin: EdgeInsets.symmetric(horizontal: 5.0),
-                                // decoration: BoxDecoration(
-                                //   color: Colors.amber,
-                                // ),
-                                child: Image(
-                                  image: e,
-                                  width: MediaQuery.of(context).size.width,
-                                ),
-                              );
-                            }).toList(),
-                            options: CarouselOptions(
-                              height: 242.0,
-                              viewportFraction: 1,
-                              autoPlay: true,
-                              autoPlayInterval: Duration(
-                                seconds: 10,
                               ),
+                            );
+                          }).toList(),
+                          options: CarouselOptions(
+                            height: 242.0,
+                            viewportFraction: 1,
+                            autoPlay: true,
+                            autoPlayInterval: Duration(
+                              seconds: 10,
                             ),
                           ),
-                          SizedBox(
-                            height: 12,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Image(
-                                image: AssetImage(Logo.ckGroup),
-                                height: 30,
-                              ),
-                              Text(
-                                'ງວດວັນທີ 12 - 05- 2023',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: 12,
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                              color: AppColors.primary,
+                        ),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Image(
+                              image: AssetImage(Logo.ckGroup),
+                              height: 30,
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Container(
-                                    width: 60,
-                                    height: 80,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(16),
-                                      ),
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          '1',
-                                          style: TextStyle(
-                                              fontSize: 40,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          'ມື້',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 60,
-                                    height: 80,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(16),
-                                      ),
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          '23',
-                                          style: TextStyle(
-                                              fontSize: 40,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          'ຊົ່ວໂມງ',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 60,
-                                    height: 80,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(16),
-                                      ),
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          '59',
-                                          style: TextStyle(
-                                              fontSize: 40,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          'ນາທີ',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 60,
-                                    height: 80,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(16),
-                                      ),
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          '59',
-                                          style: TextStyle(
-                                              fontSize: 40,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          'ວິນາທີ',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  // TabBar(tabs: _tabs)
-                                ],
+                            Text(
+                              'ງວດວັນທີ 12 - 05- 2023',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
                               ),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10),
+                            ),
+                            color: AppColors.primary,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Container(
+                                  width: 60,
+                                  height: 80,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(16),
+                                    ),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '1',
+                                        style: TextStyle(
+                                            fontSize: 40,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        'ມື້',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  width: 60,
+                                  height: 80,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(16),
+                                    ),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '23',
+                                        style: TextStyle(
+                                            fontSize: 40,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        'ຊົ່ວໂມງ',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  width: 60,
+                                  height: 80,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(16),
+                                    ),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '59',
+                                        style: TextStyle(
+                                            fontSize: 40,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        'ນາທີ',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  width: 60,
+                                  height: 80,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(16),
+                                    ),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '59',
+                                        style: TextStyle(
+                                            fontSize: 40,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        'ວິນາທີ',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                // TabBar(tabs: _tabs)
+                              ],
                             ),
                           ),
-                          SizedBox(
-                            height: 12,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Image(
-                                image: AssetImage(
-                                  'images/news1.png',
+                        ),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Image(
+                              image: AssetImage(
+                                'images/news1.png',
+                              ),
+                            ),
+                            Column(
+                              children: [
+                                Image(
+                                  image: AssetImage('images/news2.png'),
                                 ),
-                              ),
-                              Column(
-                                children: [
-                                  Image(
-                                    image: AssetImage('images/news2.png'),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Image(
-                                    image: AssetImage('images/news3.png'),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 12),
-                        ],
-                      ),
+                                SizedBox(height: 10),
+                                Image(
+                                  image: AssetImage('images/news3.png'),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 12),
+                      ],
                     ),
-                    Container(
-                      height: AppDimension.buyboxHeigh,
-                      child: BuyBox(
-                        totalPrice: _homeViewModel.arrLottery.fold(
-                            0,
-                            (previousValue, element) =>
-                                previousValue! + int.parse(element['price']!)),
-                        lotteryInputNode: _lotteryInputNode,
-                        lotteryInputNodePrice: _lotteryInputNodePrice,
-                        lotteryInputController: _lotteryInputController,
-                        priceInputController: _priceInputController,
-                        onTapInput: () {
-                          setState(() {
-                            isOpenDialog = true;
-                          });
-                          _lotteryInputNode.unfocus();
-                          _lotteryInputNodeDialog.requestFocus();
-                        },
-                        onTapInputPrice: () {
-                          setState(() {
-                            isOpenDialog = true;
-                          });
-                          _lotteryInputNodePrice.unfocus();
-                          _lotteryInputNodePriceDialog.requestFocus();
-                        },
-                        onSubmit: () {
-                          setState(() {
-                            isOpenBuyConfirm = true;
-                          });
-                        },
-                      ),
-                    )
-                  ],
-                ),
+                  ),
+                  Container(
+                    height: AppDimension.buyboxHeigh,
+                    child: BuyBox(
+                      totalPrice: _homeViewModel.arrLottery.fold(
+                          0,
+                          (previousValue, element) =>
+                              previousValue! + int.parse(element['price']!)),
+                      lotteryInputNode: _lotteryInputNode,
+                      lotteryInputNodePrice: _lotteryInputNodePrice,
+                      lotteryInputController: _lotteryInputController,
+                      priceInputController: _priceInputController,
+                      onTapInput: () {
+                        setState(() {
+                          isOpenDialog = true;
+                        });
+                        _lotteryInputNode.unfocus();
+                        _lotteryInputNodeDialog.requestFocus();
+                      },
+                      onTapInputPrice: () {
+                        setState(() {
+                          isOpenDialog = true;
+                        });
+                        _lotteryInputNodePrice.unfocus();
+                        _lotteryInputNodePriceDialog.requestFocus();
+                      },
+                      onSubmit: () {
+                        setState(() {
+                          isOpenBuyConfirm = true;
+                        });
+                      },
+                    ),
+                  )
+                ],
               ),
             ),
           ),

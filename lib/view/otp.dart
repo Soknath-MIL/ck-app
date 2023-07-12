@@ -102,11 +102,12 @@ class _OTPState extends State<OTP> {
                   Center(
                     child: Pinput(
                       onChanged: (value) {
+                        print('value: $value');
                         _otpViewModel.onChangeOTP(value);
                       },
                       // validator: (value) {
                       //   if (value != '555555') {
-                      //     return 'error na';
+                      //     return  'error na';
                       //   }
                       //   return null;
                       // },

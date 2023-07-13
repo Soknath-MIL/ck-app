@@ -5,6 +5,7 @@ import 'package:lottery/res/color.dart';
 import 'package:lottery/view/history.dart';
 import 'package:lottery/view/home.dart';
 import 'package:lottery/view/lottery_history.dart';
+import 'package:lottery/view/notification.dart';
 import 'package:lottery/view/setting.dart';
 import 'package:lottery/view/testSticky.dart';
 import 'package:lottery/view/testdialog.dart';
@@ -22,6 +23,7 @@ class _MainPageState extends State<MainPage> {
     HomeView(),
     HistoryPage(),
     LotteryHistoryPage(),
+    NotificationPage(),
     SettingPage(),
     // TestDialog(),
     // TestSticky(),
@@ -180,6 +182,42 @@ class _MainPageState extends State<MainPage> {
                     onTap: () {
                       setState(() {
                         currentIndex = 3;
+                      });
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.notification_add,
+                          color: AppColors.primary,
+                        ),
+                        Text(
+                          'แจ้งเตือน',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                height: 60,
+                width: 60,
+                decoration: BoxDecoration(
+                    // color: Colors.white,
+                    // borderRadius: BorderRadius.circular(60),
+                    ),
+                child: Material(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(60),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(60),
+                    onTap: () {
+                      setState(() {
+                        currentIndex = 4;
                       });
                     },
                     child: Column(

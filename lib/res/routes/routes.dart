@@ -6,6 +6,7 @@ import 'package:lottery/view/home.dart';
 import 'package:lottery/view/login.dart';
 import 'package:lottery/view/lottery_history.dart';
 import 'package:lottery/view/main.dart';
+import 'package:lottery/view/notification.dart';
 import 'package:lottery/view/otp.dart';
 import 'package:lottery/view/reset_password.dart';
 import 'package:lottery/view/signup.dart';
@@ -70,6 +71,12 @@ class AppRoutes {
         GetPage(
           name: RouteName.reset_password,
           page: () => ResetPasswordPage(),
+          transition: Transition.rightToLeft,
+          transitionDuration: const Duration(milliseconds: 250),
+        ),
+        GetPage(
+          name: RouteName.notification,
+          page: () => NotificationPage(),
           transition: Transition.rightToLeft,
           transitionDuration: const Duration(milliseconds: 250),
         ),

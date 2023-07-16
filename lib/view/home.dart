@@ -5,6 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
 import 'package:lottery/res/color.dart';
 import 'package:lottery/res/components/buybox.dart';
+import 'package:lottery/res/components/countdown.dart';
 import 'package:lottery/res/dimens.dart';
 import 'package:lottery/res/images/logo.dart';
 import 'package:lottery/view/buy_confirm.dart';
@@ -33,6 +34,15 @@ class _HomeViewState extends State<HomeView>
   TextEditingController _priceInputController = TextEditingController();
   TextEditingController _lotteryInputControllerDialog = TextEditingController();
   TextEditingController _priceInputControllerDialog = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _homeViewModel.getAds();
+    _homeViewModel.getLotteryDate();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,6 +54,12 @@ class _HomeViewState extends State<HomeView>
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      // _homeViewModel.getLotteryDate();
+                    },
+                    child: Text('click'),
+                  ),
                   Expanded(
                     // height: MediaQuery.of(context).size.height -
                     //     AppDimension.buyboxHeigh -
@@ -51,33 +67,57 @@ class _HomeViewState extends State<HomeView>
                     //     126,
                     child: ListView(
                       children: [
-                        CarouselSlider(
-                          items: [
-                            AssetImage('images/banner1.png'),
-                            AssetImage('images/banner2.png'),
-                            AssetImage('images/banner3.png')
-                          ].map((e) {
+                        Obx(() => Text('${_homeViewModel.imagesURL.length}')),
+                        Obx(() {
+                          if (_homeViewModel.imagesURL.isEmpty) {
                             return Container(
+                              color: Colors.red,
+                              height: 242.0,
                               width: MediaQuery.of(context).size.width,
-                              // margin: EdgeInsets.symmetric(horizontal: 5.0),
-                              // decoration: BoxDecoration(
-                              //   color: Colors.amber,
-                              // ),
-                              child: Image(
-                                image: e,
-                                width: MediaQuery.of(context).size.width,
+                            );
+                          } else {
+                            return CarouselSlider(
+                              items: _homeViewModel.imagesURL.map((element) {
+                                return Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Image.network(
+                                    element,
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                      if (loadingProgress == null) {
+                                        return child;
+                                      } else {
+                                        return Center(
+                                          child: CircularProgressIndicator(
+                                            value: loadingProgress
+                                                        .expectedTotalBytes !=
+                                                    null
+                                                ? loadingProgress
+                                                        .cumulativeBytesLoaded /
+                                                    loadingProgress
+                                                        .expectedTotalBytes!
+                                                : null,
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    // errorBuilder:
+                                    //     (context, error, stackTrace) =>
+                                    //         Text('image not found'),
+                                  ),
+                                );
+                              }).toList(),
+                              options: CarouselOptions(
+                                height: 242.0,
+                                viewportFraction: 1,
+                                autoPlay: true,
+                                autoPlayInterval: Duration(
+                                  seconds: 10,
+                                ),
                               ),
                             );
-                          }).toList(),
-                          options: CarouselOptions(
-                            height: 242.0,
-                            viewportFraction: 1,
-                            autoPlay: true,
-                            autoPlayInterval: Duration(
-                              seconds: 10,
-                            ),
-                          ),
-                        ),
+                          }
+                        }),
                         SizedBox(
                           height: 12,
                         ),
@@ -88,11 +128,13 @@ class _HomeViewState extends State<HomeView>
                               image: AssetImage(Logo.ckGroup),
                               height: 30,
                             ),
-                            Text(
-                              'ງວດວັນທີ 12 - 05- 2023',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
+                            Obx(
+                              () => Text(
+                                'ງວດວັນທີ ${_homeViewModel.lotteryDate.value.day}-${_homeViewModel.lotteryDate.value.month.toString().padLeft(2, '0')}-${_homeViewModel.lotteryDate.value.year}',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             )
                           ],
@@ -100,133 +142,9 @@ class _HomeViewState extends State<HomeView>
                         SizedBox(
                           height: 12,
                         ),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                            color: AppColors.primary,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Container(
-                                  width: 60,
-                                  height: 80,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(16),
-                                    ),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '1',
-                                        style: TextStyle(
-                                            fontSize: 40,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                        'ມື້',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  width: 60,
-                                  height: 80,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(16),
-                                    ),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '23',
-                                        style: TextStyle(
-                                            fontSize: 40,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                        'ຊົ່ວໂມງ',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  width: 60,
-                                  height: 80,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(16),
-                                    ),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '59',
-                                        style: TextStyle(
-                                            fontSize: 40,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                        'ນາທີ',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  width: 60,
-                                  height: 80,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(16),
-                                    ),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '59',
-                                        style: TextStyle(
-                                            fontSize: 40,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                        'ວິນາທີ',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // TabBar(tabs: _tabs)
-                              ],
-                            ),
+                        Obx(
+                          () => CountdownTimer(
+                            targetDate: _homeViewModel.lotteryDate.value,
                           ),
                         ),
                         SizedBox(

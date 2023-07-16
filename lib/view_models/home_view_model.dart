@@ -1,12 +1,18 @@
+import 'dart:convert';
+
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottery/data/services/appwrite_service.dart';
+import 'package:http/http.dart' as http;
 
 class HomeViewModel extends GetxController {
   final arrLottery = <Map<String, String>>[].obs;
   final lottery = ''.obs;
   final price = ''.obs;
+  final imagesURL = [].obs;
+  final lotteryDate = DateTime.now().obs;
 
   void onChangeLottery(String value) {
     lottery.value = value;
@@ -123,6 +129,47 @@ class HomeViewModel extends GetxController {
       return true;
     } catch (e) {
       print('error createTransaction 45: $e');
+      return false;
+    }
+  }
+
+  Future<List> getAds() async {
+    try {
+      DocumentList response = await AppwriteService().getAds();
+      print('response getAds ${response.documents}');
+      response.documents.forEach((element) async {
+        List images = element.data['image'];
+        final result = jsonDecode(images[0]);
+        final response = await http.head(Uri.parse(result['url']));
+        print('response 143 ${response.statusCode}');
+        if (response.statusCode == 200) {
+          imagesURL.add(result['url']);
+        }
+        // if (images.isNotEmpty) {
+        //   images.forEach((data) {
+        //     print('data 141 $data');
+        //   });
+        //   // images.add(value)
+        // }
+      });
+      return imagesURL;
+    } catch (e) {
+      print('error getAds 135: $e');
+      return [];
+    }
+  }
+
+  Future<dynamic> getLotteryDate() async {
+    try {
+      DocumentList response = await AppwriteService().getLotteryDate();
+      lotteryDate.value = DateTime.parse(response.documents[0].data['date']);
+      for (var i = 0; i < response.documents.length; i++) {
+        print('index $i');
+        final dataPerLoop = response.documents[i];
+        print('dataPerLoop ${dataPerLoop.data['date']}');
+      }
+    } catch (e) {
+      print('error getLotteryDate 163: $e');
       return false;
     }
   }

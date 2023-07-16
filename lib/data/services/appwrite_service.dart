@@ -300,10 +300,40 @@ class AppwriteService {
         // );
         // print('success ${response.toString()}');
       } catch (e) {
-        print('errro 29 appwrite_service: $e');
+        print('error 29 appwrite_service: $e');
         return false;
       }
     }
     return false;
+  }
+
+  Future<dynamic> getAds() async {
+    try {
+      final response = await databases.listDocuments(
+        databaseId: 'lotto',
+        collectionId: 'ads',
+      );
+      return response;
+    } catch (e) {
+      print('error getAds: $e');
+      return false;
+    }
+  }
+
+  Future<dynamic> getLotteryDate() async {
+    try {
+      final response = await databases.listDocuments(
+          databaseId: 'lotto',
+          collectionId: 'lottery_date',
+          queries: [
+            Query.greaterThan('date', DateTime.now().toUtc().toString()),
+            Query.orderAsc('date'),
+            Query.limit(1),
+          ]);
+      return response;
+    } catch (e) {
+      print('error getLotteryDate: $e');
+      return false;
+    }
   }
 }

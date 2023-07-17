@@ -13,6 +13,13 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   final SettingViewModel _settingViewModel = Get.put(SettingViewModel());
+
+  @override
+  void initState() {
+    _settingViewModel.getUserInfo();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,26 +60,26 @@ class _SettingPageState extends State<SettingPage> {
                         child: Column(
                           children: [
                             SizedBox(height: 44),
-                            Text(
-                              'Mr.User LastName',
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
+                            Obx(() => Text(
+                                  '${_settingViewModel.name.value}',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                )),
                             SizedBox(height: 8),
-                            Text(
-                              '+66983459394',
-                              style: TextStyle(
-                                color: Color.fromRGBO(89, 89, 89, 1),
-                              ),
-                            ),
+                            Obx(() => Text(
+                                  '${_settingViewModel.tel.value}',
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(89, 89, 89, 1),
+                                  ),
+                                )),
                             SizedBox(height: 8),
-                            Text(
-                              'useremail@moevegroup.com',
-                              style: TextStyle(
-                                color: Color.fromRGBO(89, 89, 89, 1),
-                              ),
-                            ),
+                            Obx(() => Text(
+                                  '${_settingViewModel.email.value}',
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(89, 89, 89, 1),
+                                  ),
+                                )),
                           ],
                         ),
                       ),

@@ -21,13 +21,13 @@ class LoginViewModel extends GetxController {
     print('email: $email, password: ${password.value}');
     final response = await AppwriteService().loginUser(email, password.value);
     print('LoginViewModel loginWithPhoneAndPassword: 12 $response');
-    Get.toNamed(RouteName.main_view);
-    // if (response == true) {
-    //   Get.snackbar('Login successfully', "lucky !");
-    //   Get.toNamed(RouteName.main_view);
-    // } else {
-    //   Get.snackbar('Login error', 'phone number or password invalid');
-    // }
+    // Get.toNamed(RouteName.main_view);
+    if (response == true) {
+      Get.snackbar('Login successfully', "lucky !");
+      Get.toNamed(RouteName.main_view);
+    } else {
+      Get.snackbar('Login error', 'phone number or password invalid');
+    }
   }
 
   Future<UserCredential?> loginWithPhoneNumber(String phoneNumber) async {

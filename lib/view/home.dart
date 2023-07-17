@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -54,12 +55,12 @@ class _HomeViewState extends State<HomeView>
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      // _homeViewModel.getLotteryDate();
-                    },
-                    child: Text('click'),
-                  ),
+                  // ElevatedButton(
+                  //   onPressed: () {
+                  //     // _homeViewModel.getLotteryDate();
+                  //   },
+                  //   child: Text('click'),
+                  // ),
                   Expanded(
                     // height: MediaQuery.of(context).size.height -
                     //     AppDimension.buyboxHeigh -
@@ -67,7 +68,18 @@ class _HomeViewState extends State<HomeView>
                     //     126,
                     child: ListView(
                       children: [
-                        Obx(() => Text('${_homeViewModel.imagesURL.length}')),
+                        // CachedNetworkImage(
+                        //   imageUrl:
+                        //       'https://ck.moevedigital.com/v1/storage/buckets/6491ce1131561710ddb5/files/649dacc62103a19a7754/view?project=CKLOTTO88',
+                        //   progressIndicatorBuilder: (context, url, progress) =>
+                        //       Center(
+                        //     child: CircularProgressIndicator(
+                        //       value: progress.progress,
+                        //     ),
+                        //   ),
+                        //   errorWidget: (context, url, error) =>
+                        //       Icon(Icons.error),
+                        // ),
                         Obx(() {
                           if (_homeViewModel.imagesURL.isEmpty) {
                             return Container(
@@ -80,31 +92,42 @@ class _HomeViewState extends State<HomeView>
                               items: _homeViewModel.imagesURL.map((element) {
                                 return Container(
                                   width: MediaQuery.of(context).size.width,
-                                  child: Image.network(
-                                    element,
-                                    loadingBuilder:
-                                        (context, child, loadingProgress) {
-                                      if (loadingProgress == null) {
-                                        return child;
-                                      } else {
-                                        return Center(
-                                          child: CircularProgressIndicator(
-                                            value: loadingProgress
-                                                        .expectedTotalBytes !=
-                                                    null
-                                                ? loadingProgress
-                                                        .cumulativeBytesLoaded /
-                                                    loadingProgress
-                                                        .expectedTotalBytes!
-                                                : null,
-                                          ),
-                                        );
-                                      }
-                                    },
-                                    // errorBuilder:
-                                    //     (context, error, stackTrace) =>
-                                    //         Text('image not found'),
+                                  child: CachedNetworkImage(
+                                    imageUrl: element,
+                                    progressIndicatorBuilder:
+                                        (context, url, progress) => Center(
+                                      child: CircularProgressIndicator(
+                                        value: progress.progress,
+                                      ),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
                                   ),
+                                  // child: Image.network(
+                                  //   element,
+                                  //   loadingBuilder:
+                                  //       (context, child, loadingProgress) {
+                                  //     if (loadingProgress == null) {
+                                  //       return child;
+                                  //     } else {
+                                  //       return Center(
+                                  //         child: CircularProgressIndicator(
+                                  //           value: loadingProgress
+                                  //                       .expectedTotalBytes !=
+                                  //                   null
+                                  //               ? loadingProgress
+                                  //                       .cumulativeBytesLoaded /
+                                  //                   loadingProgress
+                                  //                       .expectedTotalBytes!
+                                  //               : null,
+                                  //         ),
+                                  //       );
+                                  //     }
+                                  //   },
+                                  //   // errorBuilder:
+                                  //   //     (context, error, stackTrace) =>
+                                  //   //         Text('image not found'),
+                                  // ),
                                 );
                               }).toList(),
                               options: CarouselOptions(

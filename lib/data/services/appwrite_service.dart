@@ -336,4 +336,20 @@ class AppwriteService {
       return false;
     }
   }
+
+  Future<dynamic> getUserInfo() async {
+    try {
+      final user = await account.get();
+      final response = await databases.getDocument(
+        databaseId: 'lotto',
+        collectionId: 'users',
+        documentId: user.$id,
+      );
+      print('getUserInfo: ${response.data}');
+      return response.data;
+    } catch (e) {
+      print('error getUserInfo 342: $e');
+      return false;
+    }
+  }
 }

@@ -15,6 +15,7 @@ class CountdownTimer extends StatefulWidget {
 class _CountdownTimerState extends State<CountdownTimer> {
   late Timer _timer;
   Duration _remainingTime = Duration.zero;
+  DateTime _keepTime = DateTime.now();
 
   @override
   void initState() {
@@ -30,13 +31,18 @@ class _CountdownTimerState extends State<CountdownTimer> {
 
   void _startTimer() {
     final now = DateTime.now();
+    _keepTime = widget.targetDate;
     final difference = widget.targetDate.difference(now);
     _remainingTime = difference;
-
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (!_keepTime.isAtSameMomentAs(widget.targetDate)) {
+        _keepTime = widget.targetDate;
+        _remainingTime = widget.targetDate.difference(now);
+      }
       setState(() {
         if (_remainingTime.inSeconds > 0) {
           _remainingTime -= Duration(seconds: 1);
+          // print('_remainingTime 168 $_remainingTime');
         } else {
           _timer.cancel();
         }

@@ -12,7 +12,7 @@ class HomeViewModel extends GetxController {
   final lottery = ''.obs;
   final price = ''.obs;
   final imagesURL = [].obs;
-  final lotteryDate = DateTime.now().obs;
+  final lotteryDate = DateTime.now().add(const Duration(minutes: 2)).obs;
 
   void onChangeLottery(String value) {
     lottery.value = value;
@@ -162,11 +162,19 @@ class HomeViewModel extends GetxController {
   Future<dynamic> getLotteryDate() async {
     try {
       DocumentList response = await AppwriteService().getLotteryDate();
-      lotteryDate.value = DateTime.parse(response.documents[0].data['date']);
+      // lotteryDate.value = DateTime.parse(response.documents[0].data['date']);
+      // print('first 168 ${DateTime.now().toUtc().toString()}');
       for (var i = 0; i < response.documents.length; i++) {
-        print('index $i');
+        final current = DateTime.parse(response.documents[i].data['date']);
+        print('current 168 169 $current');
+        if (DateTime.now().isBefore(current)) {
+          print('found 168');
+          lotteryDate.value = current.toUtc();
+          break;
+        }
+        print('index 168 $i');
         final dataPerLoop = response.documents[i];
-        print('dataPerLoop ${dataPerLoop.data['date']}');
+        print('dataPerLoop 168 ${dataPerLoop.data['date']}');
       }
     } catch (e) {
       print('error getLotteryDate 163: $e');

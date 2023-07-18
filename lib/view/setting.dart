@@ -1,7 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:lottery/res/color.dart';
+import 'package:lottery/res/routes/routes_name.dart';
 import 'package:lottery/view_models/setting_view_model.dart';
 
 class SettingPage extends StatefulWidget {
@@ -30,85 +32,267 @@ class _SettingPageState extends State<SettingPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                // color: Colors.purple,
-                height: 220,
-                width: MediaQuery.of(context).size.width,
-                child: Stack(
-                  alignment: Alignment.topCenter,
+                child: Column(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(top: 80),
-                      padding: EdgeInsets.all(1),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Color.fromRGBO(242, 49, 55, 1),
-                            Color.fromRGBO(0, 209, 255, 1),
-                          ],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      height: 140,
+                      // color: Colors.purple,
+                      height: 220,
                       width: MediaQuery.of(context).size.width,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(7),
-                        ),
-                        child: Column(
-                          children: [
-                            SizedBox(height: 44),
-                            Obx(() => Text(
-                                  '${_settingViewModel.name.value}',
-                                  style: TextStyle(
-                                    fontSize: 16,
+                      child: Material(
+                        child: InkWell(
+                          onTap: () {
+                            Get.toNamed(
+                              RouteName.user_info,
+                              arguments: [
+                                _settingViewModel.name,
+                                _settingViewModel.email,
+                                _settingViewModel.tel,
+                              ],
+                            );
+                          },
+                          child: Stack(
+                            alignment: Alignment.topCenter,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(top: 80),
+                                padding: EdgeInsets.all(1),
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Color.fromRGBO(242, 49, 55, 1),
+                                      Color.fromRGBO(0, 209, 255, 1),
+                                    ],
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
                                   ),
-                                )),
-                            SizedBox(height: 8),
-                            Obx(() => Text(
-                                  '${_settingViewModel.tel.value}',
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(89, 89, 89, 1),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                height: 140,
+                                width: MediaQuery.of(context).size.width,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(7),
                                   ),
-                                )),
-                            SizedBox(height: 8),
-                            Obx(() => Text(
-                                  '${_settingViewModel.email.value}',
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(89, 89, 89, 1),
+                                  child: Column(
+                                    children: [
+                                      SizedBox(height: 44),
+                                      Obx(() => Text(
+                                            '${_settingViewModel.name.value}',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                            ),
+                                          )),
+                                      SizedBox(height: 8),
+                                      Obx(() => Text(
+                                            '${_settingViewModel.tel.value}',
+                                            style: TextStyle(
+                                              color:
+                                                  Color.fromRGBO(89, 89, 89, 1),
+                                            ),
+                                          )),
+                                      SizedBox(height: 8),
+                                      Obx(() => Text(
+                                            '${_settingViewModel.email.value}',
+                                            style: TextStyle(
+                                              color:
+                                                  Color.fromRGBO(89, 89, 89, 1),
+                                            ),
+                                          )),
+                                    ],
                                   ),
-                                )),
-                          ],
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(2),
+                                width: 120,
+                                height: 120,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Color.fromRGBO(0, 209, 255, 1),
+                                      Color.fromRGBO(255, 194, 36, 1),
+                                    ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                  borderRadius: BorderRadius.circular(144),
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(144),
+                                  ),
+                                  child: Icon(
+                                    Icons.person,
+                                    size: 80,
+                                    color: AppColors.primary,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.all(2),
-                      child: Container(
-                        child: Icon(
-                          Icons.person,
-                          size: 80,
-                          color: AppColors.primary,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(144),
-                        ),
-                      ),
-                      width: 120,
-                      height: 120,
+                      margin: EdgeInsets.only(top: 18),
+                      padding: EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Color.fromRGBO(0, 209, 255, 1),
-                            Color.fromRGBO(255, 194, 36, 1),
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderRadius: BorderRadius.circular(144),
+                        borderRadius: BorderRadius.circular(6),
+                        color: AppColors.blueeffcff,
+                      ),
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 54,
+                            height: 54,
+                            padding: EdgeInsets.all(2),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Color.fromRGBO(0, 209, 255, 1),
+                                  Color.fromRGBO(255, 194, 36, 1),
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(54),
+                              ),
+                              padding: EdgeInsets.all(12),
+                              width: MediaQuery.of(context).size.width,
+                              child: SvgPicture.asset('images/translate.svg'),
+                            ),
+                          ),
+                          SizedBox(width: 14),
+                          Text('เปลี่ยนภาษา'),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 2),
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: AppColors.blueeffcff,
+                      ),
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 54,
+                            height: 54,
+                            padding: EdgeInsets.all(2),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Color.fromRGBO(0, 209, 255, 1),
+                                  Color.fromRGBO(255, 194, 36, 1),
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(54),
+                              ),
+                              padding: EdgeInsets.all(12),
+                              width: MediaQuery.of(context).size.width,
+                              child: SvgPicture.asset('images/likeshapes.svg'),
+                            ),
+                          ),
+                          SizedBox(width: 14),
+                          Text('แนะนำให้บริการ'),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 2),
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: AppColors.blueeffcff,
+                      ),
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 54,
+                            height: 54,
+                            padding: EdgeInsets.all(2),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Color.fromRGBO(0, 209, 255, 1),
+                                  Color.fromRGBO(255, 194, 36, 1),
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(54),
+                              ),
+                              padding: EdgeInsets.all(12),
+                              width: MediaQuery.of(context).size.width,
+                              child: SvgPicture.asset('images/people.svg'),
+                            ),
+                          ),
+                          SizedBox(width: 14),
+                          Text('แนะนำเพื่อน'),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 2),
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: AppColors.blueeffcff,
+                      ),
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 54,
+                            height: 54,
+                            padding: EdgeInsets.all(2),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Color.fromRGBO(0, 209, 255, 1),
+                                  Color.fromRGBO(255, 194, 36, 1),
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(54),
+                              ),
+                              padding: EdgeInsets.all(12),
+                              width: MediaQuery.of(context).size.width,
+                              child: SvgPicture.asset('images/medalstar.svg'),
+                            ),
+                          ),
+                          SizedBox(width: 14),
+                          Text('คะแนนของฉัน'),
+                        ],
                       ),
                     ),
                   ],
@@ -128,7 +312,7 @@ class _SettingPageState extends State<SettingPage> {
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width,
-                    height: 70,
+                    height: 68,
                     decoration: BoxDecoration(
                       // color: AppColors.primary,
                       borderRadius: BorderRadius.circular(14),

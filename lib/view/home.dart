@@ -83,7 +83,7 @@ class _HomeViewState extends State<HomeView>
                         Obx(() {
                           if (_homeViewModel.imagesURL.isEmpty) {
                             return Container(
-                              color: Colors.red,
+                              color: Colors.white,
                               height: 242.0,
                               width: MediaQuery.of(context).size.width,
                             );
@@ -172,6 +172,42 @@ class _HomeViewState extends State<HomeView>
                         ),
                         SizedBox(
                           height: 12,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                color: Colors.amber,
+                                height: 250,
+                              ),
+                            ),
+                            SizedBox(width: 12),
+                            Expanded(
+                              child: Container(
+                                // color: Colors.blue,
+                                height: 250,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: Container(
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                    SizedBox(height: 12),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Container(
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

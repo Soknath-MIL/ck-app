@@ -11,6 +11,7 @@ import 'package:lottery/view/otp.dart';
 import 'package:lottery/view/reset_password.dart';
 import 'package:lottery/view/signup.dart';
 import 'package:lottery/view/splash_screen.dart';
+import 'package:lottery/view/user_info.dart';
 
 class AppRoutes {
   static appRoutes() => [
@@ -77,6 +78,12 @@ class AppRoutes {
         GetPage(
           name: RouteName.notification,
           page: () => NotificationPage(),
+          transition: Transition.rightToLeft,
+          transitionDuration: const Duration(milliseconds: 250),
+        ),
+        GetPage(
+          name: RouteName.user_info,
+          page: () => UserInfoPage(),
           transition: Transition.rightToLeft,
           transitionDuration: const Duration(milliseconds: 250),
         ),

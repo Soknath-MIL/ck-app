@@ -53,7 +53,7 @@ class _MainPageState extends State<MainPage> {
                   borderRadius: BorderRadius.circular(60),
                 ),
                 child: Material(
-                  color: Colors.white,
+                  color: currentIndex == 0 ? Colors.white : AppColors.primary,
                   borderRadius: BorderRadius.circular(60),
                   child: InkWell(
                     borderRadius: BorderRadius.circular(60),
@@ -73,13 +73,20 @@ class _MainPageState extends State<MainPage> {
                           'images/home.svg',
                           semanticsLabel: 'SVG label',
                           colorFilter: ColorFilter.mode(
-                              AppColors.primary, BlendMode.srcIn),
+                            currentIndex == 0
+                                ? AppColors.primary
+                                : Colors.white,
+                            BlendMode.srcIn,
+                          ),
                         ),
                         Text(
                           'ໜ້າຫຼັກ',
                           style: TextStyle(
                             fontSize: 12,
-                            color: AppColors.primary,
+                            fontWeight: FontWeight.bold,
+                            color: currentIndex == 0
+                                ? AppColors.primary
+                                : Colors.white,
                           ),
                         ),
                       ],
@@ -95,7 +102,7 @@ class _MainPageState extends State<MainPage> {
                     // borderRadius: BorderRadius.circular(60),
                     ),
                 child: Material(
-                  color: Colors.white,
+                  color: currentIndex == 1 ? Colors.white : AppColors.primary,
                   borderRadius: BorderRadius.circular(60),
                   child: InkWell(
                     borderRadius: BorderRadius.circular(60),
@@ -115,13 +122,20 @@ class _MainPageState extends State<MainPage> {
                           'images/history.svg',
                           semanticsLabel: 'SVG label',
                           colorFilter: ColorFilter.mode(
-                              AppColors.primary, BlendMode.srcIn),
+                            currentIndex == 1
+                                ? AppColors.primary
+                                : Colors.white,
+                            BlendMode.srcIn,
+                          ),
                         ),
                         Text(
                           'ประวัติซื้อ',
                           style: TextStyle(
                             fontSize: 12,
-                            color: AppColors.primary,
+                            fontWeight: FontWeight.bold,
+                            color: currentIndex == 1
+                                ? AppColors.primary
+                                : Colors.white,
                           ),
                         ),
                       ],

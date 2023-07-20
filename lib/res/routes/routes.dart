@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:lottery/res/routes/routes_name.dart';
 import 'package:lottery/view/TC.dart';
+import 'package:lottery/view/animal.dart';
 import 'package:lottery/view/forget_password.dart';
 import 'package:lottery/view/home.dart';
 import 'package:lottery/view/login.dart';
@@ -85,6 +86,12 @@ class AppRoutes {
           name: RouteName.user_info,
           page: () => UserInfoPage(),
           transition: Transition.rightToLeft,
+          transitionDuration: const Duration(milliseconds: 250),
+        ),
+        GetPage(
+          name: RouteName.animal,
+          page: () => AnimalPage(),
+          transition: Transition.downToUp,
           transitionDuration: const Duration(milliseconds: 250),
         ),
       ];

@@ -310,12 +310,29 @@ class AppwriteService {
   Future<dynamic> getAds() async {
     try {
       final response = await databases.listDocuments(
-        databaseId: 'lotto',
-        collectionId: 'ads',
-      );
+          databaseId: 'lotto',
+          collectionId: 'ads',
+          queries: [
+            Query.greaterThanEqual('endDate', DateTime.now().toUtc().toString())
+          ]);
       return response;
     } catch (e) {
       print('error getAds: $e');
+      return false;
+    }
+  }
+
+  Future<dynamic> getNews() async {
+    try {
+      final response = await databases
+          .listDocuments(databaseId: 'lotto', collectionId: 'news', queries: [
+        Query.greaterThanEqual('endDate', DateTime.now().toUtc().toString()),
+        Query.orderDesc('endDate'),
+        Query.limit(3),
+      ]);
+      return response;
+    } catch (e) {
+      print('error getNews 327: $e');
       return false;
     }
   }

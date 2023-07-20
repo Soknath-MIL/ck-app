@@ -11,4 +11,5 @@ class RouteName {
   static const String reset_password = '/reset_password';
   static const String notification = '/notification';
   static const String user_info = '/user_info';
+  static const String animal = '/animal';
 }

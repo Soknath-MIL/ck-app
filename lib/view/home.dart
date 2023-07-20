@@ -9,6 +9,7 @@ import 'package:lottery/res/components/buybox.dart';
 import 'package:lottery/res/components/countdown.dart';
 import 'package:lottery/res/dimens.dart';
 import 'package:lottery/res/images/logo.dart';
+import 'package:lottery/res/routes/routes_name.dart';
 import 'package:lottery/view/buy_confirm.dart';
 import 'package:lottery/view/history.dart';
 import 'package:lottery/view_models/home_view_model.dart';
@@ -39,8 +40,11 @@ class _HomeViewState extends State<HomeView>
   @override
   void initState() {
     // TODO: implement initState
-    _homeViewModel.getAds();
+    if (_homeViewModel.imagesURL.length == 0) {
+      _homeViewModel.getAds();
+    }
     _homeViewModel.getLotteryDate();
+    _homeViewModel.getNews();
     super.initState();
   }
 
@@ -68,18 +72,6 @@ class _HomeViewState extends State<HomeView>
                     //     126,
                     child: ListView(
                       children: [
-                        // CachedNetworkImage(
-                        //   imageUrl:
-                        //       'https://ck.moevedigital.com/v1/storage/buckets/6491ce1131561710ddb5/files/649dacc62103a19a7754/view?project=CKLOTTO88',
-                        //   progressIndicatorBuilder: (context, url, progress) =>
-                        //       Center(
-                        //     child: CircularProgressIndicator(
-                        //       value: progress.progress,
-                        //     ),
-                        //   ),
-                        //   errorWidget: (context, url, error) =>
-                        //       Icon(Icons.error),
-                        // ),
                         Obx(() {
                           if (_homeViewModel.imagesURL.isEmpty) {
                             return Container(
@@ -175,62 +167,123 @@ class _HomeViewState extends State<HomeView>
                         ),
                         Row(
                           children: [
-                            Expanded(
-                              flex: 2,
-                              child: Container(
-                                color: Colors.amber,
-                                height: 250,
+                            Obx(
+                              () => Container(
+                                color: Colors.white,
+                                height: 230,
+                                width: MediaQuery.of(context).size.width * 0.6 -
+                                    22,
+                                child: _homeViewModel.newsImageURL.length > 0
+                                    ? CachedNetworkImage(
+                                        fit: BoxFit.cover,
+                                        imageUrl:
+                                            _homeViewModel.newsImageURL[0],
+                                        progressIndicatorBuilder:
+                                            (context, url, progress) => Center(
+                                          child: CircularProgressIndicator(
+                                            value: progress.progress,
+                                          ),
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
+                                      )
+                                    : Icon(
+                                        Icons.photo_library,
+                                        size: 32,
+                                      ),
                               ),
                             ),
-                            SizedBox(width: 12),
-                            Expanded(
-                              child: Container(
-                                // color: Colors.blue,
-                                height: 250,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Expanded(
-                                      flex: 1,
-                                      child: Container(
-                                        color: Colors.red,
-                                      ),
+                            SizedBox(width: 4),
+                            Container(
+                              // color: Colors.blue,
+                              width:
+                                  MediaQuery.of(context).size.width * 0.4 - 22,
+                              height: 230,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Obx(
+                                    () => Container(
+                                      height: 113,
+                                      color: Colors.white,
+                                      child:
+                                          _homeViewModel.newsImageURL.length > 1
+                                              ? CachedNetworkImage(
+                                                  imageUrl: _homeViewModel
+                                                      .newsImageURL[1],
+                                                  progressIndicatorBuilder:
+                                                      (context, url,
+                                                              progress) =>
+                                                          Center(
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      value: progress.progress,
+                                                    ),
+                                                  ),
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(Icons.error),
+                                                )
+                                              : Icon(
+                                                  Icons.photo_library,
+                                                  size: 32,
+                                                ),
                                     ),
-                                    SizedBox(height: 12),
-                                    Expanded(
-                                      flex: 1,
-                                      child: Container(
-                                        color: Colors.blue,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                  SizedBox(height: 4),
+                                  Obx(() => Container(
+                                        height: 113,
+                                        color: Colors.white,
+                                        child: _homeViewModel
+                                                    .newsImageURL.length >
+                                                2
+                                            ? CachedNetworkImage(
+                                                imageUrl: _homeViewModel
+                                                    .newsImageURL[2],
+                                                progressIndicatorBuilder:
+                                                    (context, url, progress) =>
+                                                        Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    value: progress.progress,
+                                                  ),
+                                                ),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        Icon(Icons.error),
+                                              )
+                                            : Icon(
+                                                Icons.photo_library,
+                                                size: 32,
+                                              ),
+                                      )),
+                                ],
                               ),
                             ),
                           ],
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Image(
-                              image: AssetImage(
-                                'images/news1.png',
-                              ),
-                            ),
-                            Column(
-                              children: [
-                                Image(
-                                  image: AssetImage('images/news2.png'),
-                                ),
-                                SizedBox(height: 10),
-                                Image(
-                                  image: AssetImage('images/news3.png'),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 12),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     Image(
+                        //       image: AssetImage(
+                        //         'images/news1.png',
+                        //       ),
+                        //     ),
+                        //     Column(
+                        //       children: [
+                        //         Image(
+                        //           image: AssetImage('images/news2.png'),
+                        //         ),
+                        //         SizedBox(height: 10),
+                        //         Image(
+                        //           image: AssetImage('images/news3.png'),
+                        //         ),
+                        //       ],
+                        //     ),
+                        //   ],
+                        // ),
+                        // SizedBox(height: 12),
                       ],
                     ),
                   ),
@@ -263,6 +316,9 @@ class _HomeViewState extends State<HomeView>
                         setState(() {
                           isOpenBuyConfirm = true;
                         });
+                      },
+                      onTabAnimal: () {
+                        Get.toNamed(RouteName.animal);
                       },
                     ),
                   )

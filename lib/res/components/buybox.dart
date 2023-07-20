@@ -16,6 +16,7 @@ class BuyBox extends StatefulWidget {
   void Function(String value)? onChangePrice;
   void Function()? onTabAdd;
   void Function()? onSubmit;
+  void Function()? onTabAnimal;
   // void Function(int index)? onDeleteItem;
 
   BuyBox({
@@ -32,6 +33,7 @@ class BuyBox extends StatefulWidget {
     this.onSubmit,
     this.lotteryInputController,
     this.priceInputController,
+    this.onTabAnimal,
     // this.onDeleteItem,
   });
 
@@ -105,9 +107,7 @@ class _BuyBoxState extends State<BuyBox> {
                                 AppColors.primaryOverlay),
                             highlightColor: AppColors.primaryHighlight,
                             borderRadius: BorderRadius.circular(52),
-                            onTap: () {
-                              print('click');
-                            },
+                            onTap: widget.onTabAnimal,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

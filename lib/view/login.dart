@@ -46,14 +46,14 @@ class _LoginViewState extends State<LoginView> {
               child: Center(
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: marginTop.height * 0.03,
-                    ),
+                    // SizedBox(
+                    //   height: marginTop.height * 0.00,
+                    // ),
                     const Image(
                       image: AssetImage(Logo.ckGroup),
                     ),
                     const SizedBox(
-                      height: 34,
+                      height: 24,
                     ),
                     Container(
                       alignment: Alignment.topLeft,

@@ -151,7 +151,7 @@ class _MainPageState extends State<MainPage> {
                     // borderRadius: BorderRadius.circular(60),
                     ),
                 child: Material(
-                  color: Colors.white,
+                  color: currentIndex == 2 ? Colors.white : AppColors.primary,
                   borderRadius: BorderRadius.circular(60),
                   child: InkWell(
                     borderRadius: BorderRadius.circular(60),
@@ -167,13 +167,18 @@ class _MainPageState extends State<MainPage> {
                           'images/lottery_history.svg',
                           semanticsLabel: 'SVG label',
                           colorFilter: ColorFilter.mode(
-                              AppColors.primary, BlendMode.srcIn),
+                              currentIndex == 2
+                                  ? AppColors.primary
+                                  : Colors.white,
+                              BlendMode.srcIn),
                         ),
                         Text(
-                          'ประวัติซื้อ',
+                          'ผลหวย',
                           style: TextStyle(
                             fontSize: 12,
-                            color: AppColors.primary,
+                            color: currentIndex == 2
+                                ? AppColors.primary
+                                : Colors.white,
                           ),
                         ),
                       ],
@@ -189,7 +194,7 @@ class _MainPageState extends State<MainPage> {
                     // borderRadius: BorderRadius.circular(60),
                     ),
                 child: Material(
-                  color: Colors.white,
+                  color: currentIndex == 3 ? Colors.white : AppColors.primary,
                   borderRadius: BorderRadius.circular(60),
                   child: InkWell(
                     borderRadius: BorderRadius.circular(60),
@@ -203,13 +208,17 @@ class _MainPageState extends State<MainPage> {
                       children: [
                         Icon(
                           Icons.notification_add,
-                          color: AppColors.primary,
+                          color: currentIndex == 3
+                              ? AppColors.primary
+                              : Colors.white,
                         ),
                         Text(
                           'แจ้งเตือน',
                           style: TextStyle(
                             fontSize: 12,
-                            color: AppColors.primary,
+                            color: currentIndex == 3
+                                ? AppColors.primary
+                                : Colors.white,
                           ),
                         ),
                       ],
@@ -225,7 +234,7 @@ class _MainPageState extends State<MainPage> {
                     // borderRadius: BorderRadius.circular(60),
                     ),
                 child: Material(
-                  color: Colors.white,
+                  color: currentIndex == 4 ? Colors.white : AppColors.primary,
                   borderRadius: BorderRadius.circular(60),
                   child: InkWell(
                     borderRadius: BorderRadius.circular(60),
@@ -241,13 +250,18 @@ class _MainPageState extends State<MainPage> {
                           'images/setting.svg',
                           semanticsLabel: 'SVG label',
                           colorFilter: ColorFilter.mode(
-                              AppColors.primary, BlendMode.srcIn),
+                              currentIndex == 4
+                                  ? AppColors.primary
+                                  : Colors.white,
+                              BlendMode.srcIn),
                         ),
                         Text(
                           'ตั้งค่า',
                           style: TextStyle(
                             fontSize: 12,
-                            color: AppColors.primary,
+                            color: currentIndex == 4
+                                ? AppColors.primary
+                                : Colors.white,
                           ),
                         ),
                       ],

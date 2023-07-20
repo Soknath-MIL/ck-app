@@ -13,6 +13,7 @@ class HomeViewModel extends GetxController {
   final price = ''.obs;
   final imagesURL = [].obs;
   final lotteryDate = DateTime.now().add(const Duration(minutes: 2)).obs;
+  final newsImageURL = [].obs;
 
   void onChangeLottery(String value) {
     lottery.value = value;
@@ -144,6 +145,7 @@ class HomeViewModel extends GetxController {
         print('response 143 ${response.statusCode}');
         if (response.statusCode == 200) {
           imagesURL.add(result['url']);
+          print('in loop');
         }
         // if (images.isNotEmpty) {
         //   images.forEach((data) {
@@ -152,10 +154,29 @@ class HomeViewModel extends GetxController {
         //   // images.add(value)
         // }
       });
+      // print('image length: ${imagesURL.length}');
       return imagesURL;
     } catch (e) {
       print('error getAds 135: $e');
       return [];
+    }
+  }
+
+  Future<void> getNews() async {
+    try {
+      DocumentList response = await AppwriteService().getNews();
+      response.documents.forEach((document) async {
+        // print('169 data: ${document.data}');
+        final images = document.data['image'];
+        final result = jsonDecode(images[0]);
+        final response = await http.head(Uri.parse(result['url']));
+        if (response.statusCode == 200) {
+          newsImageURL.add(result['url']);
+        }
+        // newsImageURL
+      });
+    } catch (e) {
+      print('error getNews 168 $e');
     }
   }
 

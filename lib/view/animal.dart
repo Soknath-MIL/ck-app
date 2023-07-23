@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lottery/res/color.dart';
 
 class AnimalPage extends StatefulWidget {
@@ -212,6 +213,7 @@ class _AnimalPageState extends State<AnimalPage> {
       "lotteries": ["92", "51", "21"],
     },
   ];
+  void Function(List<String> lotterise) onClickBuy = Get.arguments[0];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -248,7 +250,7 @@ class _AnimalPageState extends State<AnimalPage> {
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
       body: SafeArea(
@@ -315,7 +317,10 @@ class _AnimalPageState extends State<AnimalPage> {
                       SizedBox(height: 8),
                       Material(
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            onClickBuy(animal['lotteries'] as List<String>);
+                            Navigator.of(context).pop();
+                          },
                           child: Container(
                             alignment: Alignment.center,
                             decoration: BoxDecoration(

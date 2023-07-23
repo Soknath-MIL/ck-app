@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
+import 'package:lottery/main.dart';
 import 'package:lottery/res/color.dart';
 import 'package:lottery/res/components/buybox.dart';
 import 'package:lottery/res/components/countdown.dart';
@@ -13,6 +14,7 @@ import 'package:lottery/res/routes/routes_name.dart';
 import 'package:lottery/view/buy_confirm.dart';
 import 'package:lottery/view/history.dart';
 import 'package:lottery/view_models/home_view_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeView extends StatefulWidget {
   // final int? activeTab;
@@ -48,6 +50,7 @@ class _HomeViewState extends State<HomeView>
     super.initState();
   }
 
+  bool isTH = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,6 +62,23 @@ class _HomeViewState extends State<HomeView>
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  // Text(AppLocalizations.of(context).sawanon),
+                  // ElevatedButton(
+                  //   onPressed: () {
+                  //     List<Locale> languages = [
+                  //       Locale('lo'),
+                  //       Locale('th'),
+                  //     ];
+                  //     MyApp.setLocale(
+                  //       context,
+                  //       isTH ? languages[0] : languages[1],
+                  //     );
+                  //     setState(() {
+                  //       isTH = !isTH;
+                  //     });
+                  //   },
+                  //   child: Text('change language'),
+                  // ),
                   // ElevatedButton(
                   //   onPressed: () {
                   //     // _homeViewModel.getLotteryDate();
@@ -205,10 +225,12 @@ class _HomeViewState extends State<HomeView>
                                   Obx(
                                     () => Container(
                                       height: 113,
+                                      width: MediaQuery.of(context).size.width,
                                       color: Colors.white,
                                       child:
                                           _homeViewModel.newsImageURL.length > 1
                                               ? CachedNetworkImage(
+                                                  fit: BoxFit.cover,
                                                   imageUrl: _homeViewModel
                                                       .newsImageURL[1],
                                                   progressIndicatorBuilder:
@@ -233,6 +255,8 @@ class _HomeViewState extends State<HomeView>
                                   SizedBox(height: 4),
                                   Obx(() => Container(
                                         height: 113,
+                                        width:
+                                            MediaQuery.of(context).size.width,
                                         color: Colors.white,
                                         child: _homeViewModel
                                                     .newsImageURL.length >
@@ -318,7 +342,20 @@ class _HomeViewState extends State<HomeView>
                         });
                       },
                       onTabAnimal: () {
-                        Get.toNamed(RouteName.animal);
+                        Get.toNamed(RouteName.animal, arguments: [
+                          (List<String> lotterise) {
+                            print('323: $lotterise');
+                            for (var i = 0; i < lotterise.length; i++) {
+                              _homeViewModel.appendLottery(
+                                lotterise[i],
+                                '1000',
+                              );
+                            }
+                            setState(() {
+                              isOpenDialog = true;
+                            });
+                          }
+                        ]);
                       },
                     ),
                   )
@@ -556,6 +593,22 @@ class _HomeViewState extends State<HomeView>
                             });
                             _lotteryInputNodeDialog.unfocus();
                             _lotteryInputNodePriceDialog.unfocus();
+                          },
+                          onTabAnimal: () {
+                            Get.toNamed(RouteName.animal, arguments: [
+                              (List<String> lotterise) {
+                                print('323: $lotterise');
+                                for (var i = 0; i < lotterise.length; i++) {
+                                  _homeViewModel.appendLottery(
+                                    lotterise[i],
+                                    '1000',
+                                  );
+                                }
+                                setState(() {
+                                  isOpenDialog = true;
+                                });
+                              }
+                            ]);
                           },
                         )),
                   ],

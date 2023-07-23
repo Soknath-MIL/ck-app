@@ -2,9 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:lottery/main.dart';
 import 'package:lottery/res/color.dart';
 import 'package:lottery/res/routes/routes_name.dart';
 import 'package:lottery/view_models/setting_view_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -135,44 +137,154 @@ class _SettingPageState extends State<SettingPage> {
                         ),
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 18),
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
+                    SizedBox(height: 18),
+                    Material(
+                      color: AppColors.blueeffcff,
+                      borderRadius: BorderRadius.circular(6),
+                      child: InkWell(
                         borderRadius: BorderRadius.circular(6),
-                        color: AppColors.blueeffcff,
-                      ),
-                      width: MediaQuery.of(context).size.width,
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 54,
-                            height: 54,
-                            padding: EdgeInsets.all(2),
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Color.fromRGBO(0, 209, 255, 1),
-                                  Color.fromRGBO(255, 194, 36, 1),
-                                ],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
+                        overlayColor: MaterialStateProperty.all<Color>(
+                          Color.fromRGBO(190, 238, 249, 1),
+                        ),
+                        onTap: () {
+                          showModalBottomSheet(
+                            barrierColor: Colors.transparent,
+                            context: context,
+                            builder: (context) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(30),
+                                      topRight: Radius.circular(30)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 10,
+                                      offset: Offset(0, -2),
+                                    )
+                                  ],
+                                ),
+                                padding: EdgeInsets.all(40),
+                                width: MediaQuery.of(context).size.width,
+                                child: Wrap(
+                                  alignment: WrapAlignment.center,
+                                  children: [
+                                    Text(
+                                      AppLocalizations.of(context)
+                                          .changeLanguageTitle,
+                                      style: TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color.fromRGBO(89, 89, 89, 1),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(top: 24),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  MyApp.setLocale(
+                                                    context,
+                                                    Locale('lo'),
+                                                  );
+                                                },
+                                                child: Image(
+                                                  image: AssetImage(
+                                                      "images/laos.png"),
+                                                ),
+                                              ),
+                                              SizedBox(height: 12),
+                                              Text('ภาษาลาว'),
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  MyApp.setLocale(
+                                                    context,
+                                                    Locale('th'),
+                                                  );
+                                                },
+                                                child: Image(
+                                                  image: AssetImage(
+                                                      "images/Th.png"),
+                                                ),
+                                              ),
+                                              SizedBox(height: 12),
+                                              Text('ภาษาไทย'),
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  MyApp.setLocale(
+                                                    context,
+                                                    Locale('en'),
+                                                  );
+                                                },
+                                                child: Image(
+                                                  image: AssetImage(
+                                                      "images/US.png"),
+                                                ),
+                                              ),
+                                              SizedBox(height: 12),
+                                              Text('ภาษาอังกฤษ'),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(8),
+                          width: MediaQuery.of(context).size.width,
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 54,
+                                height: 54,
+                                padding: EdgeInsets.all(2),
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Color.fromRGBO(0, 209, 255, 1),
+                                      Color.fromRGBO(255, 194, 36, 1),
+                                    ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                  borderRadius: BorderRadius.circular(100),
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(54),
+                                  ),
+                                  padding: EdgeInsets.all(12),
+                                  width: MediaQuery.of(context).size.width,
+                                  child:
+                                      SvgPicture.asset('images/translate.svg'),
+                                ),
                               ),
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(54),
-                              ),
-                              padding: EdgeInsets.all(12),
-                              width: MediaQuery.of(context).size.width,
-                              child: SvgPicture.asset('images/translate.svg'),
-                            ),
+                              SizedBox(width: 14),
+                              Text(AppLocalizations.of(context).changeLanguage),
+                            ],
                           ),
-                          SizedBox(width: 14),
-                          Text('เปลี่ยนภาษา'),
-                        ],
+                        ),
                       ),
                     ),
                     Container(

@@ -369,4 +369,58 @@ class AppwriteService {
       return false;
     }
   }
+
+  Future<dynamic> createFeedback(String rate, String comment) async {
+    try {
+      final user = await account.get();
+      final response = await databases.createDocument(
+        databaseId: 'lotto',
+        collectionId: 'feedback',
+        documentId: ID.unique(),
+        data: {
+          "rate": rate,
+          "comment": comment,
+          "date": DateTime.now().toUtc().toString(),
+          "users": user.$id,
+        },
+      );
+      return response;
+    } catch (e) {
+      print('error createFeedback 377: $e');
+      return false;
+    }
+  }
+
+  Future<dynamic> getHistory() async {
+    try {
+      // final user = await account.get();
+      final lotteryDates = await databases.listDocuments(
+        databaseId: 'lotto',
+        collectionId: 'lottery_date',
+        queries: [
+          Query.equal('isDelete', false),
+        ],
+      );
+      print('lotteryDate: ${lotteryDates.documents}');
+      List<String> collectionNames = [];
+      for (var i = 0; i < lotteryDates.documents.length; i++) {
+        final lotteryDate = lotteryDates.documents[i];
+        final parsed = DateTime.parse(lotteryDate.data['date']).toLocal();
+        print('parse 408: ${parsed}');
+        final collectionName =
+            '${parsed.year}${parsed.month.toString().padLeft(2, '0')}${parsed.day.toString().padLeft(2, '0')}_invoice';
+        print('collectionName: $collectionName');
+        collectionNames.add(collectionName);
+      }
+      return collectionNames;
+      // final response = await databases.getDocument(
+      //   databaseId: 'lotto',
+      //   collectionId: '',
+      //   documentId: documentId,
+      // );
+    } catch (e) {
+      print('getHistory error 396: $e');
+      return false;
+    }
+  }
 }

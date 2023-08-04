@@ -238,10 +238,10 @@ class _LoginViewState extends State<LoginView> {
                         // Get.toNamed(RouteName.home_view);
                         // AppwriteService().createUser();
                         // TODO: uncomment on production
-                        // if (_formKey.currentState!.validate()) {
-                        print('click: login 167');
-                        _loginViewModel.loginWithPhoneAndPassword();
-                        // }
+                        if (_formKey.currentState!.validate()) {
+                          print('click: login 167');
+                          _loginViewModel.loginWithPhoneAndPassword();
+                        }
                       },
                       child: Text(
                         'ເຂົ້າສູ່ລະບົບ',

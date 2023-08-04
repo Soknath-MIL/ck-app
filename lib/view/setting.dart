@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:lottery/main.dart';
@@ -287,44 +288,188 @@ class _SettingPageState extends State<SettingPage> {
                         ),
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 2),
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
+                    Material(
+                      color: AppColors.blueeffcff,
+                      borderRadius: BorderRadius.circular(6),
+                      child: InkWell(
+                        overlayColor: MaterialStateProperty.all<Color>(
+                          Color.fromRGBO(190, 238, 249, 1),
+                        ),
                         borderRadius: BorderRadius.circular(6),
-                        color: AppColors.blueeffcff,
-                      ),
-                      width: MediaQuery.of(context).size.width,
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 54,
-                            height: 54,
-                            padding: EdgeInsets.all(2),
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Color.fromRGBO(0, 209, 255, 1),
-                                  Color.fromRGBO(255, 194, 36, 1),
-                                ],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(54),
-                              ),
-                              padding: EdgeInsets.all(12),
-                              width: MediaQuery.of(context).size.width,
-                              child: SvgPicture.asset('images/likeshapes.svg'),
-                            ),
+                        onTap: () {
+                          showModalBottomSheet(
+                            barrierColor: Colors.transparent,
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (context) {
+                              return Container(
+                                // height:
+                                //     MediaQuery.of(context).size.height * 0.8,
+                                padding: EdgeInsets.only(
+                                  top: 20,
+                                  right: 20,
+                                  bottom:
+                                      MediaQuery.of(context).viewInsets.bottom +
+                                          20,
+                                  left: 20,
+                                ),
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(30),
+                                      topRight: Radius.circular(30),
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        spreadRadius: 2,
+                                        blurRadius: 10,
+                                        color: Colors.grey.withOpacity(0.5),
+                                        offset: Offset(0, 0),
+                                      )
+                                    ]),
+                                child: Wrap(
+                                  children: [
+                                    Center(
+                                      child: Text(
+                                        'แนะนำบริการ',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(top: 14),
+                                      child: Center(
+                                        child: RatingBar(
+                                          initialRating: 5,
+                                          direction: Axis.horizontal,
+                                          allowHalfRating: true,
+                                          itemCount: 5,
+                                          ratingWidget: RatingWidget(
+                                            full: Image(
+                                                image: AssetImage(
+                                                    'images/star.png')),
+                                            half: Image(
+                                                image: AssetImage(
+                                                    'images/starhalf.png')),
+                                            empty: Image(
+                                                image: AssetImage(
+                                                    'images/starempty.png')),
+                                          ),
+                                          itemPadding: EdgeInsets.symmetric(
+                                              horizontal: 4.0),
+                                          onRatingUpdate: (rating) {
+                                            _settingViewModel.onChangeRating(
+                                                rating.toString());
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(top: 20),
+                                      child: TextFormField(
+                                        maxLines: 8,
+                                        decoration: InputDecoration(
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color.fromRGBO(
+                                                  218, 218, 218, 1),
+                                              width: 1,
+                                            ),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color.fromRGBO(
+                                                  218, 218, 218, 1),
+                                              width: 1,
+                                            ),
+                                          ),
+                                          filled: true,
+                                          fillColor: Colors.white,
+                                        ),
+                                        onChanged: (value) {
+                                          _settingViewModel
+                                              .onChangeComment(value);
+                                        },
+                                      ),
+                                    ),
+                                    Container(
+                                      margin:
+                                          EdgeInsets.only(top: 24, bottom: 16),
+                                      child: Material(
+                                        color: Color.fromRGBO(0, 117, 255, 1),
+                                        borderRadius: BorderRadius.circular(16),
+                                        child: InkWell(
+                                          onTap: () {
+                                            _settingViewModel
+                                                .submitFeedback(context);
+                                          },
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            height: 52,
+                                            child: Text(
+                                              'ตกลง',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(top: 2),
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6),
                           ),
-                          SizedBox(width: 14),
-                          Text('แนะนำให้บริการ'),
-                        ],
+                          width: MediaQuery.of(context).size.width,
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 54,
+                                height: 54,
+                                padding: EdgeInsets.all(2),
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Color.fromRGBO(0, 209, 255, 1),
+                                      Color.fromRGBO(255, 194, 36, 1),
+                                    ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                  borderRadius: BorderRadius.circular(100),
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(54),
+                                  ),
+                                  padding: EdgeInsets.all(12),
+                                  width: MediaQuery.of(context).size.width,
+                                  child:
+                                      SvgPicture.asset('images/likeshapes.svg'),
+                                ),
+                              ),
+                              SizedBox(width: 14),
+                              Text('แนะนำให้บริการ'),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                     Container(

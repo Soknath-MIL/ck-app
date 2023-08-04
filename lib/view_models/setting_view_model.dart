@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:lottery/data/services/appwrite_service.dart';
 
@@ -5,6 +6,9 @@ class SettingViewModel extends GetxController {
   final name = ''.obs;
   final tel = ''.obs;
   final email = ''.obs;
+
+  final rating = ''.obs;
+  final comment = ''.obs;
 
   Future<void> logout() async {
     await AppwriteService().logoutUser();
@@ -20,6 +24,29 @@ class SettingViewModel extends GetxController {
       email.value = response['email'];
     } catch (e) {
       print('error getUserInfo 18');
+    }
+  }
+
+  void onChangeRating(String value) {
+    rating.value = value;
+  }
+
+  void onChangeComment(String value) {
+    comment.value = value;
+  }
+
+  Future<void> submitFeedback(context) async {
+    try {
+      print('rating ${rating.value}');
+      print('comment: ${comment.value}');
+      final response = await AppwriteService().createFeedback(
+        rating.value,
+        comment.value,
+      );
+      print('submitFeedback: response 44 $response');
+      Navigator.pop(context);
+    } catch (e) {
+      print('submitFeedback error 48: $e');
     }
   }
 }

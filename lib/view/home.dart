@@ -8,6 +8,7 @@ import 'package:lottery/main.dart';
 import 'package:lottery/res/color.dart';
 import 'package:lottery/res/components/buybox.dart';
 import 'package:lottery/res/components/countdown.dart';
+import 'package:lottery/res/components/random.dart';
 import 'package:lottery/res/dimens.dart';
 import 'package:lottery/res/images/logo.dart';
 import 'package:lottery/res/routes/routes_name.dart';
@@ -357,6 +358,15 @@ class _HomeViewState extends State<HomeView>
                           }
                         ]);
                       },
+                      onTabRandom: () {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) {
+                            return RandomLottery();
+                          },
+                        );
+                      },
                     ),
                   )
                 ],
@@ -609,6 +619,22 @@ class _HomeViewState extends State<HomeView>
                                 });
                               }
                             ]);
+                          },
+                          onTabRandom: () {
+                            print('614');
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Container(
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text('Close'),
+                                  ),
+                                );
+                              },
+                            );
                           },
                         )),
                   ],

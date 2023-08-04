@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lottery/res/color.dart';
 import 'package:lottery/view/history_buy.dart';
 import 'package:lottery/view/history_win.dart';
+import 'package:lottery/view_models/history_view_model.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});
@@ -12,6 +14,14 @@ class HistoryPage extends StatefulWidget {
 }
 
 class _HistoryPageState extends State<HistoryPage> {
+  HistoryViewModel _historyViewModel = Get.put(HistoryViewModel());
+
+  @override
+  void initState() {
+    _historyViewModel.getHistory();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

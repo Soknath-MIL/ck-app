@@ -7,6 +7,7 @@ import 'package:lottery/view/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:upgrader/upgrader.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -70,7 +71,9 @@ class _MyAppState extends State<MyApp> {
       ],
       supportedLocales: AppLocalizations.supportedLocales,
       locale: _locale,
-      home: const SplashScreen(),
+      home: UpgradeAlert(
+        child: SplashScreen(),
+      ),
       getPages: AppRoutes.appRoutes(),
       debugShowCheckedModeBanner: false,
     );

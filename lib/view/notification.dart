@@ -66,10 +66,6 @@ class _NotificationPageState extends State<NotificationPage> {
             ),
             child: Row(
               children: [
-                ElevatedButton(
-                  onPressed: () {},
-                  child: Text('data'),
-                ),
                 Container(
                   width: 90,
                   height: 90,

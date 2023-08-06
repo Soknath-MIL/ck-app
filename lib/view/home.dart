@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -24,8 +26,7 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView>
-    with SingleTickerProviderStateMixin {
+class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin {
   final HomeViewModel _homeViewModel = Get.put(HomeViewModel());
   bool isOpenDialog = false;
   bool isOpenRemoveAll = false;
@@ -107,14 +108,12 @@ class _HomeViewState extends State<HomeView>
                                   width: MediaQuery.of(context).size.width,
                                   child: CachedNetworkImage(
                                     imageUrl: element,
-                                    progressIndicatorBuilder:
-                                        (context, url, progress) => Center(
+                                    progressIndicatorBuilder: (context, url, progress) => Center(
                                       child: CircularProgressIndicator(
                                         value: progress.progress,
                                       ),
                                     ),
-                                    errorWidget: (context, url, error) =>
-                                        Icon(Icons.error),
+                                    errorWidget: (context, url, error) => Icon(Icons.error),
                                   ),
                                   // child: Image.network(
                                   //   element,
@@ -192,21 +191,17 @@ class _HomeViewState extends State<HomeView>
                               () => Container(
                                 color: Colors.white,
                                 height: 230,
-                                width: MediaQuery.of(context).size.width * 0.6 -
-                                    22,
+                                width: MediaQuery.of(context).size.width * 0.6 - 22,
                                 child: _homeViewModel.newsImageURL.length > 0
                                     ? CachedNetworkImage(
                                         fit: BoxFit.cover,
-                                        imageUrl:
-                                            _homeViewModel.newsImageURL[0],
-                                        progressIndicatorBuilder:
-                                            (context, url, progress) => Center(
+                                        imageUrl: _homeViewModel.newsImageURL[0],
+                                        progressIndicatorBuilder: (context, url, progress) => Center(
                                           child: CircularProgressIndicator(
                                             value: progress.progress,
                                           ),
                                         ),
-                                        errorWidget: (context, url, error) =>
-                                            Icon(Icons.error),
+                                        errorWidget: (context, url, error) => Icon(Icons.error),
                                       )
                                     : Icon(
                                         Icons.photo_library,
@@ -217,8 +212,7 @@ class _HomeViewState extends State<HomeView>
                             SizedBox(width: 4),
                             Container(
                               // color: Colors.blue,
-                              width:
-                                  MediaQuery.of(context).size.width * 0.4 - 22,
+                              width: MediaQuery.of(context).size.width * 0.4 - 22,
                               height: 230,
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
@@ -228,54 +222,37 @@ class _HomeViewState extends State<HomeView>
                                       height: 113,
                                       width: MediaQuery.of(context).size.width,
                                       color: Colors.white,
-                                      child:
-                                          _homeViewModel.newsImageURL.length > 1
-                                              ? CachedNetworkImage(
-                                                  fit: BoxFit.cover,
-                                                  imageUrl: _homeViewModel
-                                                      .newsImageURL[1],
-                                                  progressIndicatorBuilder:
-                                                      (context, url,
-                                                              progress) =>
-                                                          Center(
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                      value: progress.progress,
-                                                    ),
-                                                  ),
-                                                  errorWidget:
-                                                      (context, url, error) =>
-                                                          Icon(Icons.error),
-                                                )
-                                              : Icon(
-                                                  Icons.photo_library,
-                                                  size: 32,
+                                      child: _homeViewModel.newsImageURL.length > 1
+                                          ? CachedNetworkImage(
+                                              fit: BoxFit.cover,
+                                              imageUrl: _homeViewModel.newsImageURL[1],
+                                              progressIndicatorBuilder: (context, url, progress) => Center(
+                                                child: CircularProgressIndicator(
+                                                  value: progress.progress,
                                                 ),
+                                              ),
+                                              errorWidget: (context, url, error) => Icon(Icons.error),
+                                            )
+                                          : Icon(
+                                              Icons.photo_library,
+                                              size: 32,
+                                            ),
                                     ),
                                   ),
                                   SizedBox(height: 4),
                                   Obx(() => Container(
                                         height: 113,
-                                        width:
-                                            MediaQuery.of(context).size.width,
+                                        width: MediaQuery.of(context).size.width,
                                         color: Colors.white,
-                                        child: _homeViewModel
-                                                    .newsImageURL.length >
-                                                2
+                                        child: _homeViewModel.newsImageURL.length > 2
                                             ? CachedNetworkImage(
-                                                imageUrl: _homeViewModel
-                                                    .newsImageURL[2],
-                                                progressIndicatorBuilder:
-                                                    (context, url, progress) =>
-                                                        Center(
-                                                  child:
-                                                      CircularProgressIndicator(
+                                                imageUrl: _homeViewModel.newsImageURL[2],
+                                                progressIndicatorBuilder: (context, url, progress) => Center(
+                                                  child: CircularProgressIndicator(
                                                     value: progress.progress,
                                                   ),
                                                 ),
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        Icon(Icons.error),
+                                                errorWidget: (context, url, error) => Icon(Icons.error),
                                               )
                                             : Icon(
                                                 Icons.photo_library,
@@ -315,10 +292,8 @@ class _HomeViewState extends State<HomeView>
                   Container(
                     height: AppDimension.buyboxHeigh,
                     child: BuyBox(
-                      totalPrice: _homeViewModel.arrLottery.fold(
-                          0,
-                          (previousValue, element) =>
-                              previousValue! + int.parse(element['price']!)),
+                      totalPrice: _homeViewModel.arrLottery
+                          .fold(0, (previousValue, element) => previousValue! + int.parse(element['price']!)),
                       lotteryInputNode: _lotteryInputNode,
                       lotteryInputNodePrice: _lotteryInputNodePrice,
                       lotteryInputController: _lotteryInputController,
@@ -363,7 +338,23 @@ class _HomeViewState extends State<HomeView>
                           context: context,
                           barrierDismissible: false,
                           builder: (context) {
-                            return RandomLottery();
+                            return RandomLottery(
+                              onSubmit: (loteryType, qty, price) {
+                                print('loteryType: $loteryType qty: $qty price: $price');
+                                final rng = Random();
+                                List<String> lottery = [];
+                                while (lottery.length < qty) {
+                                  final randomValue = rng.nextInt(100).toString();
+                                  final lotteryThisLoop = randomValue.length == 1 ? '0$randomValue' : randomValue;
+                                  print('per loop $lotteryThisLoop');
+                                  lottery.addIf(
+                                    lottery.where((element) => element.contains(lotteryThisLoop)).toList().isEmpty,
+                                    lotteryThisLoop,
+                                  );
+                                }
+                                print('lottery: $lottery');
+                              },
+                            );
                           },
                         );
                       },
@@ -413,8 +404,7 @@ class _HomeViewState extends State<HomeView>
                                 // color: Colors.amber,
                                 padding: EdgeInsets.symmetric(horizontal: 10),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'ເລກທີ່ເລືອກ',
@@ -431,24 +421,18 @@ class _HomeViewState extends State<HomeView>
                                           width: 46,
                                           height: 32,
                                           decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
+                                              borderRadius: BorderRadius.circular(10),
                                               border: Border.all(
                                                 color: Colors.red,
                                                 width: 2,
                                               )),
                                           child: Material(
                                             color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                            borderRadius: BorderRadius.circular(10),
                                             child: InkWell(
-                                              highlightColor:
-                                                  Colors.grey.shade300,
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              overlayColor:
-                                                  MaterialStateProperty.all<
-                                                      Color>(
+                                              highlightColor: Colors.grey.shade300,
+                                              borderRadius: BorderRadius.circular(10),
+                                              overlayColor: MaterialStateProperty.all<Color>(
                                                 Colors.grey.shade300,
                                               ),
                                               child: Icon(
@@ -484,14 +468,12 @@ class _HomeViewState extends State<HomeView>
                                       child: Flex(
                                         direction: Axis.horizontal,
                                         mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Expanded(
                                             child: Flex(
                                                 direction: Axis.horizontal,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
+                                                mainAxisAlignment: MainAxisAlignment.end,
                                                 children: [
                                                   Text(
                                                     '${_homeViewModel.arrLottery[index]['lottery']}',
@@ -506,8 +488,7 @@ class _HomeViewState extends State<HomeView>
                                             child: Container(
                                               // color: Colors.amber,
                                               child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
+                                                mainAxisAlignment: MainAxisAlignment.end,
                                                 children: [
                                                   Text(
                                                     '${_homeViewModel.arrLottery[index]['price']}',
@@ -516,21 +497,15 @@ class _HomeViewState extends State<HomeView>
                                                     ),
                                                   ),
                                                   Container(
-                                                    margin: EdgeInsets.only(
-                                                        left: 12),
+                                                    margin: EdgeInsets.only(left: 12),
                                                     child: IconButton(
                                                       // iconSize: 24,
                                                       color: Colors.white,
                                                       style: ButtonStyle(
-                                                        backgroundColor:
-                                                            MaterialStateProperty
-                                                                .all<Color>(
-                                                                    Colors.red),
+                                                        backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
                                                       ),
                                                       onPressed: () {
-                                                        _homeViewModel
-                                                            .removeLottery(
-                                                                index);
+                                                        _homeViewModel.removeLottery(index);
                                                       },
                                                       icon: Icon(Icons.close),
                                                     ),
@@ -552,11 +527,8 @@ class _HomeViewState extends State<HomeView>
                     ),
                     SizedBox(height: 12),
                     Obx(() => BuyBox(
-                          totalPrice: _homeViewModel.arrLottery.fold(
-                              0,
-                              (previousValue, element) =>
-                                  previousValue! +
-                                  int.parse(element['price']!)),
+                          totalPrice: _homeViewModel.arrLottery
+                              .fold(0, (previousValue, element) => previousValue! + int.parse(element['price']!)),
                           lotteryInputNode: _lotteryInputNodeDialog,
                           lotteryInputNodePrice: _lotteryInputNodePriceDialog,
                           lotteryInputController: _lotteryInputControllerDialog,
@@ -570,8 +542,7 @@ class _HomeViewState extends State<HomeView>
                             _priceInputController.text = value;
                           },
                           onTabAdd: () {
-                            if (_homeViewModel.lottery.value != "" &&
-                                _homeViewModel.price.value != "") {
+                            if (_homeViewModel.lottery.value != "" && _homeViewModel.price.value != "") {
                               _homeViewModel.appendLottery(
                                 _homeViewModel.lottery.value,
                                 _homeViewModel.price.value,
@@ -620,22 +591,22 @@ class _HomeViewState extends State<HomeView>
                               }
                             ]);
                           },
-                          onTabRandom: () {
-                            print('614');
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return Container(
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text('Close'),
-                                  ),
-                                );
-                              },
-                            );
-                          },
+                          // onTabRandom: () {
+                          //   print('614');
+                          //   showDialog(
+                          //     context: context,
+                          //     builder: (context) {
+                          //       return Container(
+                          //         child: ElevatedButton(
+                          //           onPressed: () {
+                          //             Navigator.pop(context);
+                          //           },
+                          //           child: Text('Close'),
+                          //         ),
+                          //       );
+                          //     },
+                          //   );
+                          // },
                         )),
                   ],
                 ),
@@ -660,9 +631,7 @@ class _HomeViewState extends State<HomeView>
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.8,
                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16)),
+                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16)),
                   child: Column(
                     children: [
                       Text('remove all lottery?'),
@@ -706,10 +675,8 @@ class _HomeViewState extends State<HomeView>
             ),
           if (isOpenBuyConfirm)
             Obx(() => BuyConfirm(
-                  totalPrice: _homeViewModel.arrLottery.fold(
-                      0,
-                      (previousValue, element) =>
-                          previousValue + int.parse(element['price']!)),
+                  totalPrice:
+                      _homeViewModel.arrLottery.fold(0, (previousValue, element) => previousValue + int.parse(element['price']!)),
                   onTap: () {
                     final response = _homeViewModel.craeteTransaction();
                     response.then((value) {

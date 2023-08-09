@@ -18,7 +18,9 @@ class _HistoryPageState extends State<HistoryPage> {
 
   @override
   void initState() {
-    _historyViewModel.getHistory();
+    if (_historyViewModel.listOfMonth.length == 0) {
+      _historyViewModel.getHistory();
+    }
     super.initState();
   }
 
@@ -58,7 +60,19 @@ class _HistoryPageState extends State<HistoryPage> {
           ),
         ),
         body: TabBarView(
-          children: [HistoryBuy(), HistoryWin()],
+          children: [
+            HistoryBuy(
+              listOfMonth: _historyViewModel.listOfMonth,
+              onChange: (value) {
+                print('value list 67: ${value!.values.first}');
+                final collectionList = value.values.first;
+                _historyViewModel.getInvoice(collectionList);
+              },
+              invoiceList: _historyViewModel.selectedMonth,
+              // changeMonth: _historyViewModel.getInvoice(),
+            ),
+            HistoryWin(),
+          ],
         ),
       ),
     );

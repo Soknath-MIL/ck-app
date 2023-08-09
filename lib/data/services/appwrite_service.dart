@@ -17,9 +17,7 @@ class Appwrite {
     client = Client()
         .setEndpoint('https://ck.moevedigital.com/v1')
         .setProject('CKLOTTO88')
-        .setSelfSigned(
-            status:
-                true); // For self signed certificates, only use for development
+        .setSelfSigned(status: true); // For self signed certificates, only use for development
   }
 }
 
@@ -40,8 +38,7 @@ class AppwriteService {
 
   Future<bool> loginUser(String email, String password) async {
     try {
-      final response =
-          await account.createEmailSession(email: email, password: password);
+      final response = await account.createEmailSession(email: email, password: password);
       print('AppService loginUser: 38 ${response.userId}');
       return true;
     } catch (e) {
@@ -65,8 +62,7 @@ class AppwriteService {
   Future<bool> updatePassword(String phoneNumber) async {
     try {
       final email = '$phoneNumber@ckmail.com';
-      final response = await account.createRecovery(
-          email: email, url: 'https://ck.moevedigital.com');
+      final response = await account.createRecovery(email: email, url: 'https://ck.moevedigital.com');
       print('updatePassword 68 $response');
       return true;
     } catch (e) {
@@ -144,27 +140,18 @@ class AppwriteService {
     User user,
   ) async {
     try {
-      print(
-          'updateAccumulate run lottery: $lottery, amount: $amount, $transactionsData');
-      print('updateAccumulate 119: ${[
-        ...document.data['lastFiveTransactions']
-      ]}');
-      final response = await databases.updateDocument(
-          databaseId: 'lotto',
-          collectionId: '20230830_accumulate',
-          documentId: document.$id,
-          data: {
-            'amount': document.data['amount'] + amount,
-            'updateAt': [
-              ...document.data['updateAt'],
-              DateTime.now().toUtc().toString()
-            ],
-            'updateBy': [...document.data['updateBy'], user.email],
-            'lastFiveTransactions': [
-              ...document.data['lastFiveTransactions'],
-              transactionsData,
-            ],
-          });
+      print('updateAccumulate run lottery: $lottery, amount: $amount, $transactionsData');
+      print('updateAccumulate 119: ${[...document.data['lastFiveTransactions']]}');
+      final response = await databases
+          .updateDocument(databaseId: 'lotto', collectionId: '20230830_accumulate', documentId: document.$id, data: {
+        'amount': document.data['amount'] + amount,
+        'updateAt': [...document.data['updateAt'], DateTime.now().toUtc().toString()],
+        'updateBy': [...document.data['updateBy'], user.email],
+        'lastFiveTransactions': [
+          ...document.data['lastFiveTransactions'],
+          transactionsData,
+        ],
+      });
       print('response updateAccumulate ${response.data}');
       return true;
     } catch (e) {
@@ -212,23 +199,19 @@ class AppwriteService {
   ) async {
     try {
       final user = await account.get();
-      print(
-          'createTransaction: 183 lottery: $lottery, amount: $amount, invoiceId: ${invoiceId.toString()}');
-      final response = await databases.createDocument(
-          databaseId: 'lotto',
-          collectionId: '20230830',
-          documentId: ID.unique(),
-          data: {
-            // "userId": user.$id,
-            "users": user.$id,
-            "lottery": lottery,
-            "lotteryType": lottery.length,
-            "amount": amount,
-            "paymentMethod": "bank",
-            "bankName": "bk",
-            // "createdAt": DateTime.now().toUtc().toString(),
-            "20230830_invoice": invoiceId,
-          });
+      print('createTransaction: 183 lottery: $lottery, amount: $amount, invoiceId: ${invoiceId.toString()}');
+      final response =
+          await databases.createDocument(databaseId: 'lotto', collectionId: '20230830', documentId: ID.unique(), data: {
+        // "userId": user.$id,
+        "users": user.$id,
+        "lottery": lottery,
+        "lotteryType": lottery.length,
+        "amount": amount,
+        "paymentMethod": "bank",
+        "bankName": "bk",
+        // "createdAt": DateTime.now().toUtc().toString(),
+        "20230830_invoice": invoiceId,
+      });
       return response;
     } catch (e) {
       print('error $e');
@@ -312,9 +295,7 @@ class AppwriteService {
       final response = await databases.listDocuments(
           databaseId: 'lotto',
           collectionId: 'ads',
-          queries: [
-            Query.greaterThanEqual('endDate', DateTime.now().toUtc().toString())
-          ]);
+          queries: [Query.greaterThanEqual('endDate', DateTime.now().toUtc().toString())]);
       return response;
     } catch (e) {
       print('error getAds: $e');
@@ -324,8 +305,7 @@ class AppwriteService {
 
   Future<dynamic> getNews() async {
     try {
-      final response = await databases
-          .listDocuments(databaseId: 'lotto', collectionId: 'news', queries: [
+      final response = await databases.listDocuments(databaseId: 'lotto', collectionId: 'news', queries: [
         Query.greaterThanEqual('endDate', DateTime.now().toUtc().toString()),
         Query.orderDesc('endDate'),
         Query.limit(3),
@@ -339,14 +319,11 @@ class AppwriteService {
 
   Future<dynamic> getLotteryDate() async {
     try {
-      final response = await databases.listDocuments(
-          databaseId: 'lotto',
-          collectionId: 'lottery_date',
-          queries: [
-            Query.greaterThan('date', DateTime.now().toUtc().toString()),
-            Query.orderAsc('date'),
-            Query.limit(1),
-          ]);
+      final response = await databases.listDocuments(databaseId: 'lotto', collectionId: 'lottery_date', queries: [
+        Query.greaterThan('date', DateTime.now().toUtc().toString()),
+        Query.orderAsc('date'),
+        Query.limit(1),
+      ]);
       return response;
     } catch (e) {
       print('error getLotteryDate: $e');
@@ -403,16 +380,25 @@ class AppwriteService {
       );
       print('lotteryDate: ${lotteryDates.documents}');
       List<String> collectionNames = [];
+      Map<String, List> listOfMonthMap = {};
       for (var i = 0; i < lotteryDates.documents.length; i++) {
         final lotteryDate = lotteryDates.documents[i];
         final parsed = DateTime.parse(lotteryDate.data['date']).toLocal();
-        print('parse 408: ${parsed}');
+        // print('parse 408: ${parsed}');
         final collectionName =
             '${parsed.year}${parsed.month.toString().padLeft(2, '0')}${parsed.day.toString().padLeft(2, '0')}_invoice';
-        print('collectionName: $collectionName');
+        // print('collectionName: $collectionName');
         collectionNames.add(collectionName);
+        final listName = "${parsed.month.toString().padLeft(2, "0")}-${parsed.year}";
+        if (listOfMonthMap[listName] == null) {
+          listOfMonthMap[listName] = [collectionName];
+        } else {
+          listOfMonthMap[listName]!.add(collectionName);
+        }
+        print(listOfMonthMap[listName]);
       }
-      return collectionNames;
+      // print("listOfMonthMap: $listOfMonthMap");
+      return listOfMonthMap;
       // final response = await databases.getDocument(
       //   databaseId: 'lotto',
       //   collectionId: '',
@@ -421,6 +407,15 @@ class AppwriteService {
     } catch (e) {
       print('getHistory error 396: $e');
       return false;
+    }
+  }
+
+  Future<dynamic> getInvoice(String collectionId) async {
+    try {
+      final response = await databases.listDocuments(databaseId: 'lotto', collectionId: collectionId);
+      return response;
+    } catch (e) {
+      print('error getInvoice 417: $e');
     }
   }
 }

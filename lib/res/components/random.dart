@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:lottery/res/color.dart';
 
 class RandomLottery extends StatefulWidget {
-  void Function(int lotteryType, int qty, double price)? onSubmit;
+  void Function(int lotteryType, int qty, int price)? onSubmit;
   RandomLottery({
     super.key,
     this.onSubmit,
@@ -39,8 +39,8 @@ class _RandomLotteryState extends State<RandomLottery> {
   FocusNode nodeInputQTY = FocusNode();
   FocusNode nodeInputPrice = FocusNode();
   int lotteryType = 2;
-  int qty = 15;
-  double price = 1000;
+  int qty = 5;
+  int price = 1000;
   var controllerInputQTY = MoneyMaskedTextController(
     precision: 0,
     thousandSeparator: ',',
@@ -55,7 +55,7 @@ class _RandomLotteryState extends State<RandomLottery> {
   @override
   void initState() {
     controllerInputQTY.updateValue(double.parse(qty.toString()));
-    controllerInputPrice.updateValue(price);
+    controllerInputPrice.updateValue(double.parse(price.toString()));
     super.initState();
   }
 
@@ -86,8 +86,7 @@ class _RandomLotteryState extends State<RandomLottery> {
                     color: AppColors.redClose,
                     borderRadius: BorderRadius.circular(100),
                     child: InkWell(
-                      overlayColor:
-                          MaterialStateProperty.all<Color>(Colors.red.shade400),
+                      overlayColor: MaterialStateProperty.all<Color>(Colors.red.shade400),
                       borderRadius: BorderRadius.circular(100),
                       onTap: () {
                         Navigator.pop(context);
@@ -154,8 +153,7 @@ class _RandomLotteryState extends State<RandomLottery> {
                       children: [
                         Text('จำนวนเลขที่สุ่ม'),
                         Container(
-                          width:
-                              MediaQuery.of(context).size.width * 0.5 - 16 - 28,
+                          width: MediaQuery.of(context).size.width * 0.5 - 16 - 28,
                           child: TextFormField(
                             controller: controllerInputQTY,
                             // initialValue: qty.toString(),
@@ -182,8 +180,7 @@ class _RandomLotteryState extends State<RandomLottery> {
                       children: [
                         Text('จำนวนเงิน'),
                         Container(
-                          width:
-                              MediaQuery.of(context).size.width * 0.5 - 16 - 28,
+                          width: MediaQuery.of(context).size.width * 0.5 - 16 - 28,
                           child: TextFormField(
                             controller: controllerInputPrice,
                             // initialValue: price.toString(),
@@ -194,9 +191,12 @@ class _RandomLotteryState extends State<RandomLottery> {
                               nodeInputPrice.unfocus();
                             },
                             onChanged: (value) {
+                              print('value 197 $value');
                               if (value != '') {
+                                final parsedValue = value.replaceAll(',', '');
+                                print('parsedValue $parsedValue');
                                 setState(() {
-                                  price = double.parse(value);
+                                  price = int.parse(parsedValue);
                                 });
                               }
                               print('value 86 $value');

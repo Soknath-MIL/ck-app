@@ -339,20 +339,33 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
                           barrierDismissible: false,
                           builder: (context) {
                             return RandomLottery(
-                              onSubmit: (loteryType, qty, price) {
-                                print('loteryType: $loteryType qty: $qty price: $price');
+                              onSubmit: (lotteryType, qty, price) {
+                                print('loteryType: $lotteryType qty: $qty price: $price');
                                 final rng = Random();
+
                                 List<String> lottery = [];
                                 while (lottery.length < qty) {
-                                  final randomValue = rng.nextInt(100).toString();
-                                  final lotteryThisLoop = randomValue.length == 1 ? '0$randomValue' : randomValue;
+                                  final randomValue = rng.nextInt(100).toString().padLeft(lotteryType, '0');
+                                  // final lotteryThisLoop = randomValue.length == 1 ? '0$randomValue' : randomValue;
+                                  final lotteryThisLoop = randomValue;
                                   print('per loop $lotteryThisLoop');
-                                  lottery.addIf(
-                                    lottery.where((element) => element.contains(lotteryThisLoop)).toList().isEmpty,
-                                    lotteryThisLoop,
-                                  );
+                                  // lottery.addIf(
+                                  //   lottery.where((element) => element.contains(lotteryThisLoop)).toList().isEmpty,
+                                  //   lotteryThisLoop,
+                                  // );
+                                  if (lottery.where((element) => element.contains(lotteryThisLoop)).toList().isEmpty) {
+                                    lottery.add(lotteryThisLoop);
+                                    _homeViewModel.appendLottery(
+                                      lotteryThisLoop,
+                                      '$price',
+                                    );
+                                  }
                                 }
                                 print('lottery: $lottery');
+                                Navigator.pop(context);
+                                setState(() {
+                                  isOpenDialog = true;
+                                });
                               },
                             );
                           },
@@ -591,22 +604,45 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
                               }
                             ]);
                           },
-                          // onTabRandom: () {
-                          //   print('614');
-                          //   showDialog(
-                          //     context: context,
-                          //     builder: (context) {
-                          //       return Container(
-                          //         child: ElevatedButton(
-                          //           onPressed: () {
-                          //             Navigator.pop(context);
-                          //           },
-                          //           child: Text('Close'),
-                          //         ),
-                          //       );
-                          //     },
-                          //   );
-                          // },
+                          onTabRandom: () {
+                            print('614');
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (context) {
+                                return RandomLottery(
+                                  onSubmit: (lotteryType, qty, price) {
+                                    print('loteryType: $lotteryType qty: $qty price: $price');
+                                    final rng = Random();
+
+                                    List<String> lottery = [];
+                                    while (lottery.length < qty) {
+                                      final randomValue = rng.nextInt(100).toString().padLeft(lotteryType, '0');
+                                      // final lotteryThisLoop = randomValue.length == 1 ? '0$randomValue' : randomValue;
+                                      final lotteryThisLoop = randomValue;
+                                      print('per loop $lotteryThisLoop');
+                                      // lottery.addIf(
+                                      //   lottery.where((element) => element.contains(lotteryThisLoop)).toList().isEmpty,
+                                      //   lotteryThisLoop,
+                                      // );
+                                      if (lottery.where((element) => element.contains(lotteryThisLoop)).toList().isEmpty) {
+                                        lottery.add(lotteryThisLoop);
+                                        _homeViewModel.appendLottery(
+                                          lotteryThisLoop,
+                                          '$price',
+                                        );
+                                      }
+                                    }
+                                    print('lottery: $lottery');
+                                    Navigator.pop(context);
+                                    setState(() {
+                                      isOpenDialog = true;
+                                    });
+                                  },
+                                );
+                              },
+                            );
+                          },
                         )),
                   ],
                 ),

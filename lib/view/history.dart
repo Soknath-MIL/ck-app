@@ -18,7 +18,7 @@ class _HistoryPageState extends State<HistoryPage> {
 
   @override
   void initState() {
-    if (_historyViewModel.listOfMonth.length == 0) {
+    if (_historyViewModel.listOfMonth.isEmpty) {
       _historyViewModel.getHistory();
     }
     super.initState();

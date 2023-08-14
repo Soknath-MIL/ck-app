@@ -82,12 +82,14 @@ class HomeViewModel extends GetxController {
       // print('arrTransactionId $arrTransactionId');
       // print('arrLotterise: $arrLotterise');
       // return;
-
+      final lotteryDateString =
+          "${lotteryDate.value.year}${lotteryDate.value.month.toString().padLeft(2, '0')}${lotteryDate.value.day.toString().padLeft(2, '0')}";
       final responseFromCreateInvoice = await AppwriteService().createInvoice(
         arrLotterise,
         arrAmount,
         arrLotteryType,
         totalAmount,
+        lotteryDateString,
       );
       print('responseFromCreateInvoice $responseFromCreateInvoice');
       if (responseFromCreateInvoice != false) {
@@ -99,8 +101,8 @@ class HomeViewModel extends GetxController {
         for (var i = 0; i < arrLottery.length; i++) {
           final lottery = arrLottery[i]['lottery']!;
           final amount = int.parse(arrLottery[i]['price']!);
-          Document responseFromCreateTransaction = await AppwriteService()
-              .createTransaction(lottery, amount, invoiceId);
+          Document responseFromCreateTransaction =
+              await AppwriteService().createTransaction(lottery, amount, invoiceId, lotteryDateString);
           final transactionsData = {
             'id': responseFromCreateTransaction.$id,
             'amount': responseFromCreateTransaction.data['amount'],
@@ -110,6 +112,7 @@ class HomeViewModel extends GetxController {
             lottery,
             amount,
             '$transactionsData',
+            lotteryDateString,
             // '${responseFromCreateTransaction.data}',
             // {
             //   id:
@@ -190,7 +193,8 @@ class HomeViewModel extends GetxController {
         print('current 168 169 $current');
         if (DateTime.now().isBefore(current)) {
           print('found 168');
-          lotteryDate.value = current.toUtc();
+          lotteryDate.value = current.toLocal();
+          print('current lottery date 194: ${current.toLocal()}');
           break;
         }
         print('index 168 $i');

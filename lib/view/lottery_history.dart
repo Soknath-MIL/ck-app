@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lottery/res/color.dart';
+import 'package:lottery/view_models/lottery_history_view_model.dart';
 
 class LotteryHistoryPage extends StatefulWidget {
   const LotteryHistoryPage({super.key});
@@ -10,19 +12,24 @@ class LotteryHistoryPage extends StatefulWidget {
 }
 
 class _LotteryHistoryPageState extends State<LotteryHistoryPage> {
-  final winNumber = [
-    '988493',
-    '343555',
-    '394232',
-    '343555',
-    '988493',
-    '394232'
-  ];
+  LotteryHistoryViewModel _lotteryHistoryViewModel = Get.put(LotteryHistoryViewModel());
+
+  final winNumber = ['988493', '343555', '394232', '343555', '988493', '394232'];
+
+  @override
+  void initState() {
+    if (_lotteryHistoryViewModel.lotteryHistory.isEmpty) {
+      _lotteryHistoryViewModel.getLotteryHistory();
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: ListView.separated(
+          child: Obx(
+        () => ListView.separated(
           itemBuilder: (context, index) {
             return Container(
               margin: const EdgeInsets.all(8),
@@ -44,11 +51,11 @@ class _LotteryHistoryPageState extends State<LotteryHistoryPage> {
                 // mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text('งวดวันที่ 10/05/2023'),
+                  Text('งวดวันที่ ${_lotteryHistoryViewModel.lotteryHistory[index].toDateLocal()}'),
                   SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: winNumber[index].split('').map((e) {
+                    children: _lotteryHistoryViewModel.lotteryHistory[index].lottery.split('').map((e) {
                       return Container(
                         padding: EdgeInsets.all(3),
                         width: 56,
@@ -87,12 +94,12 @@ class _LotteryHistoryPageState extends State<LotteryHistoryPage> {
               ),
             );
           },
-          itemCount: winNumber.length,
+          itemCount: _lotteryHistoryViewModel.lotteryHistory.length,
           separatorBuilder: (context, index) {
             return SizedBox();
           },
         ),
-      ),
+      )),
     );
   }
 }

@@ -96,6 +96,7 @@ class AppwriteService {
     String lottery,
     int amount,
     String transactionsData,
+    String lotteryDateString,
   ) async {
     try {
       final user = await account.get();
@@ -106,12 +107,13 @@ class AppwriteService {
         // create
         await databases.createDocument(
           databaseId: 'lotto',
-          collectionId: '20230830_accumulate',
+          collectionId: '${lotteryDateString}_accumulate',
           documentId: ID.unique(),
           data: {
             'lottery': lottery,
             'amount': amount,
-            'updateAt': [DateTime.now().toUtc().toString()],
+            'lotteryType': lottery.length,
+            // 'updateAt': [DateTime.now().toUtc().toString()],
             'updateBy': [user.email],
             'lastFiveTransactions': [transactionsData],
           },
@@ -165,13 +167,14 @@ class AppwriteService {
     List arrAmount,
     List arrLotteryType,
     int totalAmount,
+    String lotteryDateString,
   ) async {
     try {
       print('createInvoice');
       final user = await account.get();
       final response = await databases.createDocument(
         databaseId: 'lotto',
-        collectionId: '20230830_invoice',
+        collectionId: '${lotteryDateString}_invoice',
         documentId: ID.unique(),
         data: {
           "lotteryArray": arrLotterise,
@@ -196,22 +199,28 @@ class AppwriteService {
     String lottery,
     int amount,
     String invoiceId,
+    String lotteryDateString,
   ) async {
     try {
       final user = await account.get();
       print('createTransaction: 183 lottery: $lottery, amount: $amount, invoiceId: ${invoiceId.toString()}');
-      final response =
-          await databases.createDocument(databaseId: 'lotto', collectionId: '20230830', documentId: ID.unique(), data: {
-        // "userId": user.$id,
-        "users": user.$id,
-        "lottery": lottery,
-        "lotteryType": lottery.length,
-        "amount": amount,
-        "paymentMethod": "bank",
-        "bankName": "bk",
-        // "createdAt": DateTime.now().toUtc().toString(),
-        "20230830_invoice": invoiceId,
-      });
+      final response = await databases.createDocument(
+        databaseId: 'lotto',
+        collectionId: lotteryDateString,
+        documentId: ID.unique(),
+        data: {
+          // "userId": user.$id,
+          "users": user.$id,
+          "lottery": lottery,
+          "lotteryType": lottery.length,
+          "amount": amount,
+          "paymentMethod": "bank",
+          "bankName": "bk",
+          // "createdAt": DateTime.now().toUtc().toString(),
+          "${lotteryDateString}_invoice": invoiceId,
+          "transferAmount": 0,
+        },
+      );
       return response;
     } catch (e) {
       print('error $e');
@@ -416,6 +425,18 @@ class AppwriteService {
       return response;
     } catch (e) {
       print('error getInvoice 417: $e');
+    }
+  }
+
+  Future<dynamic> getLotteryHistory() async {
+    try {
+      final response = await databases.listDocuments(databaseId: 'lotto', collectionId: 'lotto_history', queries: [
+        Query.equal('isDelete', false),
+      ]);
+      return response;
+    } catch (e) {
+      print('error getHistory 427: $e');
+      return false;
     }
   }
 }

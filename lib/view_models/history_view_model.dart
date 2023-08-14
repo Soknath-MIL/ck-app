@@ -19,6 +19,10 @@ class HistoryViewModel extends GetxController {
       print('listOfMonth 19 $listOfMonth');
       // listOfMonthMap = response;
       // return response;
+      if (listOfMonth.isNotEmpty) {
+        print('start first');
+        await getInvoice(listOfMonth.first.values.first);
+      }
     } catch (e) {
       print('error getHistory 11: $e');
       return false;
@@ -27,6 +31,7 @@ class HistoryViewModel extends GetxController {
 
   Future<dynamic> getInvoice(List collectionList) async {
     try {
+      selectedMonth.clear();
       final invoiceList = [];
       for (var i = 0; i < collectionList.length; i++) {
         final collectionId = collectionList[i];

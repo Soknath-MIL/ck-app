@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottery/res/color.dart';
+import 'package:pinput/pinput.dart';
 
 class AnimalPage extends StatefulWidget {
   const AnimalPage({super.key});
@@ -213,7 +214,32 @@ class _AnimalPageState extends State<AnimalPage> {
       "lotteries": ["92", "51", "21"],
     },
   ];
-  void Function(List<String> lotterise) onClickBuy = Get.arguments[0];
+  void Function(List<Map<String, dynamic>> lotterise) onClickBuy = Get.arguments[0];
+  final inputStyle = InputDecoration(
+    contentPadding: const EdgeInsets.symmetric(
+      horizontal: 16,
+      vertical: 4,
+    ),
+    enabledBorder: const OutlineInputBorder(
+      borderSide: BorderSide(
+        width: 1,
+        color: AppColors.greye0e0e0,
+      ),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(
+        width: 1,
+        color: Colors.black.withOpacity(0.6),
+      ),
+    ),
+  );
+  List<TextEditingController> listController = [
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+  ];
+  List<String> listPrice = ["1000", "1000", "1000"];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -277,8 +303,7 @@ class _AnimalPageState extends State<AnimalPage> {
                       Row(
                         children: [
                           Image(
-                            image: AssetImage(
-                                'images/animalphoto/${animal['image']}'),
+                            image: AssetImage('images/animalphoto/${animal['image']}'),
                             height: 48,
                           ),
                           SizedBox(width: 10),
@@ -293,8 +318,7 @@ class _AnimalPageState extends State<AnimalPage> {
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: (animal['lotteries'] as List<String>)
-                            .map((lottery) {
+                        children: (animal['lotteries'] as List<String>).map((lottery) {
                           return Container(
                             padding: EdgeInsets.symmetric(horizontal: 12),
                             decoration: BoxDecoration(
@@ -318,8 +342,211 @@ class _AnimalPageState extends State<AnimalPage> {
                       Material(
                         child: InkWell(
                           onTap: () {
-                            onClickBuy(animal['lotteries'] as List<String>);
-                            Navigator.of(context).pop();
+                            // showSimpleNotification
+                            final navigatorContext = Navigator.of(context);
+                            showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (context) {
+                                return Material(
+                                  color: Colors.transparent,
+                                  child: Wrap(
+                                    alignment: WrapAlignment.center,
+                                    runAlignment: WrapAlignment.center,
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.symmetric(horizontal: 16),
+                                        padding: EdgeInsets.all(12),
+                                        decoration: BoxDecoration(
+                                          color: AppColors.primary,
+                                        ),
+                                        // color: Colors.amber,
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            SizedBox(),
+                                            Text('กรุณาระบุราคา'),
+                                            Container(
+                                              width: 30,
+                                              height: 30,
+                                              child: Material(
+                                                color: AppColors.redClose,
+                                                borderRadius: BorderRadius.circular(100),
+                                                child: InkWell(
+                                                  overlayColor: MaterialStateProperty.all<Color>(Colors.red.shade400),
+                                                  borderRadius: BorderRadius.circular(100),
+                                                  onTap: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Icon(
+                                                    Icons.close,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 240,
+                                        padding: EdgeInsets.only(bottom: 16),
+                                        margin: EdgeInsets.symmetric(horizontal: 16),
+                                        width: MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                        ),
+                                        child: ListView.separated(
+                                          itemBuilder: (context, index) {
+                                            final list = animal['lotteries'] as List<String>;
+                                            final lottery = list[index];
+                                            return Container(
+                                              margin: EdgeInsets.only(top: 16),
+                                              padding: const EdgeInsets.symmetric(horizontal: 12),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    // padding: EdgeInsets.symmetric(horizontal: 12),
+                                                    alignment: Alignment.center,
+                                                    width: 40,
+                                                    height: 48,
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                        color: AppColors.primary,
+                                                        width: 1,
+                                                      ),
+                                                      borderRadius: BorderRadius.circular(2),
+                                                    ),
+                                                    child: Text(
+                                                      '${lottery}',
+                                                      style: TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                      child: TextFormField(
+                                                        decoration: inputStyle,
+                                                        controller: listController[index],
+                                                        keyboardType: TextInputType.number,
+                                                        onChanged: (value) {
+                                                          print('animal index: $index');
+                                                          final animalList = animal["lotteries"] as List<String>;
+                                                          final animalThisLoop = animalList[index];
+                                                          print('lottery is: $animalThisLoop');
+                                                          print('value is $value');
+                                                          setState(() {
+                                                            listPrice[index] = value;
+                                                          });
+                                                        },
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                            // listController
+                                          },
+                                          separatorBuilder: (context, index) => SizedBox(),
+                                          itemCount: (animal['lotteries'] as List<String>).length,
+                                        ),
+                                        // child: Column(
+                                        //   children: (animal['lotteries'] as List<String>).map((e) {
+                                        //     return Container(
+                                        //       margin: EdgeInsets.only(top: 16),
+                                        //       padding: const EdgeInsets.symmetric(horizontal: 12),
+                                        //       child: Row(
+                                        //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        //         crossAxisAlignment: CrossAxisAlignment.center,
+                                        //         children: [
+                                        //           Container(
+                                        //             // padding: EdgeInsets.symmetric(horizontal: 12),
+                                        //             alignment: Alignment.center,
+                                        //             width: 40,
+                                        //             decoration: BoxDecoration(
+                                        //               border: Border.all(
+                                        //                 color: AppColors.primary,
+                                        //                 width: 1,
+                                        //               ),
+                                        //               borderRadius: BorderRadius.circular(2),
+                                        //             ),
+                                        //             child: Text(
+                                        //               '$e',
+                                        //               style: TextStyle(
+                                        //                 fontSize: 16,
+                                        //                 fontWeight: FontWeight.bold,
+                                        //               ),
+                                        //             ),
+                                        //           ),
+                                        //           Expanded(
+                                        //             child: Padding(
+                                        //               padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                        //               child: TextFormField(
+                                        //                 decoration: inputStyle,
+                                        //               ),
+                                        //             ),
+                                        //           )
+                                        //         ],
+                                        //       ),
+                                        //     );
+                                        //   }).toList(),
+                                        // ),
+                                      ),
+                                      Container(
+                                        // alignment: Alignment.center,
+                                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                                        height: 50,
+                                        width: MediaQuery.of(context).size.width,
+                                        child: Material(
+                                          color: AppColors.primary,
+                                          child: InkWell(
+                                            overlayColor: MaterialStateProperty.all<Color>(AppColors.primaryOverlay),
+                                            onTap: () {
+                                              final listLottery = animal['lotteries'] as List<String>;
+                                              List<Map<String, dynamic>> lotteryWithPrice = [];
+                                              listPrice.asMap().forEach((index, element) {
+                                                lotteryWithPrice.add({
+                                                  "lottery": listLottery[index],
+                                                  "price": element,
+                                                });
+                                              });
+
+                                              print('list of price $listPrice');
+                                              print("result 521: $lotteryWithPrice");
+                                              // onClickBuy(animal['lotteries'] as List<String>);
+                                              onClickBuy(lotteryWithPrice);
+                                              Navigator.of(context).pop();
+                                              navigatorContext.pop();
+                                            },
+                                            child: Container(
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                'ยืนยัน',
+                                                style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                            for (var element in listController) {
+                              element.setText('1000');
+                            }
+                            // onClickBuy(animal['lotteries'] as List<String>);
+                            // Navigator.of(context).pop();
                           },
                           child: Container(
                             alignment: Alignment.center,

@@ -319,12 +319,12 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
                       },
                       onTabAnimal: () {
                         Get.toNamed(RouteName.animal, arguments: [
-                          (List<String> lotterise) {
+                          (List<Map<String, dynamic>> lotterise) {
                             print('323: $lotterise');
                             for (var i = 0; i < lotterise.length; i++) {
                               _homeViewModel.appendLottery(
-                                lotterise[i],
-                                '1000',
+                                lotterise[i]["lottery"],
+                                lotterise[i]["price"],
                               );
                             }
                             setState(() {

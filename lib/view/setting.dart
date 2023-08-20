@@ -8,6 +8,7 @@ import 'package:lottery/res/color.dart';
 import 'package:lottery/res/routes/routes_name.dart';
 import 'package:lottery/view_models/setting_view_model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:share_plus/share_plus.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -18,6 +19,32 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   final SettingViewModel _settingViewModel = Get.put(SettingViewModel());
+
+  void _onShare(BuildContext context) async {
+    // A builder is used to retrieve the context immediately
+    // surrounding the ElevatedButton.
+    //
+    // The context's `findRenderObject` returns the first
+    // RenderObject in its descendent tree when it's not
+    // a RenderObjectWidget. The ElevatedButton's RenderObject
+    // has its position and size after it's built.
+    final box = context.findRenderObject() as RenderBox?;
+
+    // if (uri.isNotEmpty) {
+    //   await Share.shareUri(Uri.parse(uri));
+    // } else if (imagePaths.isNotEmpty) {
+    //   final files = <XFile>[];
+    //   for (var i = 0; i < imagePaths.length; i++) {
+    //     files.add(XFile(imagePaths[i], name: imageNames[i]));
+    //   }
+    //   await Share.shareXFiles(files,
+    //       text: text,
+    //       subject: subject,
+    //       sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
+    // } else {
+    await Share.share("test", subject: "test sub", sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
+    // }
+  }
 
   @override
   void initState() {
@@ -90,16 +117,14 @@ class _SettingPageState extends State<SettingPage> {
                                       Obx(() => Text(
                                             '${_settingViewModel.tel.value}',
                                             style: TextStyle(
-                                              color:
-                                                  Color.fromRGBO(89, 89, 89, 1),
+                                              color: Color.fromRGBO(89, 89, 89, 1),
                                             ),
                                           )),
                                       SizedBox(height: 8),
                                       Obx(() => Text(
                                             '${_settingViewModel.email.value}',
                                             style: TextStyle(
-                                              color:
-                                                  Color.fromRGBO(89, 89, 89, 1),
+                                              color: Color.fromRGBO(89, 89, 89, 1),
                                             ),
                                           )),
                                     ],
@@ -155,9 +180,7 @@ class _SettingPageState extends State<SettingPage> {
                               return Container(
                                 decoration: BoxDecoration(
                                   color: Colors.white,
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(30),
-                                      topRight: Radius.circular(30)),
+                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
                                   boxShadow: [
                                     BoxShadow(
                                       color: Colors.grey.withOpacity(0.5),
@@ -173,8 +196,7 @@ class _SettingPageState extends State<SettingPage> {
                                   alignment: WrapAlignment.center,
                                   children: [
                                     Text(
-                                      AppLocalizations.of(context)
-                                          .changeLanguageTitle,
+                                      AppLocalizations.of(context).changeLanguageTitle,
                                       style: TextStyle(
                                         fontSize: 24,
                                         fontWeight: FontWeight.w600,
@@ -184,8 +206,7 @@ class _SettingPageState extends State<SettingPage> {
                                     Container(
                                       margin: EdgeInsets.only(top: 24),
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Column(
                                             children: [
@@ -197,8 +218,7 @@ class _SettingPageState extends State<SettingPage> {
                                                   );
                                                 },
                                                 child: Image(
-                                                  image: AssetImage(
-                                                      "images/laos.png"),
+                                                  image: AssetImage("images/laos.png"),
                                                 ),
                                               ),
                                               SizedBox(height: 12),
@@ -215,8 +235,7 @@ class _SettingPageState extends State<SettingPage> {
                                                   );
                                                 },
                                                 child: Image(
-                                                  image: AssetImage(
-                                                      "images/Th.png"),
+                                                  image: AssetImage("images/Th.png"),
                                                 ),
                                               ),
                                               SizedBox(height: 12),
@@ -233,8 +252,7 @@ class _SettingPageState extends State<SettingPage> {
                                                   );
                                                 },
                                                 child: Image(
-                                                  image: AssetImage(
-                                                      "images/US.png"),
+                                                  image: AssetImage("images/US.png"),
                                                 ),
                                               ),
                                               SizedBox(height: 12),
@@ -277,8 +295,7 @@ class _SettingPageState extends State<SettingPage> {
                                   ),
                                   padding: EdgeInsets.all(12),
                                   width: MediaQuery.of(context).size.width,
-                                  child:
-                                      SvgPicture.asset('images/translate.svg'),
+                                  child: SvgPicture.asset('images/translate.svg'),
                                 ),
                               ),
                               SizedBox(width: 14),
@@ -308,9 +325,7 @@ class _SettingPageState extends State<SettingPage> {
                                 padding: EdgeInsets.only(
                                   top: 20,
                                   right: 20,
-                                  bottom:
-                                      MediaQuery.of(context).viewInsets.bottom +
-                                          20,
+                                  bottom: MediaQuery.of(context).viewInsets.bottom + 20,
                                   left: 20,
                                 ),
                                 width: MediaQuery.of(context).size.width,
@@ -348,21 +363,13 @@ class _SettingPageState extends State<SettingPage> {
                                           allowHalfRating: true,
                                           itemCount: 5,
                                           ratingWidget: RatingWidget(
-                                            full: Image(
-                                                image: AssetImage(
-                                                    'images/star.png')),
-                                            half: Image(
-                                                image: AssetImage(
-                                                    'images/starhalf.png')),
-                                            empty: Image(
-                                                image: AssetImage(
-                                                    'images/starempty.png')),
+                                            full: Image(image: AssetImage('images/star.png')),
+                                            half: Image(image: AssetImage('images/starhalf.png')),
+                                            empty: Image(image: AssetImage('images/starempty.png')),
                                           ),
-                                          itemPadding: EdgeInsets.symmetric(
-                                              horizontal: 4.0),
+                                          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                                           onRatingUpdate: (rating) {
-                                            _settingViewModel.onChangeRating(
-                                                rating.toString());
+                                            _settingViewModel.onChangeRating(rating.toString());
                                           },
                                         ),
                                       ),
@@ -374,15 +381,13 @@ class _SettingPageState extends State<SettingPage> {
                                         decoration: InputDecoration(
                                           enabledBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
-                                              color: Color.fromRGBO(
-                                                  218, 218, 218, 1),
+                                              color: Color.fromRGBO(218, 218, 218, 1),
                                               width: 1,
                                             ),
                                           ),
                                           border: OutlineInputBorder(
                                             borderSide: BorderSide(
-                                              color: Color.fromRGBO(
-                                                  218, 218, 218, 1),
+                                              color: Color.fromRGBO(218, 218, 218, 1),
                                               width: 1,
                                             ),
                                           ),
@@ -390,27 +395,22 @@ class _SettingPageState extends State<SettingPage> {
                                           fillColor: Colors.white,
                                         ),
                                         onChanged: (value) {
-                                          _settingViewModel
-                                              .onChangeComment(value);
+                                          _settingViewModel.onChangeComment(value);
                                         },
                                       ),
                                     ),
                                     Container(
-                                      margin:
-                                          EdgeInsets.only(top: 24, bottom: 16),
+                                      margin: EdgeInsets.only(top: 24, bottom: 16),
                                       child: Material(
                                         color: Color.fromRGBO(0, 117, 255, 1),
                                         borderRadius: BorderRadius.circular(16),
                                         child: InkWell(
                                           onTap: () {
-                                            _settingViewModel
-                                                .submitFeedback(context);
+                                            _settingViewModel.submitFeedback(context);
                                           },
                                           child: Container(
                                             alignment: Alignment.center,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
+                                            width: MediaQuery.of(context).size.width,
                                             height: 52,
                                             child: Text(
                                               'ตกลง',
@@ -461,8 +461,7 @@ class _SettingPageState extends State<SettingPage> {
                                   ),
                                   padding: EdgeInsets.all(12),
                                   width: MediaQuery.of(context).size.width,
-                                  child:
-                                      SvgPicture.asset('images/likeshapes.svg'),
+                                  child: SvgPicture.asset('images/likeshapes.svg'),
                                 ),
                               ),
                               SizedBox(width: 14),
@@ -472,44 +471,58 @@ class _SettingPageState extends State<SettingPage> {
                         ),
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 2),
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
+                    Material(
+                      color: AppColors.blueeffcff,
+                      borderRadius: BorderRadius.circular(6),
+                      child: InkWell(
+                        overlayColor: MaterialStateProperty.all<Color>(
+                          Color.fromRGBO(190, 238, 249, 1),
+                        ),
                         borderRadius: BorderRadius.circular(6),
-                        color: AppColors.blueeffcff,
-                      ),
-                      width: MediaQuery.of(context).size.width,
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 54,
-                            height: 54,
-                            padding: EdgeInsets.all(2),
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Color.fromRGBO(0, 209, 255, 1),
-                                  Color.fromRGBO(255, 194, 36, 1),
-                                ],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(54),
-                              ),
-                              padding: EdgeInsets.all(12),
-                              width: MediaQuery.of(context).size.width,
-                              child: SvgPicture.asset('images/people.svg'),
-                            ),
+                        onTap: () {
+                          print('test');
+                          _onShare(context);
+                          // Share.share('text www.google.com');
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(top: 2),
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6),
                           ),
-                          SizedBox(width: 14),
-                          Text('แนะนำเพื่อน'),
-                        ],
+                          width: MediaQuery.of(context).size.width,
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 54,
+                                height: 54,
+                                padding: EdgeInsets.all(2),
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Color.fromRGBO(0, 209, 255, 1),
+                                      Color.fromRGBO(255, 194, 36, 1),
+                                    ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                  borderRadius: BorderRadius.circular(100),
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(54),
+                                  ),
+                                  padding: EdgeInsets.all(12),
+                                  width: MediaQuery.of(context).size.width,
+                                  child: SvgPicture.asset('images/people.svg'),
+                                ),
+                              ),
+                              SizedBox(width: 14),
+                              Text('แนะนำเพื่อน'),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                     Container(
@@ -561,8 +574,7 @@ class _SettingPageState extends State<SettingPage> {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(14),
                   // highlightColor: AppColors.primaryHighlight,
-                  overlayColor:
-                      MaterialStateProperty.all(AppColors.primaryOverlay),
+                  overlayColor: MaterialStateProperty.all(AppColors.primaryOverlay),
                   onTap: () {
                     print('test');
                     _settingViewModel.logout();

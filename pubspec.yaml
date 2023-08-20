@@ -49,6 +49,7 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   upgrader: ^8.0.0
   extended_masked_text: ^2.3.1
+  share_plus: ^7.1.0
 
 dev_dependencies:
   flutter_test:

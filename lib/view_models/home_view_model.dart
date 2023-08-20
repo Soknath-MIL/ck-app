@@ -167,7 +167,7 @@ class HomeViewModel extends GetxController {
 
   Future<void> getNews() async {
     try {
-      DocumentList response = await AppwriteService().getNews();
+      DocumentList response = await AppwriteService().getNews(3);
       response.documents.forEach((document) async {
         // print('169 data: ${document.data}');
         final images = document.data['image'];

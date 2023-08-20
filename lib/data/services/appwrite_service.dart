@@ -312,12 +312,14 @@ class AppwriteService {
     }
   }
 
-  Future<dynamic> getNews() async {
+  Future<dynamic> getNews(
+    int limit,
+  ) async {
     try {
       final response = await databases.listDocuments(databaseId: 'lotto', collectionId: 'news', queries: [
         Query.greaterThanEqual('endDate', DateTime.now().toUtc().toString()),
         Query.orderDesc('endDate'),
-        Query.limit(3),
+        Query.limit(limit),
       ]);
       return response;
     } catch (e) {

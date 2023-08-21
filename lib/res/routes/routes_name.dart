@@ -12,4 +12,5 @@ class RouteName {
   static const String notification = '/notification';
   static const String user_info = '/user_info';
   static const String animal = '/animal';
+  static const String news_detail = '/news_detail';
 }

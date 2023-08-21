@@ -167,17 +167,19 @@ class HomeViewModel extends GetxController {
 
   Future<void> getNews() async {
     try {
-      DocumentList response = await AppwriteService().getNews(3);
-      response.documents.forEach((document) async {
-        // print('169 data: ${document.data}');
-        final images = document.data['image'];
-        final result = jsonDecode(images[0]);
-        final response = await http.head(Uri.parse(result['url']));
-        if (response.statusCode == 200) {
-          newsImageURL.add(result['url']);
-        }
-        // newsImageURL
-      });
+      if (newsImageURL.isEmpty) {
+        DocumentList response = await AppwriteService().getNews(3);
+        response.documents.forEach((document) async {
+          // print('169 data: ${document.data}');
+          final images = document.data['image'];
+          final result = jsonDecode(images[0]);
+          final response = await http.head(Uri.parse(result['url']));
+          if (response.statusCode == 200) {
+            newsImageURL.add(result['url']);
+          }
+          // newsImageURL
+        });
+      }
     } catch (e) {
       print('error getNews 168 $e');
     }

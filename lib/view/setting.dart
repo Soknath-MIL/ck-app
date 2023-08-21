@@ -42,6 +42,7 @@ class _SettingPageState extends State<SettingPage> {
     //       subject: subject,
     //       sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
     // } else {
+    // await Share.share('test na');
     await Share.share("test", subject: "test sub", sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
     // }
   }

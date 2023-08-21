@@ -44,7 +44,7 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
   @override
   void initState() {
     // TODO: implement initState
-    if (_homeViewModel.imagesURL.length == 0) {
+    if (_homeViewModel.imagesURL.isEmpty) {
       _homeViewModel.getAds();
     }
     _homeViewModel.getLotteryDate();

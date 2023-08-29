@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:lottery/res/routes/routes.dart';
 import 'package:lottery/view/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'firebase_options.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:upgrader/upgrader.dart';
@@ -55,27 +56,28 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromRGBO(0, 209, 255, 1)),
-        useMaterial3: true,
-        fontFamily: font,
+    return OverlaySupport.global(
+      child: GetMaterialApp(
+        title: 'Lottery',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromRGBO(0, 209, 255, 1)),
+          useMaterial3: true,
+          fontFamily: font,
+        ),
+        localizationsDelegates: [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: _locale,
+        home: UpgradeAlert(
+          child: SplashScreen(),
+        ),
+        getPages: AppRoutes.appRoutes(),
+        debugShowCheckedModeBanner: false,
       ),
-      localizationsDelegates: [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      locale: _locale,
-      home: UpgradeAlert(
-        child: SplashScreen(),
-      ),
-      getPages: AppRoutes.appRoutes(),
-      debugShowCheckedModeBanner: false,
     );
   }
 }

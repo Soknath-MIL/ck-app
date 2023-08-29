@@ -46,10 +46,11 @@ class _SignupViewState extends State<SignupView> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              const Color.fromRGBO(237, 237, 237, 1),
+                          backgroundColor: const Color.fromRGBO(237, 237, 237, 1),
                           padding: const EdgeInsets.all(0.0),
                           minimumSize: const Size(0, 0),
                           fixedSize: const Size(50, 50),
@@ -129,12 +130,10 @@ class _SignupViewState extends State<SignupView> {
                                 return TextFormField(
                                   validator: (value) {
                                     if (value == "") {
-                                      _signupViewModel.setErrorForm(
-                                          "name", true);
+                                      _signupViewModel.setErrorForm("name", true);
                                       return 'Please fill your name';
                                     }
-                                    _signupViewModel.setErrorForm(
-                                        "name", false);
+                                    _signupViewModel.setErrorForm("name", false);
                                     return null;
                                   },
                                   decoration: InputDecoration(
@@ -151,10 +150,7 @@ class _SignupViewState extends State<SignupView> {
                                       ),
                                       borderSide: BorderSide(
                                         style: BorderStyle.none,
-                                        width:
-                                            _signupViewModel.errorForm["name"]!
-                                                ? 1
-                                                : 0,
+                                        width: _signupViewModel.errorForm["name"]! ? 1 : 0,
                                       ),
                                     ),
                                   ),
@@ -199,8 +195,7 @@ class _SignupViewState extends State<SignupView> {
                               ),
                               onInputChanged: (value) {
                                 print('value 107 $value');
-                                _signupViewModel
-                                    .onChagePhoneNumber(value.phoneNumber!);
+                                _signupViewModel.onChagePhoneNumber(value.phoneNumber!);
                               },
                               formatInput: false,
                               validator: (value) {
@@ -280,19 +275,14 @@ class _SignupViewState extends State<SignupView> {
                             ),
                             Obx(() {
                               return PasswordInput(
-                                isError:
-                                    _signupViewModel.errorForm["password"]!,
+                                isError: _signupViewModel.errorForm["password"]!,
                                 validator: (value) {
-                                  print(
-                                      'value 237: $value / ${_signupViewModel.confirmPassword.value}');
-                                  if (value !=
-                                      _signupViewModel.confirmPassword.value) {
-                                    _signupViewModel.setErrorForm(
-                                        "password", true);
+                                  print('value 237: $value / ${_signupViewModel.confirmPassword.value}');
+                                  if (value != _signupViewModel.confirmPassword.value) {
+                                    _signupViewModel.setErrorForm("password", true);
                                     return 'Password not match';
                                   }
-                                  _signupViewModel.setErrorForm(
-                                      "password", false);
+                                  _signupViewModel.setErrorForm("password", false);
                                   return null;
                                 },
                                 onChange: (value) {
@@ -315,21 +305,16 @@ class _SignupViewState extends State<SignupView> {
                             ),
                             Obx(
                               () => PasswordInput(
-                                isError: _signupViewModel
-                                    .errorForm["confirmPassword"]!,
+                                isError: _signupViewModel.errorForm["confirmPassword"]!,
                                 onChange: (value) {
-                                  _signupViewModel
-                                      .onChangeConfirmPassword(value);
+                                  _signupViewModel.onChangeConfirmPassword(value);
                                 },
                                 validator: (value) {
-                                  if (value !=
-                                      _signupViewModel.password.value) {
-                                    _signupViewModel.setErrorForm(
-                                        "confirmPassword", true);
+                                  if (value != _signupViewModel.password.value) {
+                                    _signupViewModel.setErrorForm("confirmPassword", true);
                                     return 'Password not match';
                                   }
-                                  _signupViewModel.setErrorForm(
-                                      "confirmPassword", false);
+                                  _signupViewModel.setErrorForm("confirmPassword", false);
                                   return null;
                                 },
                               ),

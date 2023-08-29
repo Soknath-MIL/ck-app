@@ -10,6 +10,7 @@ import 'package:lottery/view/main.dart';
 import 'package:lottery/view/news_detail.dart';
 import 'package:lottery/view/notification.dart';
 import 'package:lottery/view/otp.dart';
+import 'package:lottery/view/point.dart';
 import 'package:lottery/view/reset_password.dart';
 import 'package:lottery/view/signup.dart';
 import 'package:lottery/view/splash_screen.dart';
@@ -98,6 +99,12 @@ class AppRoutes {
         GetPage(
           name: RouteName.news_detail,
           page: () => NewsDetail(),
+          transition: Transition.rightToLeft,
+          transitionDuration: const Duration(milliseconds: 250),
+        ),
+        GetPage(
+          name: RouteName.point,
+          page: () => PointPage(),
           transition: Transition.rightToLeft,
           transitionDuration: const Duration(milliseconds: 250),
         ),

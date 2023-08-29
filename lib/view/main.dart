@@ -1,3 +1,5 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,12 +11,21 @@ import 'package:lottery/view/notification.dart';
 import 'package:lottery/view/setting.dart';
 import 'package:lottery/view/testSticky.dart';
 import 'package:lottery/view/testdialog.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
   @override
   State<MainPage> createState() => _MainPageState();
+}
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+
+  print("Handling a background message: ${message.messageId}");
 }
 
 class _MainPageState extends State<MainPage> {
@@ -28,6 +39,67 @@ class _MainPageState extends State<MainPage> {
     // TestDialog(),
     // TestSticky(),
   ];
+
+  Future<void> registerNotification() async {
+    final _messaging = FirebaseMessaging.instance;
+    final token = await _messaging.getToken();
+    print('token: 23 ${token}');
+
+    RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+    }
+
+    // Also handle any interaction when the app is in the background via a
+    // Stream listener
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+
+    NotificationSettings settings = await _messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    print('User granted permission: ${settings.authorizationStatus}');
+
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('Got a message whilst in the foreground!');
+      print('Message data: ${message.data}');
+
+      if (message.notification != null) {
+        print('Message also contained a notification: ${message.notification}');
+        print('title: ${message.notification!.title}');
+        print('body: ${message.notification!.body}');
+        showSimpleNotification(
+          Text('${message.notification!.title}'),
+          subtitle: Text('${message.notification!.body}'),
+        );
+      }
+    });
+  }
+
+  void _handleMessage(RemoteMessage message) {
+    print('message 49: ${message}');
+    if (message.data['type'] == 'chat') {
+      Navigator.pushNamed(
+        context,
+        '/chat',
+        arguments: message,
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    print('start main page! 34');
+    registerNotification();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,9 +145,7 @@ class _MainPageState extends State<MainPage> {
                           'images/home.svg',
                           semanticsLabel: 'SVG label',
                           colorFilter: ColorFilter.mode(
-                            currentIndex == 0
-                                ? AppColors.primary
-                                : Colors.white,
+                            currentIndex == 0 ? AppColors.primary : Colors.white,
                             BlendMode.srcIn,
                           ),
                         ),
@@ -84,9 +154,7 @@ class _MainPageState extends State<MainPage> {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
-                            color: currentIndex == 0
-                                ? AppColors.primary
-                                : Colors.white,
+                            color: currentIndex == 0 ? AppColors.primary : Colors.white,
                           ),
                         ),
                       ],
@@ -122,9 +190,7 @@ class _MainPageState extends State<MainPage> {
                           'images/history.svg',
                           semanticsLabel: 'SVG label',
                           colorFilter: ColorFilter.mode(
-                            currentIndex == 1
-                                ? AppColors.primary
-                                : Colors.white,
+                            currentIndex == 1 ? AppColors.primary : Colors.white,
                             BlendMode.srcIn,
                           ),
                         ),
@@ -133,9 +199,7 @@ class _MainPageState extends State<MainPage> {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
-                            color: currentIndex == 1
-                                ? AppColors.primary
-                                : Colors.white,
+                            color: currentIndex == 1 ? AppColors.primary : Colors.white,
                           ),
                         ),
                       ],
@@ -166,19 +230,13 @@ class _MainPageState extends State<MainPage> {
                         SvgPicture.asset(
                           'images/lottery_history.svg',
                           semanticsLabel: 'SVG label',
-                          colorFilter: ColorFilter.mode(
-                              currentIndex == 2
-                                  ? AppColors.primary
-                                  : Colors.white,
-                              BlendMode.srcIn),
+                          colorFilter: ColorFilter.mode(currentIndex == 2 ? AppColors.primary : Colors.white, BlendMode.srcIn),
                         ),
                         Text(
                           'ผลหวย',
                           style: TextStyle(
                             fontSize: 12,
-                            color: currentIndex == 2
-                                ? AppColors.primary
-                                : Colors.white,
+                            color: currentIndex == 2 ? AppColors.primary : Colors.white,
                           ),
                         ),
                       ],
@@ -208,17 +266,13 @@ class _MainPageState extends State<MainPage> {
                       children: [
                         Icon(
                           Icons.notification_add,
-                          color: currentIndex == 3
-                              ? AppColors.primary
-                              : Colors.white,
+                          color: currentIndex == 3 ? AppColors.primary : Colors.white,
                         ),
                         Text(
                           'แจ้งเตือน',
                           style: TextStyle(
                             fontSize: 12,
-                            color: currentIndex == 3
-                                ? AppColors.primary
-                                : Colors.white,
+                            color: currentIndex == 3 ? AppColors.primary : Colors.white,
                           ),
                         ),
                       ],
@@ -249,19 +303,13 @@ class _MainPageState extends State<MainPage> {
                         SvgPicture.asset(
                           'images/setting.svg',
                           semanticsLabel: 'SVG label',
-                          colorFilter: ColorFilter.mode(
-                              currentIndex == 4
-                                  ? AppColors.primary
-                                  : Colors.white,
-                              BlendMode.srcIn),
+                          colorFilter: ColorFilter.mode(currentIndex == 4 ? AppColors.primary : Colors.white, BlendMode.srcIn),
                         ),
                         Text(
                           'ตั้งค่า',
                           style: TextStyle(
                             fontSize: 12,
-                            color: currentIndex == 4
-                                ? AppColors.primary
-                                : Colors.white,
+                            color: currentIndex == 4 ? AppColors.primary : Colors.white,
                           ),
                         ),
                       ],

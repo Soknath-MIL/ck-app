@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:lottery/data/services/appwrite_service.dart';
@@ -6,6 +8,7 @@ class SettingViewModel extends GetxController {
   final name = ''.obs;
   final tel = ''.obs;
   final email = ''.obs;
+  final avatar = ''.obs;
 
   final rating = ''.obs;
   final comment = ''.obs;
@@ -22,6 +25,12 @@ class SettingViewModel extends GetxController {
       name.value = response['name'];
       tel.value = response['tel'];
       email.value = response['email'];
+      try {
+        final avatarJSON = jsonDecode(response['avatar']);
+        avatar.value = avatarJSON['url'];
+      } catch (e) {
+        print('avatar is null');
+      }
     } catch (e) {
       print('error getUserInfo 18');
     }

@@ -19,4 +19,8 @@ class NotificationViewModel extends GetxController {
       return false;
     }
   }
+
+  void clearNews() {
+    newsList.clear();
+  }
 }

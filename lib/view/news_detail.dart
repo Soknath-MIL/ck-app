@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottery/res/color.dart';
 
 class NewsDetail extends StatefulWidget {
   const NewsDetail({super.key});
@@ -38,18 +39,23 @@ class _NewsDetailState extends State<NewsDetail> {
                       errorWidget: (context, url, error) => Icon(Icons.error),
                     );
                   }),
-                  Text(
-                    '${news['title']}',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                  Container(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      '${news['title']}',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  SizedBox(height: 16),
-                  Text(
-                    '${news['detail']}',
-                    style: TextStyle(
-                      fontSize: 14,
+                  Container(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      '${news['detail']}',
+                      style: TextStyle(
+                        fontSize: 14,
+                      ),
                     ),
                   ),
                   // SizedBox(height: 340),
@@ -64,10 +70,10 @@ class _NewsDetailState extends State<NewsDetail> {
                 ],
               ),
               Positioned(
-                left: 30.0,
-                top: 30.0,
+                left: 16.0,
+                top: 16.0,
                 child: Material(
-                  color: Colors.white.withOpacity(0.8),
+                  color: AppColors.grayECECEC,
                   borderRadius: BorderRadius.circular(8),
                   child: InkWell(
                     borderRadius: BorderRadius.circular(8),
@@ -76,7 +82,9 @@ class _NewsDetailState extends State<NewsDetail> {
                     },
                     child: Container(
                       padding: EdgeInsets.all(16),
-                      child: Text('back'),
+                      child: Icon(
+                        Icons.arrow_back_ios_rounded,
+                      ),
                     ),
                   ),
                 ),

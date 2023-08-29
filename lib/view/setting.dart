@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -8,6 +11,7 @@ import 'package:lottery/res/color.dart';
 import 'package:lottery/res/routes/routes_name.dart';
 import 'package:lottery/view_models/setting_view_model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:share_plus/share_plus.dart';
 
 class SettingPage extends StatefulWidget {
@@ -75,9 +79,10 @@ class _SettingPageState extends State<SettingPage> {
                             Get.toNamed(
                               RouteName.user_info,
                               arguments: [
-                                _settingViewModel.name,
-                                _settingViewModel.email,
-                                _settingViewModel.tel,
+                                _settingViewModel.name.value,
+                                _settingViewModel.email.value,
+                                _settingViewModel.tel.value,
+                                _settingViewModel.avatar.value
                               ],
                             );
                           },
@@ -152,11 +157,32 @@ class _SettingPageState extends State<SettingPage> {
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(144),
                                   ),
-                                  child: Icon(
-                                    Icons.person,
-                                    size: 80,
-                                    color: AppColors.primary,
-                                  ),
+                                  // child: Obx(() => Text('avatar: ${_settingViewModel.avatar.value}')),
+                                  child: Obx(() {
+                                    if (_settingViewModel.avatar.value == '') {
+                                      return Icon(
+                                        Icons.person,
+                                        size: 80,
+                                        color: AppColors.primary,
+                                      );
+                                    } else {
+                                      return ClipRRect(
+                                        borderRadius: BorderRadius.circular(144),
+                                        child: CachedNetworkImage(
+                                          imageUrl: _settingViewModel.avatar.value,
+                                          progressIndicatorBuilder: (context, url, progress) => Center(
+                                            child: CircularProgressIndicator(
+                                              value: progress.progress,
+                                            ),
+                                          ),
+                                          errorWidget: (context, url, error) => Icon(
+                                            Icons.error,
+                                            size: 80,
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                  }),
                                 ),
                               ),
                             ],
@@ -526,46 +552,62 @@ class _SettingPageState extends State<SettingPage> {
                         ),
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 2),
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
+                    Material(
                         color: AppColors.blueeffcff,
-                      ),
-                      width: MediaQuery.of(context).size.width,
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 54,
-                            height: 54,
-                            padding: EdgeInsets.all(2),
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Color.fromRGBO(0, 209, 255, 1),
-                                  Color.fromRGBO(255, 194, 36, 1),
-                                ],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(54),
-                              ),
-                              padding: EdgeInsets.all(12),
-                              width: MediaQuery.of(context).size.width,
-                              child: SvgPicture.asset('images/medalstar.svg'),
+                        borderRadius: BorderRadius.circular(6),
+                        child: InkWell(
+                          overlayColor: MaterialStateProperty.all<Color>(
+                            Color.fromRGBO(190, 238, 249, 1),
+                          ),
+                          borderRadius: BorderRadius.circular(6),
+                          onTap: () {
+                            Get.toNamed(
+                              RouteName.point,
+                              arguments: [
+                                _settingViewModel.name.value,
+                                _settingViewModel.email.value,
+                                _settingViewModel.tel.value,
+                                _settingViewModel.avatar.value,
+                              ],
+                            );
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(top: 2),
+                            padding: EdgeInsets.all(8),
+                            width: MediaQuery.of(context).size.width,
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 54,
+                                  height: 54,
+                                  padding: EdgeInsets.all(2),
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color.fromRGBO(0, 209, 255, 1),
+                                        Color.fromRGBO(255, 194, 36, 1),
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(54),
+                                    ),
+                                    padding: EdgeInsets.all(12),
+                                    width: MediaQuery.of(context).size.width,
+                                    child: SvgPicture.asset('images/medalstar.svg'),
+                                  ),
+                                ),
+                                SizedBox(width: 14),
+                                Text('คะแนนของฉัน'),
+                              ],
                             ),
                           ),
-                          SizedBox(width: 14),
-                          Text('คะแนนของฉัน'),
-                        ],
-                      ),
-                    ),
+                        )),
                   ],
                 ),
               ),
@@ -578,7 +620,22 @@ class _SettingPageState extends State<SettingPage> {
                   overlayColor: MaterialStateProperty.all(AppColors.primaryOverlay),
                   onTap: () {
                     print('test');
-                    _settingViewModel.logout();
+                    showSimpleNotification(
+                      Text(
+                        'notification !',
+                        style: TextStyle(
+                          color: Colors.black.withOpacity(0.8),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      subtitle: Text(
+                        'test',
+                        style: TextStyle(color: Colors.black.withOpacity(0.8)),
+                      ),
+                      background: AppColors.blueeffcff,
+                    );
+
+                    // _settingViewModel.logout();
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width,

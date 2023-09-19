@@ -7,6 +7,10 @@ import 'package:get/get.dart';
 import 'package:lottery/data/services/appwrite_service.dart';
 import 'package:http/http.dart' as http;
 
+String parsedLotteryDate(DateTime date) {
+  return '${date.year}${date.month.toString().padLeft(2, '0')}${date.day.toString().padLeft(2, '0')}';
+}
+
 class HomeViewModel extends GetxController {
   final arrLottery = <Map<String, String>>[].obs;
   final lottery = ''.obs;
@@ -14,6 +18,8 @@ class HomeViewModel extends GetxController {
   final imagesURL = [].obs;
   final lotteryDate = DateTime.now().add(const Duration(minutes: 2)).obs;
   final newsImageURL = [].obs;
+  final quota = RxMap<String, dynamic>();
+  List<Quota> listQuota = [];
 
   void onChangeLottery(String value) {
     lottery.value = value;
@@ -23,11 +29,38 @@ class HomeViewModel extends GetxController {
     price.value = value;
   }
 
-  void appendLottery(String lottery, String price) {
+  bool appendLottery(String lottery, String price) {
+    // TODO: check quota
+    print('listQuota: ${listQuota[1].quota[0]}');
+    final priceParsed = int.parse(price);
+    if (priceParsed < 1000) {
+      Get.snackbar(
+        "คำเตือน!",
+        "ขั้นต่ำ 1,000",
+        snackPosition: SnackPosition.BOTTOM,
+        margin: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        backgroundColor: Colors.amber.shade100,
+        animationDuration: Duration(milliseconds: 500),
+      );
+      return false;
+    }
+    if (lottery.length < 2) {
+      Get.snackbar(
+        "คำเตือน!",
+        "กรุณากรอกเลขตั้งแต่ 2 - 3 ตัว",
+        snackPosition: SnackPosition.BOTTOM,
+        margin: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        backgroundColor: Colors.amber.shade100,
+        animationDuration: Duration(milliseconds: 500),
+      );
+      return false;
+    }
+    // print("appendLottery 33: ");
     arrLottery.add({
       "lottery": lottery,
       "price": price,
     });
+    return true;
   }
 
   void removeLottery(int index) {
@@ -38,8 +71,8 @@ class HomeViewModel extends GetxController {
     arrLottery.clear();
   }
 
-  void getArrLottery() {
-    print(arrLottery);
+  List<Map<String, String>> getArrLottery() {
+    return arrLottery;
   }
 
   bool validateLottery() {
@@ -192,20 +225,33 @@ class HomeViewModel extends GetxController {
       // print('first 168 ${DateTime.now().toUtc().toString()}');
       for (var i = 0; i < response.documents.length; i++) {
         final current = DateTime.parse(response.documents[i].data['date']);
-        print('current 168 169 $current');
+        // print('current 168 169 $current');
         if (DateTime.now().isBefore(current)) {
-          print('found 168');
+          // print('found 168');
           lotteryDate.value = current.toLocal();
-          print('current lottery date 194: ${current.toLocal()}');
+          await getQuota(current.toLocal());
+          // print('current lottery date 194: ${current.toLocal()}');
           break;
         }
-        print('index 168 $i');
-        final dataPerLoop = response.documents[i];
-        print('dataPerLoop 168 ${dataPerLoop.data['date']}');
+        // print('index 168 $i');
+        // final dataPerLoop = response.documents[i];
+        // print('dataPerLoop 168 ${dataPerLoop.data['date']}');
       }
     } catch (e) {
       print('error getLotteryDate 163: $e');
       return false;
+    }
+  }
+
+  Future<void> getQuota(DateTime lotteryDate) async {
+    try {
+      final lotteryDateParsed = parsedLotteryDate(lotteryDate);
+      print('lotteryDateParsed 220: $lotteryDateParsed');
+      final responseQuota = await AppwriteService().getQuota(lotteryDateParsed);
+      print('responseQuota 224: $responseQuota');
+      listQuota = responseQuota!;
+    } catch (e) {
+      print('error getQuota 219: $e');
     }
   }
 }

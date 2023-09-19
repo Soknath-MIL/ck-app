@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:get/get.dart';
+import 'package:lottery/constants/constants.dart';
 import 'package:lottery/res/routes/routes_name.dart';
 
 class Appwrite {
@@ -441,4 +444,40 @@ class AppwriteService {
       return false;
     }
   }
+
+  Future<List<Quota>?> getQuota(String lotteryDate) async {
+    try {
+      print("getQuota 447");
+      final response = await databases.listDocuments(
+        databaseId: Constants.databaseId,
+        collectionId: Constants.collectionId.quota,
+        queries: [
+          Query.equal('date', lotteryDate),
+        ],
+      );
+      List<Quota> quotaList = [];
+      for (var element in response.documents) {
+        List<dynamic> allDigitQuota = jsonDecode(element.data['quota']);
+        for (var res in allDigitQuota) {
+          Quota quota = Quota(res['digit'], res['quota'], res['updateDate']);
+          quotaList.add(quota);
+        }
+        // print('response 460 ${allDigitQuota}');
+      }
+      // print('quota 467: $quotaList');
+      // print('digit 0: ${quotaList[0].digit}');
+      return quotaList;
+    } catch (e) {
+      print('error getQuota 461: $e');
+      return null;
+    }
+  }
+}
+
+class Quota {
+  Quota(this.digit, this.quota, this.updateDate);
+
+  late String digit;
+  late List quota;
+  late List updateDate;
 }

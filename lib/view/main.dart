@@ -81,6 +81,7 @@ class _MainPageState extends State<MainPage> {
         );
       }
     });
+    print('resgisterd messaging 84');
   }
 
   void _handleMessage(RemoteMessage message) {

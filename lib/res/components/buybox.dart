@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lottery/res/color.dart';
 import 'package:lottery/res/images/logo.dart';
 
@@ -105,8 +106,7 @@ class _BuyBoxState extends State<BuyBox> {
                           color: AppColors.primary,
                           borderRadius: BorderRadius.circular(52),
                           child: InkWell(
-                            overlayColor: MaterialStateProperty.all<Color>(
-                                AppColors.primaryOverlay),
+                            overlayColor: MaterialStateProperty.all<Color>(AppColors.primaryOverlay),
                             highlightColor: AppColors.primaryHighlight,
                             borderRadius: BorderRadius.circular(52),
                             onTap: widget.onTabAnimal,
@@ -149,8 +149,7 @@ class _BuyBoxState extends State<BuyBox> {
                           color: AppColors.primary,
                           borderRadius: BorderRadius.circular(52),
                           child: InkWell(
-                            overlayColor: MaterialStateProperty.all<Color>(
-                                AppColors.primaryOverlay),
+                            overlayColor: MaterialStateProperty.all<Color>(AppColors.primaryOverlay),
                             highlightColor: AppColors.primaryHighlight,
                             borderRadius: BorderRadius.circular(52),
                             onTap: widget.onTabRandom,
@@ -177,6 +176,9 @@ class _BuyBoxState extends State<BuyBox> {
                             // color: Colors.amber,
                             margin: EdgeInsets.symmetric(horizontal: 6),
                             child: TextFormField(
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(3),
+                              ],
                               keyboardType: TextInputType.number,
                               focusNode: widget.lotteryInputNode,
                               controller: widget.lotteryInputController,
@@ -250,8 +252,7 @@ class _BuyBoxState extends State<BuyBox> {
                           child: InkWell(
                             borderRadius: BorderRadius.circular(16),
                             highlightColor: AppColors.primaryHighlight,
-                            overlayColor: MaterialStateProperty.all<Color>(
-                                AppColors.primaryOverlay),
+                            overlayColor: MaterialStateProperty.all<Color>(AppColors.primaryOverlay),
                             child: Icon(
                               Icons.add,
                               color: Colors.white,

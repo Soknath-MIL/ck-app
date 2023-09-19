@@ -556,32 +556,45 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
                           },
                           onTabAdd: () {
                             if (_homeViewModel.lottery.value != "" && _homeViewModel.price.value != "") {
-                              _homeViewModel.appendLottery(
+                              final isSuccess = _homeViewModel.appendLottery(
                                 _homeViewModel.lottery.value,
                                 _homeViewModel.price.value,
                               );
-                              _homeViewModel.onChangeLottery("");
-                              _homeViewModel.onChangePrice("");
-                              _lotteryInputControllerDialog.clear();
-                              _priceInputControllerDialog.clear();
-                              _lotteryInputController.clear();
-                              _priceInputController.clear();
+                              if (isSuccess) {
+                                _homeViewModel.onChangeLottery("");
+                                _homeViewModel.onChangePrice("");
+                                _lotteryInputControllerDialog.clear();
+                                _priceInputControllerDialog.clear();
+                                _lotteryInputController.clear();
+                                _priceInputController.clear();
+                              }
                             } else {
-                              // Get.
-                              print('test');
-                              final message = 'Please enter lottery or price';
+                              Get.closeAllSnackbars();
+                              const message = 'กรุณาระบุหมายเลขที่ท่าต้องการซื้อ และ ราคา';
                               Get.snackbar(
-                                'Warning!',
+                                'คำเตือน!',
                                 message,
                                 snackPosition: SnackPosition.BOTTOM,
+                                margin: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                                 backgroundColor: Colors.amber.shade100,
-                                // colorText: d
+                                animationDuration: Duration(milliseconds: 500),
                               );
                               _lotteryInputNodeDialog.highlightMode;
                             }
                           },
                           onSubmit: () {
-                            // _homeViewModel.getArrLottery();
+                            if (_homeViewModel.arrLottery.isEmpty) {
+                              Get.snackbar(
+                                "คำเตือน!",
+                                "กรุณาเพื่มหวยที่ต้องการซื้อ",
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor: Colors.amber.shade100,
+                                animationDuration: const Duration(milliseconds: 500),
+                                margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                              );
+                              return;
+                            }
+
                             setState(() {
                               isOpenBuyConfirm = true;
                             });

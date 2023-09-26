@@ -31,7 +31,7 @@ class HomeViewModel extends GetxController {
 
   bool appendLottery(String lottery, String price) {
     // TODO: check quota
-    print('listQuota: ${listQuota[1].quota[0]}');
+    // print('listQuota: ${listQuota[1].quota[0]}');
     final priceParsed = int.parse(price);
     if (priceParsed < 1000) {
       Get.snackbar(
@@ -220,12 +220,13 @@ class HomeViewModel extends GetxController {
 
   Future<dynamic> getLotteryDate() async {
     try {
+      print('start getLotteryDate');
       DocumentList response = await AppwriteService().getLotteryDate();
       // lotteryDate.value = DateTime.parse(response.documents[0].data['date']);
       // print('first 168 ${DateTime.now().toUtc().toString()}');
       for (var i = 0; i < response.documents.length; i++) {
         final current = DateTime.parse(response.documents[i].data['date']);
-        // print('current 168 169 $current');
+        print('current 168 169 $current');
         if (DateTime.now().isBefore(current)) {
           // print('found 168');
           lotteryDate.value = current.toLocal();

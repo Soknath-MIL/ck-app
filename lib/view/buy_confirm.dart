@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:lottery/res/color.dart';
 
 class BuyConfirm extends StatefulWidget {
@@ -18,12 +19,17 @@ class BuyConfirm extends StatefulWidget {
 }
 
 class _BuyConfirmState extends State<BuyConfirm> {
+  final formatter = NumberFormat('#,##,000');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
+            Container(
+              child: Text('buy confirm'),
+            ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
@@ -74,7 +80,7 @@ class _BuyConfirmState extends State<BuyConfirm> {
                       )),
                       Expanded(
                           child: Text(
-                        '${widget.totalPrice}',
+                        '${formatter.format(widget.totalPrice)}',
                         textAlign: TextAlign.end,
                         style: TextStyle(fontSize: 18),
                       )),
@@ -109,7 +115,7 @@ class _BuyConfirmState extends State<BuyConfirm> {
                       ),
                       Expanded(
                           child: Text(
-                        '${widget.totalPrice}',
+                        '${formatter.format(widget.totalPrice)}',
                         textAlign: TextAlign.end,
                         style: TextStyle(
                           decoration: TextDecoration.underline,
@@ -133,17 +139,14 @@ class _BuyConfirmState extends State<BuyConfirm> {
                       onTap: widget.onTap,
                       child: Container(
                         height: 94,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(16),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 1,
-                                blurRadius: 2,
-                                offset: Offset(0, 3),
-                              )
-                            ]),
+                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 2,
+                            offset: Offset(0, 3),
+                          )
+                        ]),
                         child: Image(
                           image: AssetImage('images/bank1.png'),
                         ),
@@ -156,17 +159,14 @@ class _BuyConfirmState extends State<BuyConfirm> {
                       onTap: widget.onTap,
                       child: Container(
                         height: 94,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(16),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 1,
-                                blurRadius: 2,
-                                offset: Offset(0, 3),
-                              )
-                            ]),
+                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 2,
+                            offset: Offset(0, 3),
+                          )
+                        ]),
                         child: Image(
                           image: AssetImage('images/bank2.png'),
                         ),

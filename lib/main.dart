@@ -9,6 +9,7 @@ import 'package:overlay_support/overlay_support.dart';
 import 'firebase_options.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:upgrader/upgrader.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,6 +76,7 @@ class _MyAppState extends State<MyApp> {
         home: UpgradeAlert(
           child: SplashScreen(),
         ),
+        builder: EasyLoading.init(),
         getPages: AppRoutes.appRoutes(),
         debugShowCheckedModeBanner: false,
       ),

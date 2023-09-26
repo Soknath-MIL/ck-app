@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:lottery/main.dart';
 import 'package:lottery/res/color.dart';
@@ -603,12 +604,12 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
                           },
                           onTabAnimal: () {
                             Get.toNamed(RouteName.animal, arguments: [
-                              (List<String> lotterise) {
+                              (List<Map<String, dynamic>> lotterise) {
                                 print('323: $lotterise');
                                 for (var i = 0; i < lotterise.length; i++) {
                                   _homeViewModel.appendLottery(
-                                    lotterise[i],
-                                    '1000',
+                                    lotterise[i]["lottery"],
+                                    lotterise[i]["price"],
                                   );
                                 }
                                 setState(() {
@@ -727,8 +728,11 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
                   totalPrice:
                       _homeViewModel.arrLottery.fold(0, (previousValue, element) => previousValue + int.parse(element['price']!)),
                   onTap: () {
+                    print('730: onTap');
+                    EasyLoading.show(status: "Loading...");
                     final response = _homeViewModel.craeteTransaction();
                     response.then((value) {
+                      EasyLoading.dismiss();
                       if (value) {
                         setState(() {
                           isOpenBuyConfirm = false;

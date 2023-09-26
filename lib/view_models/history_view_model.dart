@@ -39,6 +39,7 @@ class HistoryViewModel extends GetxController {
         DocumentList response = await AppwriteService().getInvoice(collectionId);
         print('response 31: ${response.documents}');
         response.documents.forEach((element) {
+          print('invoice per loop 42: ${element.data["lotteryArray"]}');
           invoiceList.add(element.data);
           selectedMonth.add(element.data);
         });

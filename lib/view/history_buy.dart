@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:lottery/res/color.dart';
+import 'package:lottery/res/components/bill.dart';
 
 class HistoryBuy extends StatefulWidget {
   RxList<Map<String, List>>? listOfMonth;
@@ -101,13 +102,8 @@ class _HistoryBuyState extends State<HistoryBuy> {
                 itemBuilder: (context, index) {
                   return Container(
                     margin: EdgeInsets.only(left: 8, right: 8, top: 8),
-                    padding: EdgeInsets.all(16),
-                    width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
+                      borderRadius: BorderRadius.circular(10),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey.withOpacity(0.5),
@@ -117,78 +113,116 @@ class _HistoryBuyState extends State<HistoryBuy> {
                         )
                       ],
                     ),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Builder(
-                                  builder: (context) {
-                                    final localDateTime = DateTime.parse(widget.invoiceList![index]["\$createdAt"]).toLocal();
-                                    final date =
-                                        '${localDateTime.day.toString().padLeft(2, '0')}/${localDateTime.month.toString().padLeft(2, '0')}/${localDateTime.year}';
-                                    final time =
-                                        '${localDateTime.hour.toString().padLeft(2, '0')}:${localDateTime.minute.toString().padLeft(2, '0')}:${localDateTime.second}';
-                                    return Text('วันที่ $date เวลาซื้อ $time');
-                                  },
-                                ),
-                                SizedBox(height: 4),
-                                Text('เลขที่บิลหวย: ${widget.invoiceList![index]["\$id"]}'),
-                              ],
-                            ),
-                            Builder(builder: (context) {
-                              final formatter = NumberFormat('#,##,000');
-                              final totalPrice = formatter.format(widget.invoiceList![index]["totalAmount"]);
-                              return Text(
-                                totalPrice,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromRGBO(249, 49, 55, 1),
-                                ),
-                              );
-                            }),
-                          ],
-                        ),
-                        SizedBox(height: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text('เลขที่ซื้อ'),
-                            SizedBox(width: 8),
-                            Expanded(
-                              child: Builder(builder: (context) {
-                                List<dynamic> lotteryArray = widget.invoiceList![index]["lotteryArray"];
-                                // lotteryArray.map((lottery) {
-                                //   print('per loop 153: $lottery');
-                                // });
-                                return Wrap(
-                                  spacing: 8.0,
-                                  runSpacing: 6.0,
-                                  children: lotteryArray.map((lottery) {
-                                    return Container(
-                                      padding: EdgeInsets.symmetric(vertical: 8),
-                                      alignment: Alignment.center,
-                                      width: 74,
-                                      child: Text(
-                                        '$lottery',
-                                        style: TextStyle(fontSize: 14),
+                    child: Material(
+                      borderRadius: BorderRadius.circular(10),
+                      shadowColor: Colors.grey.withOpacity(0.5),
+                      color: Colors.white,
+                      child: InkWell(
+                        overlayColor: MaterialStateProperty.all<Color>(Colors.grey.shade400),
+                        onTap: () {
+                          print('on click list View');
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return Bill();
+                            },
+                          );
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(16),
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              // color: Colors.white,
+                              // borderRadius: BorderRadius.all(
+                              //   Radius.circular(10),
+                              // ),
+                              // boxShadow: [
+                              //   BoxShadow(
+                              //     color: Colors.grey.withOpacity(0.5),
+                              //     spreadRadius: 1,
+                              //     blurRadius: 5,
+                              //     offset: Offset(0, 3),
+                              //   )
+                              // ],
+                              ),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Builder(
+                                        builder: (context) {
+                                          final localDateTime =
+                                              DateTime.parse(widget.invoiceList![index]["\$createdAt"]).toLocal();
+                                          final date =
+                                              '${localDateTime.day.toString().padLeft(2, '0')}/${localDateTime.month.toString().padLeft(2, '0')}/${localDateTime.year}';
+                                          final time =
+                                              '${localDateTime.hour.toString().padLeft(2, '0')}:${localDateTime.minute.toString().padLeft(2, '0')}:${localDateTime.second}';
+                                          return Text('วันที่ $date เวลาซื้อ $time');
+                                        },
                                       ),
-                                      decoration: BoxDecoration(
-                                        color: AppColors.gray2,
-                                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                                      SizedBox(height: 4),
+                                      Text('เลขที่บิลหวย: ${widget.invoiceList![index]["\$id"]}'),
+                                    ],
+                                  ),
+                                  Builder(builder: (context) {
+                                    final formatter = NumberFormat('#,##,000');
+                                    final totalPrice = formatter.format(widget.invoiceList![index]["totalAmount"]);
+                                    return Text(
+                                      totalPrice,
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color.fromRGBO(249, 49, 55, 1),
                                       ),
                                     );
-                                  }).toList(),
-                                );
-                              }),
-                            ),
-                          ],
-                        )
-                      ],
+                                  }),
+                                ],
+                              ),
+                              SizedBox(height: 8),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text('เลขที่ซื้อ'),
+                                  SizedBox(width: 8),
+                                  Expanded(
+                                    child: Builder(builder: (context) {
+                                      // TODO: bug
+                                      print('invoiceList: ${widget.invoiceList}');
+                                      List<dynamic> lotteryArray = widget.invoiceList![index]["lotteryArray"];
+                                      // lotteryArray.map((lottery) {
+                                      //   print('per loop 153: $lottery');
+                                      // });
+                                      return Wrap(
+                                        spacing: 8.0,
+                                        runSpacing: 6.0,
+                                        children: lotteryArray.map((lottery) {
+                                          return Container(
+                                            padding: EdgeInsets.symmetric(vertical: 8),
+                                            alignment: Alignment.center,
+                                            width: 74,
+                                            child: Text(
+                                              '$lottery',
+                                              style: TextStyle(fontSize: 14),
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: AppColors.gray2,
+                                              borderRadius: BorderRadius.all(Radius.circular(5)),
+                                            ),
+                                          );
+                                        }).toList(),
+                                      );
+                                    }),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                   );
                 },

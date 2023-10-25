@@ -38,7 +38,7 @@ dependencies:
   firebase_core: ^2.14.0
   firebase_auth: ^4.6.3
   carousel_slider: ^4.2.1
-  appwrite: ^9.0.0
+  appwrite: ^11.0.0
   pinput: ^2.2.31
   intl_phone_number_input: ^0.7.3+1
   flutter_svg: ^2.0.7
@@ -53,6 +53,10 @@ dependencies:
   overlay_support: ^2.1.0
   firebase_messaging: ^14.6.7
   flutter_easyloading: ^3.0.5
+  http: ^1.0.0
+  url_launcher: ^6.1.14
+  uni_links: ^0.5.1
+  flutter_secure_storage: ^9.0.0
 
 dev_dependencies:
   flutter_test:

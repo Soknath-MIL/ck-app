@@ -14,4 +14,5 @@ class RouteName {
   static const String animal = '/animal';
   static const String news_detail = '/news_detail';
   static const String point = '/point';
+  static const String callback = '/callback';
 }

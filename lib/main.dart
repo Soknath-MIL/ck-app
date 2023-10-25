@@ -1,11 +1,17 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:lottery/res/routes/routes.dart';
+import 'package:lottery/res/routes/routes_name.dart';
 import 'package:lottery/view/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:uni_links/uni_links.dart';
 import 'firebase_options.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:upgrader/upgrader.dart';
@@ -25,12 +31,42 @@ Future<void> main() async {
       }
     },
   );
+  checkDeeplink();
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+Future checkDeeplink() async {
+  StreamSubscription _sub;
+  try {
+    print("checkDeeplink");
+    await getInitialLink();
+    _sub = uriLinkStream.listen((event) {
+      print('path: ${event?.path} , ${event?.pathSegments}');
+      print('event 42: ${event}');
+      if (event != null) {
+        // TODO: get.name to home page with some param
+        print('gogo');
+        Get.toNamed(RouteName.callback, arguments: [event]);
+        print('gogo2');
+      }
+    }, onError: (error) {
+      print('error 44 $error');
+    });
+    // _sub = linkStream.listen((event) {
+    //   print('uri: $event');
+    // }, onError: (err) {
+    //   print('error 43 checkDeeplink: $err');
+    // });
+  } on PlatformException {
+    print('PlatformException');
+  } catch (e) {
+    print('error checkDeeplink $e');
+  }
+}
 
+class MyApp extends StatefulWidget {
+  final uri = '';
+  const MyApp({super.key});
   @override
   State<MyApp> createState() => _MyAppState();
 
@@ -54,6 +90,10 @@ class _MyAppState extends State<MyApp> {
       }
     });
   }
+
+  AndroidOptions _getAndroidOptions() => const AndroidOptions(
+        encryptedSharedPreferences: true,
+      );
 
   @override
   Widget build(BuildContext context) {

@@ -239,17 +239,17 @@ class AppwriteService {
     final userFirebase = firebase.FirebaseAuth.instance.currentUser;
     if (userFirebase?.phoneNumber != null) {
       try {
-        try {
-          print('email: $email, password: $password, name: $name');
-          final user = await account.create(
-            userId: ID.unique(),
-            email: email,
-            password: password,
-            name: name,
-          );
-        } catch (e) {
-          print('error createUser 47: $e');
-        }
+        // try {
+        print('email: $email, password: $password, name: $name');
+        final user = await account.create(
+          userId: ID.unique(),
+          email: email,
+          password: password,
+          name: name,
+        );
+        // } catch (e) {
+        //   print('error createUser 47: $e');
+        // }
 
         // login with appwrite
         final resultLoginWithAppwrite = await account.createEmailSession(
@@ -257,22 +257,22 @@ class AppwriteService {
           password: password,
         );
 
-        try {
-          await databases.createDocument(
-            databaseId: 'lotto',
-            collectionId: 'users',
-            documentId: resultLoginWithAppwrite.userId,
-            data: {
-              "userId": resultLoginWithAppwrite.userId,
-              "name": name,
-              "tel": userFirebase?.phoneNumber,
-              "email": email,
-              "username": email,
-            },
-          );
-        } catch (e) {
-          print('error createUser 62 $e');
-        }
+        // try {
+        await databases.createDocument(
+          databaseId: 'lotto',
+          collectionId: 'users',
+          documentId: user.$id,
+          data: {
+            "userId": resultLoginWithAppwrite.userId,
+            "name": name,
+            "tel": userFirebase?.phoneNumber,
+            "email": email,
+            "username": email,
+          },
+        );
+        // } catch (e) {
+        //   print('error createUser 62 $e');
+        // }
 
         // print('user: ${user.email}');
         return true;
@@ -348,6 +348,8 @@ class AppwriteService {
   Future<dynamic> getUserInfo() async {
     try {
       final user = await account.get();
+      print('user 351: ${user.email}');
+      print('document id: ${user.$id}');
       final response = await databases.getDocument(
         databaseId: 'lotto',
         collectionId: 'users',
@@ -357,6 +359,7 @@ class AppwriteService {
       return response.data;
     } catch (e) {
       print('error getUserInfo 342: $e');
+      print('test value 361');
       return false;
     }
   }

@@ -50,6 +50,7 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
     }
     _homeViewModel.getLotteryDate();
     _homeViewModel.getNews();
+    print('uri 54:');
     super.initState();
   }
 
@@ -65,6 +66,25 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  Material(
+                    child: InkWell(
+                      onTap: () {
+                        _homeViewModel.getAccessToken();
+                        // Get.toNamed(RouteName.notification);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                        decoration: BoxDecoration(color: Colors.amber.shade700, borderRadius: BorderRadius.circular(24)),
+                        child: Text(
+                          'get accessToken',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                   // Text(AppLocalizations.of(context).sawanon),
                   // ElevatedButton(
                   //   onPressed: () {
@@ -163,6 +183,7 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
                             Image(
                               image: AssetImage(Logo.ckGroup),
                               height: 30,
+                              width: MediaQuery.of(context).size.width / 2 - 8,
                             ),
                             Obx(
                               () => Text(

@@ -619,23 +619,7 @@ class _SettingPageState extends State<SettingPage> {
                   // highlightColor: AppColors.primaryHighlight,
                   overlayColor: MaterialStateProperty.all(AppColors.primaryOverlay),
                   onTap: () {
-                    print('test');
-                    showSimpleNotification(
-                      Text(
-                        'notification !',
-                        style: TextStyle(
-                          color: Colors.black.withOpacity(0.8),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      subtitle: Text(
-                        'test',
-                        style: TextStyle(color: Colors.black.withOpacity(0.8)),
-                      ),
-                      background: AppColors.blueeffcff,
-                    );
-
-                    // _settingViewModel.logout();
+                    _settingViewModel.logout();
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width,

@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottery/data/services/appwrite_service.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottery/data/store.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 String parsedLotteryDate(DateTime date) {
   return '${date.year}${date.month.toString().padLeft(2, '0')}${date.day.toString().padLeft(2, '0')}';
@@ -254,5 +256,50 @@ class HomeViewModel extends GetxController {
     } catch (e) {
       print('error getQuota 219: $e');
     }
+  }
+
+  void launchDeepLink(Uri deepLink) async {
+    if (await canLaunchUrl(deepLink)) {
+      await launchUrl(deepLink);
+    } else {
+      print('error launchDeepLink 264: ');
+      // Handle the error, e.g., show a snackbar or navigate to an error page.
+    }
+  }
+
+  Future<void> getAccessToken() async {
+    // final store = Store();
+    // // store.setSomething('key', '123');
+    // final result = await store.getSomething('key');
+    // print('result: $result');
+
+    // return;
+    try {
+      print('start getAccessToken');
+      final response = await http.post(
+        Uri.parse('https://mule-guiding-liger.ngrok-free.app/buy'),
+        body: {
+          'data': '123',
+        },
+      );
+      print('response 278: ${response.body}');
+      final deeplink = jsonDecode(response.body)['data']['deeplinkUrl'];
+      final transactionId = jsonDecode(response.body)['data']['transactionId'];
+
+      print('response ${deeplink}');
+      final _deeplink = Uri.parse("$deeplink");
+      final result = await launchUrl(_deeplink);
+      final _store = Store();
+      _store.setTransactionId(transactionId);
+      print('result: ${result}');
+      // launchDeepLink(deeplink);
+      // await _launchUrl(Uri.);
+    } catch (e) {
+      print('error: getAccessToken $e');
+    }
+  }
+
+  Future<void> getTransactionDetail() async {
+    //
   }
 }

@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:lottery/res/routes/routes_name.dart';
 import 'package:lottery/view/TC.dart';
 import 'package:lottery/view/animal.dart';
+import 'package:lottery/view/callback.dart';
 import 'package:lottery/view/forget_password.dart';
 import 'package:lottery/view/home.dart';
 import 'package:lottery/view/login.dart';
@@ -105,6 +106,12 @@ class AppRoutes {
         GetPage(
           name: RouteName.point,
           page: () => PointPage(),
+          transition: Transition.rightToLeft,
+          transitionDuration: const Duration(milliseconds: 250),
+        ),
+        GetPage(
+          name: RouteName.callback,
+          page: () => CallBackPage(),
           transition: Transition.rightToLeft,
           transitionDuration: const Duration(milliseconds: 250),
         ),

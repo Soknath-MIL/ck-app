@@ -282,6 +282,10 @@ class _SignupViewState extends State<SignupView> {
                                     _signupViewModel.setErrorForm("password", true);
                                     return 'Password not match';
                                   }
+                                  if (value == "") {
+                                    _signupViewModel.setErrorForm("password", true);
+                                    return "Please enter password";
+                                  }
                                   _signupViewModel.setErrorForm("password", false);
                                   return null;
                                 },
@@ -313,6 +317,10 @@ class _SignupViewState extends State<SignupView> {
                                   if (value != _signupViewModel.password.value) {
                                     _signupViewModel.setErrorForm("confirmPassword", true);
                                     return 'Password not match';
+                                  }
+                                  if (value == "") {
+                                    _signupViewModel.setErrorForm("confirmPassword", true);
+                                    return "Please enter password";
                                   }
                                   _signupViewModel.setErrorForm("confirmPassword", false);
                                   return null;

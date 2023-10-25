@@ -12,6 +12,7 @@ import 'package:lottery/view/setting.dart';
 import 'package:lottery/view/testSticky.dart';
 import 'package:lottery/view/testdialog.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:get/get.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -39,6 +40,7 @@ class _MainPageState extends State<MainPage> {
     // TestDialog(),
     // TestSticky(),
   ];
+  Uri? uri = Get.arguments?[0];
 
   Future<void> registerNotification() async {
     final _messaging = FirebaseMessaging.instance;
@@ -97,7 +99,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   void initState() {
-    print('start main page! 34');
+    print('start main page! 34: $uri');
     registerNotification();
     super.initState();
   }
